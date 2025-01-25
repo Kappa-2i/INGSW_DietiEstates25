@@ -12,7 +12,7 @@ exports.validateRegister = [
     .withMessage('La password deve essere lunga almeno 6 caratteri')
     .matches(/^(?=.*[a-zA-Z])(?=.*\d).{6,}$/)
     .withMessage('La password deve contenere almeno un numero e una lettera'),
-    body('role').isIn(['user','agent','manager'])
+    body('role').isIn(['USER','AGENT','MANAGER'])
     .withMessage('Ruolo non valido'),
     body('first_name')
     .notEmpty()
