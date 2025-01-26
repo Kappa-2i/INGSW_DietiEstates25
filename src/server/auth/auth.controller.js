@@ -11,7 +11,7 @@ exports.register = async (req, res) => {
       // Controlla se l'utente esiste già
       const existingUser = await authRepository.findByEmail(email);
       if (existingUser) {
-        return res.status(400).json({ success: false, message: 'User already exists' });
+        return res.status(400).json({ success: false, message: 'Utente già registrato. Riprova!' });
       }
   
       // Hash della password

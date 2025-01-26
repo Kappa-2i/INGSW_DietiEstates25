@@ -1,15 +1,19 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const port = process.env.PORT || 8000;
-app.use(express.json());
-app.use(cors()); //Abilitare CORS per accedere alle richieste backend
 const logger = require('./utils/logger');
 
+const port = process.env.PORT || 8000;
+
 const authRoutes = require('./auth/auth.routes');
+const userRoutes = require('./users/user.routes');
+
+app.use(express.json());
+app.use(cors()); //Abilitare CORS per accedere alle richieste backend
 
 //Rotte
 app.use('/api/auth', authRoutes);
+app.use('/api/user', userRoutes);
 
 // Gestione degli errori generali
 app.use((err, req, res, next) => {

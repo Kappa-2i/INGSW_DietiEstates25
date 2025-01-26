@@ -7,7 +7,6 @@ exports.findByEmail = async function (email) {
 };
 
 exports.createUser = async function (email, hashedPassword, role, firstName, lastName, phone) {
-  console.log("sto nella funzione");
   const query = `
     INSERT INTO users (email, password, role, first_name, last_name, phone)
     VALUES ($1, $2, $3, $4, $5, $6)
