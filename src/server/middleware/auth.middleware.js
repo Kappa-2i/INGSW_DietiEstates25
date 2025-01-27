@@ -63,7 +63,7 @@ exports.validateUpdatesProfile = [
     .withMessage('La password deve contenere almeno un numero e una lettera'),
     body('phone').matches(/^\d{10}$/).withMessage('Numero di telefono non valido'),
     (req, res, next) => {
-        const errors =validationResult(req);
+        const errors = validationResult(req);
         if(!errors.isEmpty()){
             return res.status(400).json({ errors: errors.array() });
         }
@@ -75,13 +75,10 @@ exports.validateUpdatesProfile = [
 // Middleware per autorizzare l'accesso in base al ruolo
 exports.authorize = (roles) => {
     return async (req, res, next) => {
-      const { id } = req.user; // ID dell'utente autenticato
-  
+      const { role } = req.user; // ID dell'utente autenticato
       try {
-        // Verifica il ruolo dell'utente nel database
-        const result = await pool.query('SELECT role FROM users WHERE id = $1', [id]);
-        const userRole = result.rows[0]?.role;
-        if (!userRole || !roles.includes(userRole)) {
+        
+        if (!roles || !roles.includes(role)) {
           return res.status(403).json({ success: false, message: 'Non hai il permesso per eseguire questa azione.' });
         }
   

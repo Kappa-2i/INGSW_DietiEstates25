@@ -34,3 +34,9 @@ exports.deleteProfileById = async function (id) {
     const result = await pool.query(query, [id]);
     return result.rows[0];
 };
+
+exports.checkSupervisor = async function (agentId) {
+    const query = `SELECT supervisor, password FROM users WHERE id = $1;`;
+    const result = await pool.query(query, [agentId]);
+    return result.rows[0];
+};

@@ -28,7 +28,7 @@ exports.updateProfile = async (req, res) => {
     const { password, phone } = req.body;
 
     try {
-        const hashedPassword = password ? await bcrypt.hash(password, 10) : null;
+        const hashedPassword = await bcrypt.hash(password, 10);
         const updateUser = await userRepository.updateProfile(id, hashedPassword, phone);
         if (!updateUser) {
             return res.status(404).json({ success: false, message: 'Utente non trovato' });
@@ -76,12 +76,28 @@ exports.deleteProfileById = async (req, res) => {
 
 
 exports.updateAgent = async (req, res) => {
-    const { id } = req.params;
+    const { agentId } = req.params;
+    const { id } = req.user;
     const { password, phone } = req.body;
     console.log(id);
     try {
-        const hashedPassword = password ? await bcrypt.hash(password, 10) : null;
-        const updateUser = await userRepository.updateProfile(id, hashedPassword, phone);
+
+        const checkSupervisor = await userRepository.checkSupervisor(agentId);
+
+        //Controlla se il manager ha i permessi per modificare l'agente 
+        const isNotMatchSupervisor = checkSupervisor.supervisor !== id;
+        if (isNotMatchSupervisor){
+            return res.status(404).json({success: false, message: "Non hai i permessi per modificare questo utente"});
+        }
+
+        //Controlla se la nuova password è uguale alla vecchia
+        const isMatch = await bcrypt.compare(password,checkSupervisor.password);
+        if (isMatch){
+            return res.status(400).json({success: false, message: "Devi utilizzare una password diversa"});
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const updateUser = await userRepository.updateProfile(agentId, hashedPassword, phone);
         if (!updateUser) {
             return res.status(404).json({ success: false, message: 'Utente non trovato' });
         }
