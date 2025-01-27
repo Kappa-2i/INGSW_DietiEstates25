@@ -82,16 +82,17 @@ exports.updateAgent = async (req, res) => {
     console.log(id);
     try {
 
-        const checkSupervisor = await userRepository.checkSupervisor(agentId);
+        //Chiamata a repository per prendere la password e l'id del supervisore da controllare
+        const checkValidate = await userRepository.checkValidateUpdatesAgent(agentId);
 
         //Controlla se il manager ha i permessi per modificare l'agente 
-        const isNotMatchSupervisor = checkSupervisor.supervisor !== id;
-        if (isNotMatchSupervisor){
+        const isMatchSupervisor = checkValidate.supervisor === id;
+        if (!isMatchSupervisor){
             return res.status(404).json({success: false, message: "Non hai i permessi per modificare questo utente"});
         }
 
         //Controlla se la nuova password è uguale alla vecchia
-        const isMatch = await bcrypt.compare(password,checkSupervisor.password);
+        const isMatch = await bcrypt.compare(password, checkValidate.password);
         if (isMatch){
             return res.status(400).json({success: false, message: "Devi utilizzare una password diversa"});
         }

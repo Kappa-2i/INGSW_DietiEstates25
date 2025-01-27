@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram name="Pagina-1" id="c6jRkGX1jEDNlW_yqz5B">
-        <mxGraphModel dx="1911" dy="1148" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="3460" dy="2237" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -10,8 +10,8 @@
                 <mxCell id="U9ZhbM71JHAl7KsBuCrY-4" value="&lt;font style=&quot;font-size: 29px;&quot;&gt;/insertions&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=16;" parent="1" vertex="1">
                     <mxGeometry x="-541" y="-406" width="150" height="47" as="geometry"/>
                 </mxCell>
-                <mxCell id="U9ZhbM71JHAl7KsBuCrY-5" value="&lt;font style=&quot;font-size: 32px;&quot;&gt;/login (post)&lt;br&gt;/register (post)&lt;br&gt;/logout (post)&lt;br&gt;&lt;/font&gt;" style="whiteSpace=wrap;html=1;fontSize=16;align=left;" parent="1" vertex="1">
-                    <mxGeometry x="-220" y="-354" width="233" height="359" as="geometry"/>
+                <mxCell id="U9ZhbM71JHAl7KsBuCrY-5" value="&lt;font style=&quot;font-size: 32px;&quot;&gt;/login (post) X&lt;br&gt;/register (post) X&lt;br&gt;/logout (post) X&lt;br&gt;&lt;/font&gt;" style="whiteSpace=wrap;html=1;fontSize=16;align=left;" parent="1" vertex="1">
+                    <mxGeometry x="-220" y="-343" width="359" height="348" as="geometry"/>
                 </mxCell>
                 <mxCell id="U9ZhbM71JHAl7KsBuCrY-6" value="&lt;font style=&quot;font-size: 29px;&quot;&gt;/auth&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=16;" parent="1" vertex="1">
                     <mxGeometry x="-145" y="-401" width="83" height="47" as="geometry"/>

@@ -22,8 +22,13 @@ app.use((err, req, res, next) => {
 });
 
 
-// Avvio del server
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
+// Esporta l'app per i test
+module.exports = app;
+
+// Avvio del server solo se il file viene eseguito direttamente
+if (require.main === module) {
+  app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
+  });
+}
 

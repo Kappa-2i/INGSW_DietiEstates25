@@ -18,8 +18,8 @@ const DB_CONFIG = {
 
 const pool = new Pool(DB_CONFIG);
 
-pool.connect()
-  .then(() => console.log('Database connected successfully'))
-  .catch(err => console.error('Database connection error:', err));
+// pool.connect()
+//   .then(() => console.log('Database connected successfully'))
+//   .catch(err => console.error('Database connection error:', err));
 
 module.exports = { pool };
