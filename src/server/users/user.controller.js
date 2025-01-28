@@ -3,7 +3,6 @@ const { validationResult } = require('express-validator');
 const userRepository = require('../repositories/user.repositories');
 
 
-
 // Recupera il profilo utente
 exports.getUserProfile = async (req, res) => {
     const { id } = req.user;
@@ -108,4 +107,38 @@ exports.updateAgent = async (req, res) => {
         console.error('Error fetching user profile:', err.message);
         res.status(500).json({ success: false, message: 'Internal server error' });
     }
+};
+
+exports.getMyAgents = async (req, res) => {
+try{
+    const { id } = req.user;
+
+    const agents = await userRepository.getAgentsByManagerId(id);
+
+    if(!agents || agents.length === 0){
+        return res.status(404).json({ success: false, message: 'Nessun agente trovato'});
+    }
+
+    res.status(200).json(agents);
+}catch(err){
+    console.error('Errore durante il recupero degli agenti:', err.message);
+    res.status(500).json({ success: false, message: 'Internal server error' });
+}
+
+};
+
+exports.createAgent = async (req, res) => {
+    const { first_name, last_name, email, password, phone, role } = req.body;
+    const { id: supervisorId} = req.user;
+    try{
+        const hashedPassword = await bcrypt.hash(password,10);
+        const newAgent = await userRepository.createAgent(first_name,last_name, email, hashedPassword, phone, supervisorId, role);
+        
+        res.status(201).json({ success: true, message: 'Agente creato con successo', data: newAgent });
+    }catch(err){
+        console.error('Errore nella creazione dell\' agente:', err.message);
+        res.status(500).json({success: false, message: 'Internal server error'});
+    }
+
+
 };

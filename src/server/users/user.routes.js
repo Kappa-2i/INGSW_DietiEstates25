@@ -16,8 +16,10 @@ router.patch('/myagent/:agentId', authMiddleware.authenticate, authMiddleware.au
 router.delete('/myagent/:id', userController.deleteProfileById);
 
 //Rotta per visualizzare tutti i miei agenti
+router.get('/myagent', authMiddleware.authenticate, authMiddleware.authorize(['MANAGER', 'ADMIN']), userController.getMyAgents);
 
 //Rotta per creare un nuovo agente
+router.post('/myagent/create', authMiddleware.authenticate, authMiddleware.authorize(['MANAGER', 'ADMIN']), userController.createAgent);
 
 //Rotta per vedere tutti gli utenti registrati (adm)
 router.get('/profile/all', userController.getAllUsersProfile);

@@ -40,3 +40,22 @@ exports.checkValidateUpdatesAgent = async function (agentId) {
     const result = await pool.query(query, [agentId]);
     return result.rows[0];
 };
+
+exports.getAgentsByManagerId = async function (id) {
+    const query = 
+        `SELECT id, email, first_name, last_name, phone 
+        FROM users
+        WHERE supervisor = $1`;
+    const result = await pool.query(query, [id]);
+    return result.rows; //Ritorna tutti gli elementi trovati
+}
+
+exports.createAgent = async function (first_name, last_name, email, password, phone, supervisorId, role) {
+    const query = 
+        `INSERT INTO users (first_name, last_name, email, password, phone, role, supervisor)
+        VALUES ($1, $2, $3, $4, $5, $6, $7)
+        RETURNING id, first_name, last_name, email, phone, role, supervisor;`;
+    const values = [first_name, last_name, email, password, phone, role, supervisorId];
+    const result = await pool.query(query, values);
+    return result.rows[0];
+}
