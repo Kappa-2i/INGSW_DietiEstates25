@@ -1,12 +1,10 @@
 const bcrypt = require('bcryptjs');
-const { validationResult } = require('express-validator');
 const userRepository = require('../repositories/user.repositories');
 
 
 // Recupera il profilo utente
 exports.getUserProfile = async (req, res) => {
     const { id } = req.user;
-    console.log(id);
   
     try {
       const user = await userRepository.findById(id);
@@ -78,7 +76,6 @@ exports.updateAgent = async (req, res) => {
     const { agentId } = req.params;
     const { id } = req.user;
     const { password, phone } = req.body;
-    console.log(id);
     try {
 
         //Chiamata a repository per prendere la password e l'id del supervisore da controllare

@@ -2,3 +2,5 @@
 [2025-01-26T17:55:12.379Z] [31merror[39m: pool is not defined
 [2025-01-26T17:56:23.633Z] [31merror[39m: pool is not defined
 [2025-01-26T17:56:52.297Z] [31merror[39m: pool is not defined
+[2025-01-29T11:30:12.587Z] [31merror[39m: Multipart: Boundary not found
+[2025-01-29T13:29:43.200Z] [31merror[39m: jwt expired
