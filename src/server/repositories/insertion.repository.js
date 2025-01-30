@@ -61,7 +61,12 @@ exports.createInsertion = async (insertionData, imageUrls, userid) => {
 };
 
 exports.addFavorite = async function (id, insertionId) {
-    const query = `INSERT INTO favorites (userid, insertionid) VALUES ($1, $2) RETURNING *;`;
+    const query = `INSERT INTO favorites (userid, insertionid) 
+                    VALUES ($1, $2) 
+                    ON CONFLICT (userid, insertionid) DO NOTHING 
+                    RETURNING *;`; //Prova per inserire un inserzione già esistente nei preferiti
+                    
+                    // INSERT INTO favorites IF NOT EXISTS (userid, insertionid) VALUES ($1, $2) RETURNING *
     const result = await pool.query(query, [id, insertionId]);
     return result.rows[0];
 };
@@ -83,7 +88,7 @@ exports.getFavoritesByUser = async function (id) {
 exports.getFilteredInsertions = async (filters) => {
     let query = `SELECT * FROM insertions WHERE 1=1`; // Inizializza la query con un filtro sempre vero
     let values = [];
-    let index = 1; // Contatore per i parametri nella query SQL ($1, $2, ...)
+    let index = 1;
 
     // Aggiunta dinamica dei filtri
     if (filters.price) {
@@ -137,6 +142,8 @@ exports.getFilteredInsertions = async (filters) => {
         index++;
     }
 
+    
+
     // Filtri booleani per caratteristiche opzionali
     const booleanFields = ['garage', 'garden', 'elevator', 'climate', 'terrace', 'reception'];
     booleanFields.forEach(field => {
@@ -149,8 +156,6 @@ exports.getFilteredInsertions = async (filters) => {
 
     query += ` ORDER BY created_at DESC`; // Ordina le inserzioni più recenti
 
-    console.log("Query generata:", query);
-    console.log("Valori:", values);
 
     try {
         const result = await pool.query(query, values);

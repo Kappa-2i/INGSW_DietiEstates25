@@ -25,7 +25,6 @@ router.get('/my', authMiddleware.authenticate, authorizeMiddleware.authorize(['A
 //Rotta per aggiungere un inserzione
 router.post('/creation', authMiddleware.authenticate, authorizeMiddleware.authorize(['AGENT', 'MANAGER', 'ADMIN']), uploadMiddleware.upload, insertionMiddleware.validateInputs, insertionController.createInsertion);
 
-
 //Rotta per eliminare un inserzione specifica tramite ID
 router.delete('/:id', authMiddleware.authenticate,  authorizeMiddleware.authorize(['AGENT', 'MANAGER', 'ADMIN']), insertionController.deleteInsertionById);
 

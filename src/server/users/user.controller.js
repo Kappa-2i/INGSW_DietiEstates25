@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-const userRepository = require('../repositories/user.repositories');
+const userRepository = require('../repositories/user.repository');
 
 
 // Recupera il profilo utente

@@ -1,0 +1,1 @@
+const offerRepository = require('../repositories/offer.repository');

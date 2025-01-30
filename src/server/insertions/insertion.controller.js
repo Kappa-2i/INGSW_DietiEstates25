@@ -1,10 +1,10 @@
 const bcrypt = require('bcryptjs');
-const insertionRepositories = require('../repositories/insertion.repositories');
+const insertionRepository = require('../repositories/insertion.repository');
 const { uploadToS3 } = require('../middleware/upload.middleware');
 
 exports.getAllInsertions = async (req, res) => {
     try {
-        const allInsertions = await insertionRepositories.getAllInsertions();
+        const allInsertions = await insertionRepository.getAllInsertions();
         if (!allInsertions) {
             return res.status(404).json({ status:404, success: false, message: 'Inserzioni non trovate' });
         }
@@ -18,7 +18,7 @@ exports.getAllInsertions = async (req, res) => {
 
 exports.getLastInsertions = async (req, res) => {
     try {
-        const lastInsertions = await insertionRepositories.getLastInsertions();
+        const lastInsertions = await insertionRepository.getLastInsertions();
         if (!lastInsertions) {
             return res.status(404).json({ status: 404, success: false, message: 'Ultime inserzioni non trovate' });
         }
@@ -35,7 +35,7 @@ exports.getInsertionById = async (req, res) => {
         const { id } = req.params;
 
 
-        const insertionById = await insertionRepositories.getInsertionById(id);
+        const insertionById = await insertionRepository.getInsertionById(id);
         if (!insertionById) {
             return res.status(404).json({ status: 404, success: false, message: 'Inserzione non trovata' });
         }
@@ -52,7 +52,7 @@ exports.deleteInsertionById = async (req, res) => {
         console.log(req.params);
         const { id } = req.params;
 
-        const deletedInsertion = await insertionRepositories.deleteInsertionById(id);
+        const deletedInsertion = await insertionRepository.deleteInsertionById(id);
         if (!deletedInsertion) {
             return res.status(404).json({ status: 404, success: false, message: 'Inserzione non eliminata' });
         }
@@ -68,8 +68,8 @@ exports.deleteInsertionById = async (req, res) => {
 exports.getMyInsertions = async (req, res) => {
     try {
         const { id } = req.user;
-
-        const insertionsByAgentId = await insertionRepositories.getMyInsertions(id);
+        
+        const insertionsByAgentId = await insertionRepository.getMyInsertions(id);
         if (!insertionsByAgentId) {
             return res.status(404).json({ status: 404, success: false, message: 'Inserzioni non trovate' });
         }
@@ -93,7 +93,7 @@ exports.createInsertion = async (req, res) => {
             imageUrls = await Promise.all(uploadPromises);
         }
         // Creazione inserzione con immagini
-        const newInsertion = await insertionRepositories.createInsertion(req.body, imageUrls, id);
+        const newInsertion = await insertionRepository.createInsertion(req.body, imageUrls, id);
         if(!newInsertion){
             res.status(500).json({ status:500, success: false, message: 'Inserzione non creata' });
         }
@@ -112,7 +112,7 @@ exports.addFavorite = async (req, res) => {
         const { id } = req.user;
         const { insertionId } = req.params;
 
-        const addFavorite = await insertionRepositories.addFavorite(id, insertionId);
+        const addFavorite = await insertionRepository.addFavorite(id, insertionId);
         if(!addFavorite){
             res.status(500).json({ status:500, success: false, message: 'Inserzione non aggiunta ai preferiti' });
         }
@@ -130,7 +130,7 @@ exports.getFavoritesByUser = async (req, res) => {
     try {
         const { id } = req.user;
         
-        const myFavorites = await insertionRepositories.getFavoritesByUser(id);
+        const myFavorites = await insertionRepository.getFavoritesByUser(id);
         if(!myFavorites){
             res.status(500).json({ status:500, success: false, message: 'Favoriti non presenti' });
         }
@@ -148,7 +148,7 @@ exports.getFilteredInsertions = async (req, res) => {
         const filters = req.body;
         console.log("Filtri ricevuti dal body:", filters);
 
-        const insertions = await insertionRepositories.getFilteredInsertions(filters);
+        const insertions = await insertionRepository.getFilteredInsertions(filters);
 
         if (insertions.length === 0) {
             return res.status(404).json({ success: false, message: 'Nessuna inserzione trovata con questi filtri' });
