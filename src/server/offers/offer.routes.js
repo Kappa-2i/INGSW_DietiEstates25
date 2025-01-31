@@ -21,9 +21,9 @@ router.post('/creation', authMiddleware.authenticate, authorizeMiddleware.author
 router.post('/manualCreation', authMiddleware.authenticate, authorizeMiddleware.authorize(["AGENT", "MANAGER", "ADMIN"]), offerController.createManualOffer);
 
 //Rotta per rifiutare un offerta da parte di un utente o da parte di un agente (with patch)
-router.post('my/:offerId/rejected', authMiddleware.authenticate, offerController.rejectOffer);
+//router.post('my/:offerId/rejected', authMiddleware.authenticate, offerController.rejectOffer);
 
 //Rotta per accettare un offerta da parte di un utente o da parte di un agente (with delete)
-router.post('my/:offerId/accepted', authMiddleware.authenticate, offerController.acceptOffer);
+//router.post('my/:offerId/accepted', authMiddleware.authenticate, offerController.acceptOffer);
 
 module.exports = router
