@@ -3,7 +3,7 @@ const { pool } = require('../config/db');
 
 exports.findById = async function (id) {
     const query = `
-      SELECT email, first_name, last_name, phone 
+      SELECT email, first_name, last_name, phone, id 
       FROM users 
       WHERE id = $1;
     `;
