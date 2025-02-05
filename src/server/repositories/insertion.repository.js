@@ -15,7 +15,7 @@ exports.getLastInsertions = async function () {
 exports.getInsertionById = async function (id) {
     const query = `SELECT * FROM insertions WHERE id = $1;`;
     const result = await pool.query(query, [id]);
-    return result.rows;
+    return result.rows[0];
 };
 
 exports.deleteInsertionById = async function (id) {
@@ -30,7 +30,8 @@ exports.getMyInsertions = async function (id) {
     return result.rows;
 };
 
-exports.createInsertion = async (insertionData, imageUrls, userid) => {
+exports.createInsertion = async (insertionData, imageUrls, userid, location) => {
+    console.log(location.lat, location.lng);
     const {
         title, price, surface, room, bathroom, balcony, contract, region,
         municipality, cap, address, floor, energyclass, garage, garden,
@@ -41,11 +42,11 @@ exports.createInsertion = async (insertionData, imageUrls, userid) => {
         INSERT INTO insertions (
             title, price, surface, room, bathroom, balcony, contract, region, 
             municipality, cap, address, floor, energyclass, garage, garden, 
-            elevator, climate, terrace, reception, userid, image_url, created_at
+            elevator, climate, terrace, reception, userid, image_url, created_at, latitude, longitude
         ) 
         VALUES (
             $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15,
-            $16, $17, $18, $19, $20, $21, CURRENT_TIMESTAMP
+            $16, $17, $18, $19, $20, $21, CURRENT_TIMESTAMP, $22, $23
         ) 
         RETURNING *;
     `;
@@ -53,7 +54,7 @@ exports.createInsertion = async (insertionData, imageUrls, userid) => {
     const values = [
         title, price, surface, room, bathroom, balcony, contract, region,
         municipality, cap, address, floor, energyclass, garage, garden,
-        elevator, climate, terrace, reception, userid, imageUrls
+        elevator, climate, terrace, reception, userid, imageUrls, location.lat, location.lng
     ];
 
     const result = await pool.query(query, values);

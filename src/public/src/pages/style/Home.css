@@ -1,0 +1,16 @@
+.home-container {
+    text-align: center;
+    padding: 20px;
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+}
