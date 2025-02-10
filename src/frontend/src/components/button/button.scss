@@ -1,0 +1,15 @@
+.button-wrapper{
+    color: white;
+    background-color: black;
+    border-radius: 10px;
+    width: auto;
+
+    &:hover {
+        background-color: grey; // Cambia 'grey' con il colore desiderato
+    }
+
+    &.primary{
+        
+    }
+
+}

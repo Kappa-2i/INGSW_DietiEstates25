@@ -22,10 +22,10 @@ exports.getUserProfile = async (req, res) => {
 
 exports.updateProfile = async (req, res) => {
     const { id } = req.user;
-    const { password, phone } = req.body;
-
+    const { phone, oldPassword, newPassword } = req.body;
+    console.log("Nuovi dati:", phone, newPassword, oldPassword);
     try {
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
         const updateUser = await userRepository.updateProfile(id, hashedPassword, phone);
         if (!updateUser) {
             return res.status(404).json({ success: false, message: 'Utente non trovato' });
@@ -45,7 +45,7 @@ exports.getAllUsersProfile = async (req, res) => {
         if (!allUsers) {
             return res.status(404).json({ success: false, message: 'Utenti non trovati' });
         }
-
+        
         res.status(200).json({ success: true, data: allUsers});
     } catch (err) {
         console.error('Error fetching user profile:', err.message);
@@ -132,6 +132,28 @@ exports.createAgent = async (req, res) => {
         const newAgent = await userRepository.createAgent(first_name,last_name, email, hashedPassword, phone, supervisorId, role);
         
         res.status(201).json({ success: true, message: 'Agente creato con successo', data: newAgent });
+    }catch(err){
+        console.error('Errore nella creazione dell\' agente:', err.message);
+        res.status(500).json({success: false, message: 'Internal server error'});
+    }
+
+
+};
+
+
+exports.forgetPassword = async (req, res) => {
+    const { email, newPassword } = req.body;
+    console.log(email, newPassword);
+    
+    try{
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        const user = await userRepository.findByEmail(email);
+        if (!user) {
+            res.status(404).json({success: false, message: "Email non trovata"})
+        }
+        await userRepository.updateProfile(user.id, hashedPassword, null);
+        
+        res.status(201).json({ success: true, message: 'Nuova password impostata con successo'});
     }catch(err){
         console.error('Errore nella creazione dell\' agente:', err.message);
         res.status(500).json({success: false, message: 'Internal server error'});

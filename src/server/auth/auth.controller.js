@@ -31,7 +31,6 @@ exports.register = async (req, res) => {
 //Login di un utente
 exports.login = async (req, res) => {
   const { email, password } = req.body;
-
   try{
     //Cerca se esiste già l'utente
     const user = await authRepository.findByEmail(email);
@@ -46,7 +45,7 @@ exports.login = async (req, res) => {
     }
 
     //Crea token JWT
-    const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '3h' });
+    const token = jwt.sign({ id: user.id, role: user.role, password: user.password }, process.env.JWT_SECRET, { expiresIn: '3h' });
     res.status(200).json({ success: true, token });
   }catch(err){
     console.err('Errore durante il login:', err.message);

@@ -1,0 +1,28 @@
+.input-wrapper {
+    width: 100%;
+
+    gap: 8px; /* Spazio tra label e input */
+  
+    &.primary {
+      /* eventuali stili per primary */
+    }
+    &.secondary {
+      /* eventuali stili per secondary */
+    }
+    &.transparent {
+      /* eventuali stili per transparent */
+    }
+    &.error {
+      border: 1px solid red;
+    }
+    &.success {
+      background-color: green;
+    }
+  }
+  
+  /* Se vuoi che tutte le label abbiano una larghezza fissa per un allineamento uniforme */
+  .input-label {
+    min-width: 120px; /* Regola questo valore in base alle tue esigenze */
+    text-align: left;
+  }
+  

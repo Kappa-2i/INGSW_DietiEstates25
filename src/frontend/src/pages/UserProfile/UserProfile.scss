@@ -1,0 +1,19 @@
+.user-profile-page {
+  padding: 10px;
+
+  .navbar-wrapper {
+    margin-bottom: 20px; // Spazio tra la navbar e il contenuto principale
+  }
+
+  .profile-content {
+    display: flex;
+    justify-content: center; // Centra orizzontalmente il contenuto
+    align-items: center;     // Centra verticalmente il contenuto (opzionale)
+    min-height: calc(100vh - 80px); // Occupa l'altezza rimanente (adatta il valore in base all'altezza della navbar e del padding)
+    flex-direction: column;  // Se preferisci avere la card sotto l'immagine utente, oppure usa row se vuoi affiancare elementi
+  }
+
+  .user-info-wrapper {
+    width: 50%;  // La larghezza della card; puoi modificarla in base alle tue esigenze
+  }
+}

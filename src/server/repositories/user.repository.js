@@ -11,6 +11,16 @@ exports.findById = async function (id) {
     return result.rows[0];
 };
 
+exports.findByEmail = async function (email) {
+    const query = `
+      SELECT email, first_name, last_name, phone, id 
+      FROM users 
+      WHERE email = $1;
+    `;
+    const result = await pool.query(query, [email]);
+    return result.rows[0];
+};
+
 exports.updateProfile = async function (id, password, phone) {
     const query = 
     `UPDATE users

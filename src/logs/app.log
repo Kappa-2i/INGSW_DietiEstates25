@@ -11,3 +11,14 @@
 [2025-02-03T16:48:37.792Z] [31merror[39m: jwt expired
 [2025-02-03T16:50:26.563Z] [31merror[39m: jwt expired
 [2025-02-03T17:15:08.831Z] [31merror[39m: jwt expired
+[2025-02-08T15:40:23.830Z] [31merror[39m: jwt expired
+[2025-02-08T15:45:30.295Z] [31merror[39m: jwt expired
+[2025-02-08T15:45:30.298Z] [31merror[39m: jwt expired
+[2025-02-09T12:12:38.767Z] [31merror[39m: jwt expired
+[2025-02-09T12:12:38.771Z] [31merror[39m: jwt expired
+[2025-02-09T12:29:59.217Z] [31merror[39m: bcrypt is not defined
+[2025-02-09T12:30:32.533Z] [31merror[39m: Illegal arguments: string, undefined
+[2025-02-10T15:12:39.944Z] [31merror[39m: jwt expired
+[2025-02-10T15:12:39.950Z] [31merror[39m: jwt expired
+[2025-02-10T15:30:05.941Z] [31merror[39m: jwt expired
+[2025-02-10T15:30:05.944Z] [31merror[39m: jwt expired

@@ -1,0 +1,49 @@
+.user-details-card-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  max-width: 500px;
+  margin: auto;
+
+  .card-header {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+
+    button {
+      background: none;
+      border: none;
+      font-size: 1.1em;
+      padding: 10px;
+      cursor: pointer;
+      color: #555;
+      border-bottom: 2px solid transparent;
+      transition: all 0.3s;
+
+      &:hover {
+        color: #000;
+      }
+
+      &.active {
+        border-bottom: 2px solid #000;
+      }
+    }
+  }
+
+  .profile-info-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+
+    .section-title {
+      font-weight: bold;
+      font-size: 1.2em;
+      margin-bottom: 10px;
+    }
+  }
+}
