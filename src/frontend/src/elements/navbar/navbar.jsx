@@ -11,6 +11,7 @@ import MenuList from '../menuList/menuList';
 const Navbar = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
+  console.log(token);
   const [showUserMenu, setShowUserMenu] = useState(false);
 
   const toggleUserMenu = () => {

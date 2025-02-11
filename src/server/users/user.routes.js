@@ -22,6 +22,7 @@ router.get('/myagent', authMiddleware.authenticate, authorizeMiddleware.authoriz
 //Rotta per creare un nuovo agente
 router.post('/myagent/creation', authMiddleware.authenticate, authorizeMiddleware.authorize(['MANAGER', 'ADMIN']), userController.createAgent);
 
+//Rotta per reimpostare la password
 router.post('/forgetPassword', userController.forgetPassword);
 
 //Rotta per vedere tutti gli utenti registrati (adm)

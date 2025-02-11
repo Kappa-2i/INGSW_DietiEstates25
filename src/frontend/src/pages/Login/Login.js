@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import './Login.css';
+import GoogleLoginButton from "../../components/googleButton/googleLoginButton";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -52,6 +53,7 @@ const Login = () => {
                     />
                 </div>
                 <button type="submit">Accedi</button>
+                <GoogleLoginButton/>
             </form>
         </div>
     );

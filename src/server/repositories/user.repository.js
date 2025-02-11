@@ -69,3 +69,31 @@ exports.createAgent = async function (first_name, last_name, email, password, ph
     const result = await pool.query(query, values);
     return result.rows[0];
 }
+
+
+exports.findByGoogleId = async (googleId) => {
+    const result = await pool.query('SELECT * FROM users WHERE googleId = $1', [googleId]);
+    return result.rows[0];
+};
+
+
+exports.updateGoogleUser = async (id, fields) => {
+    const { googleId } = fields;
+    const result = await pool.query(
+      `UPDATE users SET googleId = $1 WHERE id = $2 RETURNING *`,
+      [googleId, id]
+    );
+    return result.rows[0];
+};
+
+
+exports.createGoogleUser = async (data) => {
+    const { first_name, last_name, email, googleId, password, phone, role } = data;
+    const result = await pool.query(
+      `INSERT INTO users (first_name, last_name, email, googleId, password, phone, role)
+       VALUES ($1, $2, $3, $4, $5, $6, $7)
+       RETURNING *`,
+      [first_name, last_name, email, googleId, password, phone, role]
+    );
+    return result.rows[0];
+}

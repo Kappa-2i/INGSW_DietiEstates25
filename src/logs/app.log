@@ -22,3 +22,8 @@
 [2025-02-10T15:12:39.950Z] [31merror[39m: jwt expired
 [2025-02-10T15:30:05.941Z] [31merror[39m: jwt expired
 [2025-02-10T15:30:05.944Z] [31merror[39m: jwt expired
+[2025-02-11T16:06:59.917Z] [31merror[39m: null value in column "password" of relation "users" violates not-null constraint
+[2025-02-11T16:08:12.083Z] [31merror[39m: Login sessions require session support. Did you forget to use `express-session` middleware?
+[2025-02-11T16:12:00.556Z] [31merror[39m: Failed to deserialize user out of session
+[2025-02-11T16:12:19.114Z] [31merror[39m: Failed to deserialize user out of session
+[2025-02-11T16:12:30.870Z] [31merror[39m: Failed to deserialize user out of session

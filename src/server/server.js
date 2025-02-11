@@ -2,6 +2,9 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const logger = require('./utils/logger');
+const passport = require('./auth/passport-config'); // Assicurati che il percorso sia corretto
+const session = require('express-session');
+
 
 const port = process.env.PORT || 8000;
 
@@ -10,8 +13,16 @@ const userRoutes = require('./users/user.routes');
 const insertionRoutes = require('./insertions/insertion.routes');
 const offerRoutes = require('./offers/offer.routes');
 
+app.use(session({
+  secret: 'your_secret_key', // Sostituisci con una chiave segreta robusta
+  resave: false,
+  saveUninitialized: false
+}));
+
 app.use(express.json());
 app.use(cors()); //Abilitare CORS per accedere alle richieste backend
+app.use(passport.initialize());
+app.use(passport.session());
 
 //Rotte
 app.use('/api/auth', authRoutes);
