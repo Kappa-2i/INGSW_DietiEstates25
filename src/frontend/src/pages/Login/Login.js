@@ -54,7 +54,7 @@ const Login = () => {
                     />
                 </div>
                 <button className="access-button" type="submit">Accedi</button>
-                <div></div>
+                <p>Oppure</p>
                 <GoogleLoginButton/>
             </form>
         </div>

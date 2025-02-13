@@ -2,7 +2,7 @@
 $background-color: #f4f5f2;
 $container-bg: #fff;
 $border-color: #ccc;
-$button-bg: green;
+$button-bg: #e76f51;
 $button-hover: darkblue;
 $input-border: #ccc;
 $input-focus: #007BFF;
@@ -34,11 +34,11 @@ body {
     flex-direction: column;
     align-items: center;
     width: 500px;
-    margin-bottom: 15px;
+    margin-bottom: 8px;
 
     input {
         width: 95%;
-        padding: 10px;
+        padding: 15px;
         border-radius: 5px;
         border: 1px solid $input-border;
         font-size: 16px;
@@ -61,12 +61,13 @@ body {
 
 .access-button {
     width: 100%;
-    padding: 10px;
+    padding: 13px;
     background-color: $button-bg;
     color: white;
     border: none;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 20px;
+    font-weight: bold;
 
     &:hover {
         background-color: $button-hover;
@@ -75,15 +76,16 @@ body {
 
 .login-container .google-button {
     width: 100%;
-    padding: 10px;
+    padding: 15px;
     background-color: transparent;
     color: rgb(60, 64, 67);
     border: 1px,solid $border-color;
     cursor: pointer;
     font-size: 16px;
+    font-weight: 530;
 
     &:hover {
-        background-color: $button-hover;
+        background-color: rgba(237,237,233,0.3);
     }
 }
   
