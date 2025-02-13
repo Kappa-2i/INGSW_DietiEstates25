@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import './Login.css';
+import './Login.scss';
 import GoogleLoginButton from "../../components/googleButton/googleLoginButton";
 
 const Login = () => {
@@ -31,28 +31,30 @@ const Login = () => {
 
     return (
         <div className="login-container">
-            <h2>Login</h2>
+            <h2>Dieti Estates</h2>
+            <h3>Sign In</h3>
             {error && <p className="error">{error}</p>}
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Email:</label>
+                <div className="form-group">
                     <input 
                         type="email" 
                         value={email} 
                         onChange={(e) => setEmail(e.target.value)} 
+                        placeholder="Email"
                         required 
                     />
                 </div>
-                <div>
-                    <label>Password:</label>
+                <div className="form-group">
                     <input 
                         type="password" 
                         value={password} 
                         onChange={(e) => setPassword(e.target.value)} 
+                        placeholder="Password"
                         required 
                     />
                 </div>
-                <button type="submit">Accedi</button>
+                <button className="access-button" type="submit">Accedi</button>
+                <div></div>
                 <GoogleLoginButton/>
             </form>
         </div>
