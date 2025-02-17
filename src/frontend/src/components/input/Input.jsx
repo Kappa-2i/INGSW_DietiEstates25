@@ -17,6 +17,7 @@ import './input.scss';
 const Input = ({
   label,
   type = 'text',
+  name,
   value,
   onChange,
   placeholder,
@@ -25,12 +26,13 @@ const Input = ({
   customLabelClass
 }) => {
   return (
-    <div className={`input-wrapper ${defaultStyle}`}>
+    <div>
       {label && <label className={`input-label ${customLabelClass}`}>{label}</label>}
 
-      <input
+      <input className={`input-style ${defaultStyle}`}
         type={type}
         value={value}
+        name={name}
         onChange={onChange}
         placeholder={placeholder}
         disabled={disabled}

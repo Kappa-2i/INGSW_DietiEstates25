@@ -119,6 +119,7 @@ const UserDetailsCard = () => {
               label="Password attuale"
               type="password"
               onChange={(e) => setOldPassword(e.target.value)}
+              defaultStyle="error"
             />
             <Input
               label="Nuova password"

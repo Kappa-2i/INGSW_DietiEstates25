@@ -3,6 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import './Login.scss';
 import GoogleLoginButton from "../../components/googleButton/googleLoginButton";
+import Input from "../../components/input/Input";
+import Button from "../../components/button/Button";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -29,6 +31,10 @@ const Login = () => {
         }
     };
 
+    const signUp = () => {
+        navigate("/register");
+    };
+
     return (
         <div className="login-container">
             <h2>Dieti Estates</h2>
@@ -36,7 +42,8 @@ const Login = () => {
             {error && <p className="error">{error}</p>}
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <input 
+                    <Input 
+                        defaultStyle="login"
                         type="email" 
                         value={email} 
                         onChange={(e) => setEmail(e.target.value)} 
@@ -45,7 +52,8 @@ const Login = () => {
                     />
                 </div>
                 <div className="form-group">
-                    <input 
+                    <Input
+                        defaultStyle="login" 
                         type="password" 
                         value={password} 
                         onChange={(e) => setPassword(e.target.value)} 
@@ -53,10 +61,11 @@ const Login = () => {
                         required 
                     />
                 </div>
-                <button className="access-button" type="submit">Accedi</button>
-                <p>Oppure</p>
-                <GoogleLoginButton/>
+                <Button label="Accedi" defaultStyle="login" type="submit"/>
             </form>
+            <p>Oppure</p>
+            <GoogleLoginButton/>
+            <p className="register-text">Non hai un account? <span onClick={signUp} className="register-link">Registrati</span></p>
         </div>
     );
 };

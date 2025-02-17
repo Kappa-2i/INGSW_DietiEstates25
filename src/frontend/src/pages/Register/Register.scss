@@ -1,8 +1,8 @@
-// Variabili per i colori
 $background-color: #f4f5f2;
 $container-bg: #fff;
 $border-color: #ccc;
 $link-color: #f95738;
+
 
 body {
     background-color: $background-color;
@@ -11,7 +11,7 @@ body {
     font-family: 'Lato', sans-serif;
 }
 
-.login-container {
+.register-container {
     background-color: $container-bg;
     box-shadow: 6px 6px 10px rgba(0,0,0,0.1);
     width: 500px;
@@ -25,17 +25,18 @@ body {
     align-items: center;
 }
 
-.form-group {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 500px;
-    margin-bottom: 8px;
-}
 
-.error {
+.errors {
     color: red;
-    margin-bottom: 10px;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    text-align: left;
+    margin-left: 0;
+    padding-left: 0;
+}
+  
+.form-group {
+    margin-bottom: 1rem;
 }
 
 .register-link {
@@ -48,7 +49,10 @@ body {
         text-decoration: underline;
     }
 }
-  
+
+.success {
+    color: green;
+}
 h2 {
     font-size: 30px;
 }

@@ -24,7 +24,7 @@ const Button = ({
 }) => {
   return (
     <button
-      className={`button-wrapper ${defaultStyle}`}
+      className={`button-style ${defaultStyle}`}
       onClick={onClick}
       type={type}
       disabled={disabled}
