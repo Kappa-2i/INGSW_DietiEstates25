@@ -10,7 +10,7 @@ exports.validateRegister = [
 
     body('email')
     .isEmail()
-    .withMessage('Invalid email'),
+    .withMessage('Email non valida'),
     body('password')
     .isLength({min: 6})
     .withMessage('La password deve essere lunga almeno 6 caratteri')

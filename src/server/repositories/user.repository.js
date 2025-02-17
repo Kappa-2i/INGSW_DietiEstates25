@@ -3,7 +3,7 @@ const { pool } = require('../config/db');
 
 exports.findById = async function (id) {
     const query = `
-      SELECT email, first_name, last_name, phone, id 
+      SELECT email, first_name, last_name, phone, id, password 
       FROM users 
       WHERE id = $1;
     `;
@@ -21,16 +21,31 @@ exports.findByEmail = async function (email) {
     return result.rows[0];
 };
 
-exports.updateProfile = async function (id, password, phone) {
-    const query = 
-    `UPDATE users
-    SET 
-      password = COALESCE($2, password),
-      phone = COALESCE($3, phone)
-    WHERE id = $1
-    RETURNING id, email, phone, password;`;
-    const result = await pool.query(query, [id, password, phone]);
-    return result.rows[0];
+exports.updateProfile = async function (id, hashedPassword, phone) {
+    console.log(hashedPassword,phone);
+    try{
+        // Query SQL con COALESCE per mantenere i valori esistenti se non vengono aggiornati
+        const query = `
+        UPDATE users
+        SET 
+          password = COALESCE($2, password),
+          phone = COALESCE($3, phone)
+        WHERE id = $1
+        RETURNING id, email, phone;`; // Non restituiamo più la password per sicurezza
+
+        // Eseguiamo la query con i parametri
+        const result = await pool.query(query, [id, hashedPassword, phone]);
+
+        // Controlliamo se l'utente è stato aggiornato
+        if (result.rows.length === 0) {
+            throw new Error('Utente non trovato');
+        }
+
+        return result.rows[0]; // Ritorna i dati aggiornati dell'utente
+    } catch (error) {
+        console.error('Errore durante l\'aggiornamento del profilo:', error.message);
+        throw new Error('Errore interno del server');
+    }
 };
 
 exports.getAllUsersProfile = async function () {

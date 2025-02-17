@@ -1,54 +1,46 @@
 $input-border: #ccc;
 $input-focus: black;
 $text-color: #888;
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
 .input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 500px;
+  margin-bottom: 15px;
 
-}
+  .input-style {
+    width: 100%;
+    padding: 15px;
+    padding-right: 40px; // Spazio per l'icona password
+    border-radius: 5px;
+    border: 1px solid $input-border;
+    font-size: 16px;
 
-.input-style{
+    &::placeholder {
+      color: $text-color;
+    }
 
-  width: 100%;
-
-  gap: 8px; /* Spazio tra label e input */
-
-
-  &.login {
-      width: 470px;
-      padding: 15px;
-      border-radius: 5px;
-      border: 1px solid $input-border;
-      font-size: 16px;
-
-      &::placeholder {
-          color: $text-color;
-      }
-
-      &:focus {
-          border: 2px solid $input-focus;
-          outline: none;
-      }
+    &:focus {
+outline: 1px solid rgba(58, 61, 64, 0.3); // Bordo visibile effetto luce
+    box-shadow: 0 0 8px rgba(52, 53, 54, 0.3); // Effetto glow
+    border: 1px solid rgba(0, 0, 0, 0.7); // Per mantenere un contrasto con il box-shadow
+    }
   }
 
-  &.primary {
-    /* eventuali stili per primary */
-  }
-  &.secondary {
-    /* eventuali stili per secondary */
-  }
-  &.transparent {
-    /* eventuali stili per transparent */
-  }
-  &.error {
-    border: 1px solid red;
-  }
-  &.success {
-    background-color: green;
+  .toggle-password {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: $text-color;
   }
 }
-  
-  /* Se vuoi che tutte le label abbiano una larghezza fissa per un allineamento uniforme */
-  .input-label {
-    min-width: 120px; /* Regola questo valore in base alle tue esigenze */
-    text-align: left;
-  }
-  

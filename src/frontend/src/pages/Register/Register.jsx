@@ -39,6 +39,8 @@ const Register = () => {
           backendErrors[err.path] = err.msg; // Associa errori ai campi
         });
         setErrors(backendErrors);
+      } else if (error.response && error.response.data.message === "Utente già registrato. Riprova!"){
+        setErrors({ general: "Utente già registrato. Riprova!" });
       } else {
         setErrors({ general: "Errore durante la registrazione" });
       }

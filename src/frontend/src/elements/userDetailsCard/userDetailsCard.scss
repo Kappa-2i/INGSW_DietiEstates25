@@ -1,13 +1,17 @@
+$container-bg: #fff;
+$border-color: #ccc;
+
 .user-details-card-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 20px;
+  gap: 15px;
+  padding: 10px;
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
-  max-width: 500px;
-  margin: auto;
+  box-shadow: 6px 6px 10px rgba(0,0,0,0.1);
+  width: 550px;
+  margin: 90px auto;
 
   .card-header {
     display: flex;
@@ -35,15 +39,18 @@
   }
 
   .profile-info-section {
+    background-color: $container-bg;
+    width: 500px;
+    margin: 2px auto;
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    padding: 10px;
+    align-items: center;
 
     .section-title {
       font-weight: bold;
       font-size: 1.2em;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
     }
   }
 }

@@ -23,18 +23,58 @@ exports.getUserProfile = async (req, res) => {
 exports.updateProfile = async (req, res) => {
     const { id } = req.user;
     const { phone, oldPassword, newPassword } = req.body;
-    console.log("Nuovi dati:", phone, newPassword, oldPassword);
+    
+    console.log("pass:",oldPassword,newPassword,phone);
     try {
-        const hashedPassword = await bcrypt.hash(newPassword, 10);
-        const updateUser = await userRepository.updateProfile(id, hashedPassword, phone);
-        if (!updateUser) {
+        console.log("sono dentro");
+        // Recupera l'utente dal database
+        const user = await userRepository.findById(id);
+        if (!user) {
             return res.status(404).json({ success: false, message: 'Utente non trovato' });
+        }
+
+        // Creiamo un oggetto per i dati da aggiornare
+        const updateData = {};
+
+        // Se l'utente ha inserito un nuovo numero di telefono, lo aggiorniamo
+        if (phone) {
+            updateData.phone = phone;
+        }
+
+        // Se l'utente vuole aggiornare la password
+        if (newPassword) {
+            console.log("sono nel if");
+            if (!oldPassword) {
+                return res.status(400).json({ success: false, message: 'Devi inserire la password attuale per cambiarla' });
+            }
+
+            // Verifica se la vecchia password è corretta
+            const isMatch = await bcrypt.compare(oldPassword, user.password);
+            if (!isMatch) {
+                return res.status(400).json({ success: false, message: 'La password attuale non è corretta' });
+            }
+
+            // Hash della nuova password
+            updateData.hashedPassword = await bcrypt.hash(newPassword, 10);
+            console.log(updateData.hashedPassword);
+        }
+
+        // Se non ci sono dati da aggiornare, restituiamo un messaggio
+        if (Object.keys(updateData).length === 0) {
+            return res.status(400).json({ success: false, message: 'Nessun dato aggiornato' });
+        }
+
+        console.log(updateData.hashedPassword);
+        // Eseguiamo l'update solo con i dati effettivamente modificati
+        const updateUser = await userRepository.updateProfile(id, updateData.hashedPassword, updateData.phone);
+        if (!updateUser) {
+            return res.status(500).json({ success: false, message: 'Errore durante l\'aggiornamento' });
         }
 
         res.status(200).json({ success: true, data: updateUser });
     } catch (err) {
-        console.error('Error fetching user profile:', err.message);
-        res.status(500).json({ success: false, message: 'Internal server error' });
+        console.error('Error updating user profile:', err.message);
+        res.status(500).json({ success: false, message: 'Errore interno del server' });
     }
 };
 

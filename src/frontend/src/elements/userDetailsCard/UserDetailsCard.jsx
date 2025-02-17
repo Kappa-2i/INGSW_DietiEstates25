@@ -62,11 +62,10 @@ const UserDetailsCard = () => {
         oldPassword: oldPassword,
         newPassword: newPassword,
       };
-      // Sostituisci l'URL con il tuo endpoint per l'update del profilo
+      console.log(payload);
       await axios.patch("http://localhost:8000/api/user/profile", payload, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      // Aggiorna lo stato del profilo oppure notifica l'utente che l'aggiornamento è avvenuto
       alert("Profilo aggiornato con successo!");
       window.location.reload();
     } catch (err) {
@@ -95,7 +94,7 @@ const UserDetailsCard = () => {
 
       {/* Sezione Informazioni */}
       {activeSection === "info" && (
-        <div className="profile-info-section info">
+        <div className="profile-info-section">
           <ImageDisplay src={MySVG} alt="Immagine utente" />
           <div className="section-title">Informazioni Profilo</div>
           <Input label="Nome" placeholder={profile.first_name} disabled />
@@ -119,7 +118,6 @@ const UserDetailsCard = () => {
               label="Password attuale"
               type="password"
               onChange={(e) => setOldPassword(e.target.value)}
-              defaultStyle="error"
             />
             <Input
               label="Nuova password"
