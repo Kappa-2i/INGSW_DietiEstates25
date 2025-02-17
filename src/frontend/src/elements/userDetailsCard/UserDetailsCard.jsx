@@ -32,7 +32,6 @@ const UserDetailsCard = () => {
         });
         // Impostiamo il profilo; inizialmente impostiamo anche il nuovo numero di telefono
         setProfile(response.data.data);
-        setNewPhone(response.data.data.phone);
       } catch (err) {
         console.error("Errore nel recupero delle informazioni dell'utente:", err);
         setError("Errore nel recupero dell'utente");
@@ -70,7 +69,13 @@ const UserDetailsCard = () => {
       window.location.reload();
     } catch (err) {
       console.error("Errore nell'aggiornamento del profilo:", err);
-      alert("Si è verificato un errore durante l'aggiornamento");
+      console.log("Errore response data:", err.response ? err.response.data : err);
+      let errorMessage = "Si è verificato un errore durante l'aggiornamento";
+      if (err.response && err.response.data && err.response.data.errors) {
+        // Crea una stringa concatenando i messaggi di errore
+        errorMessage = err.response.data.errors.map(error => error.msg).join("\n");
+      }
+      alert(errorMessage);
     }
   };
 

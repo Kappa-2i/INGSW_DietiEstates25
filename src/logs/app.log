@@ -27,3 +27,7 @@
 [2025-02-11T16:12:00.556Z] [31merror[39m: Failed to deserialize user out of session
 [2025-02-11T16:12:19.114Z] [31merror[39m: Failed to deserialize user out of session
 [2025-02-11T16:12:30.870Z] [31merror[39m: Failed to deserialize user out of session
+[2025-02-13T19:00:39.610Z] [31merror[39m: jwt expired
+[2025-02-13T19:00:39.616Z] [31merror[39m: jwt expired
+[2025-02-17T12:26:20.628Z] [31merror[39m: jwt expired
+[2025-02-17T12:26:20.635Z] [31merror[39m: jwt expired
