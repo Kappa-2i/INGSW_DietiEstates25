@@ -20,18 +20,22 @@ const Button = ({
   customClass = '',
   disabled = false,
   defaultStyle = 'primary',
-  size = 'medium' //CHECK DA FARE
+  size = 'medium',
+  active = false
 }) => {
   return (
-    <button
-      className={`button-style ${defaultStyle}`}
-      onClick={onClick}
-      type={type}
-      disabled={disabled}
-      size={size}
-    >
-      {label}
-    </button>
+    <div className='button-wrapper'>   
+       <button
+        className={`button-style ${defaultStyle} ${customClass} ${active ? 'active' : ''}`}
+        onClick={onClick}
+        type={type}
+        disabled={disabled}
+        size={size}
+      >
+        {label}
+      </button>
+  </div>
+
   );
 };
 

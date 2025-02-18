@@ -1,73 +1,99 @@
-/* Resetta i margini del body per evitare spazi indesiderati */
+$navbar-color: rgba(225, 245, 110, 0.96);
+$menu-bg-color: white;
+
 body {
-    margin: 0;
-    padding: 0;
-  }
-  
-  .navbar {
-    position: fixed; /* se desideri che la navbar sia fissa */
-    top: 0;
-    left: 0;
-    right: 0;
-    background-color: rgb(23, 124, 122);
-    border-bottom: 1px solid #ddd;
-    z-index: 1000;
-    
-    /* La navbar occupa tutta la larghezza, ma il contenuto interno è contenuto */
-    .navbar__container {
-      max-width: 1200px; /* O il valore che preferisci */
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      padding: 10px 20px;
-      gap: 10px;
-    }
-    
-    /* LOGO: rimane a sinistra */
-    &__logo {
-      flex: 0 0 auto;
-    }
-    
-    /* Container centrale per la SearchBar */
-    &__center {
-      flex: 1; /* Occupa lo spazio rimanente */
-      display: flex;
-      justify-content: center;
-    }
-    
-    /* SearchBar: larghezza fissa */
-    &__search {
-      width: 300px;
-    }
-    
-    /* Icone Offerte e Preferiti */
-    .offers-wrapper,
-    .favorites-wrapper {
-      flex: 0 0 auto;
-    }
-    
-    /* Menu Utente e Login: posizionati a destra */
-    &__user,
-    .login-wrapper {
-      flex: 0 0 auto;
-      cursor: pointer;
-    }
-    
-    /* Stili per il menu utente a tendina */
-    &__user {
-      position: relative;
-    
-      &-menu {
-        position: absolute;
-        top: 110%;
-        right: 0;
-        background-color: #fff;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        padding: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        z-index: 1000;
-      }
-    }
-  }
-  
+  margin: 0;
+  padding: 0;
+}
+
+/* Stile della navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: $navbar-color;
+  border-bottom: 1px solid #ddd;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px; // Altezza fissa per uniformità
+}
+
+/* Contenitore principale della navbar */
+.navbar__container {
+  width: 97%;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+/* Logo allineato a sinistra */
+.navbar__logo {
+  display: flex;
+  align-items: center;
+}
+
+/* Spazio invisibile per separare elementi */
+.div__invisible {
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Sezione centrale: SearchBar */
+.navbar__center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Stile per la search bar */
+.navbar__search {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+
+/* Wrapper per icone (offerte, preferiti) */
+.offers-wrapper,
+.favorites-wrapper {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+/* Menu utente */
+.navbar__user {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.navbar__user-menu {
+  position: absolute;
+  top: 110%;
+  right: 0;
+  background-color: $menu-bg-color;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+
+
+
+

@@ -12,7 +12,7 @@ $text-color: #888;
   display: flex;
   align-items: center;
   width: 500px;
-  margin-bottom: 15px;
+  //margin-bottom: 15px;
 
   .input-style {
     width: 100%;
@@ -27,9 +27,9 @@ $text-color: #888;
     }
 
     &:focus {
-outline: 1px solid rgba(58, 61, 64, 0.3); // Bordo visibile effetto luce
-    box-shadow: 0 0 8px rgba(52, 53, 54, 0.3); // Effetto glow
-    border: 1px solid rgba(0, 0, 0, 0.7); // Per mantenere un contrasto con il box-shadow
+      outline: 1px solid rgba(58, 61, 64, 0.3); // Bordo visibile effetto luce
+      box-shadow: 0 0 8px rgba(52, 53, 54, 0.3); // Effetto glow
+      border: 1px solid rgba(0, 0, 0, 0.7); // Per mantenere un contrasto con il box-shadow
     }
   }
 

@@ -7,12 +7,15 @@ import favoritesIcon from '../../assets/star.svg';
 import offersIcon from '../../assets/google.svg';
 import { useNavigate } from 'react-router-dom';
 import MenuList from '../menuList/menuList';
+import Button from '../../components/button/Button';
 
 const Navbar = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
   console.log(token);
   const [showUserMenu, setShowUserMenu] = useState(false);
+
+  const [activeSection, setActiveSection] = useState("vendita");
 
   const toggleUserMenu = () => {
     setShowUserMenu(!showUserMenu);
@@ -49,13 +52,35 @@ const Navbar = () => {
           />
         </div>
 
+        <div className='div__invisible'/>
+        
+          
+        
+
         {/* Centro: SearchBar */}
         <div className='navbar__center'>
           <div className='navbar__search'>
+            <Button 
+              defaultStyle="active-style"
+              label="Vendita" 
+              onClick={() => setActiveSection("vendita")}
+              active={activeSection === "vendita"}
+            />
+            <Button 
+              defaultStyle="active-style"
+              label="Affitto" 
+              onClick={() => setActiveSection("affitto")}
+              active={activeSection === "affitto"}
+            />
             <Input placeholder='Cerca...' />
+            <div className='div__invisible'/>
+            <Button 
+            label="Cerca"
+            defaultStyle="search-style"
+            />
           </div>
         </div>
-
+      
         {/* Icona Offerte */}
         <div className='offers-wrapper'>
           <ImageDisplay
@@ -74,33 +99,33 @@ const Navbar = () => {
           />
         </div>
 
-        {/* Menu Utente / Login */}
-        {token ? (
-          <div className='navbar__user'>
-            <div className='navbar__user-icon' onClick={toggleUserMenu}>
-              <ImageDisplay 
-                src={listIcon}
-                alt='User Logo' 
-                defaultStyle='cursor' 
-              />
-            </div>
-            {showUserMenu && (
-              <div className='navbar__user-menu'>
-                <MenuList 
-                  onProfile={handleProfile}
-                  onFavorites={handleFavorites}
-                  onOffers={handleOffers}
-                  onLogout={handleLogout}
+          {/* Menu Utente / Login */}
+          {token ? (
+            <div className='navbar__user'>
+              <div className='navbar__user-icon' onClick={toggleUserMenu}>
+                <ImageDisplay 
+                  src={listIcon}
+                  alt='User Logo' 
+                  defaultStyle='cursor' 
                 />
               </div>
-            )}
-          </div>
-        ) : (
-          <div className='login-wrapper'>
-            <p onClick={() => navigate('/login')}>Accedi</p>
-          </div>
-        )}
-      </div>
+              {showUserMenu && (
+                <div className='navbar__user-menu'>
+                  <MenuList 
+                    onProfile={handleProfile}
+                    onFavorites={handleFavorites}
+                    onOffers={handleOffers}
+                    onLogout={handleLogout}
+                  />
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className='login-wrapper'>
+              <p onClick={() => navigate('/login')}>Accedi</p>
+            </div>
+          )}
+        </div>
     </nav>
   );
 };

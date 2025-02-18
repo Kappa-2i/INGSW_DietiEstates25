@@ -26,7 +26,7 @@ exports.updateProfile = async (req, res) => {
     
     console.log("pass:",oldPassword,newPassword,phone);
     try {
-        console.log("sono dentro");
+        
         // Recupera l'utente dal database
         const user = await userRepository.findById(id);
         if (!user) {
@@ -43,7 +43,7 @@ exports.updateProfile = async (req, res) => {
 
         // Se l'utente vuole aggiornare la password
         if (newPassword) {
-            console.log("sono nel if");
+            
             if (!oldPassword) {
                 return res.status(400).json({ success: false, message: 'Devi inserire la password attuale per cambiarla' });
             }
@@ -56,7 +56,6 @@ exports.updateProfile = async (req, res) => {
 
             // Hash della nuova password
             updateData.hashedPassword = await bcrypt.hash(newPassword, 10);
-            console.log(updateData.hashedPassword);
         }
 
         // Se non ci sono dati da aggiornare, restituiamo un messaggio

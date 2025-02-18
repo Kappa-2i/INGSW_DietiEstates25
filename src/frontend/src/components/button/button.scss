@@ -1,5 +1,6 @@
-$button-bg: #f95738;
-$button-hover: #e84e30;
+$button-bg: #c02278;
+$button-hover: #a42169;
+$font-color: #b62682;
 
 .button-style{
     color: white;
@@ -27,6 +28,49 @@ $button-hover: #e84e30;
         border-radius: 5px;
     
         &:hover {
+            background-color: $button-hover;
+        }
+    }
+
+    &.active-style{
+        border: 2px solid transparent;
+        background-color: transparent;
+        color: black;
+        font-size: 1.1em;
+        font-weight: bold;
+        padding: 12px;
+        cursor: pointer;
+        transition: color 0.6s ease;
+        border-radius: 0px;
+        flex: 0 1 auto;
+        display: flex;
+
+
+        &:hover {
+            color: black;
+            border-bottom: 2px solid $button-bg;
+        }
+
+        &.active{
+            color: $font-color;
+            border-bottom: 2px solid $button-bg;
+            font-weight: bold;
+            box-shadow: 0px 2px 0px rgba(201, 53, 115, 0.3)
+        }
+        
+    }
+
+    &.search-style{
+        background: $button-bg;
+        color: white;
+        border: none;
+        padding: 14px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 1.1em;
+
+        &:hover{
             background-color: $button-hover;
         }
     }

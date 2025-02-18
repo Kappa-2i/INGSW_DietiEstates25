@@ -61,7 +61,6 @@ const UserDetailsCard = () => {
         oldPassword: oldPassword,
         newPassword: newPassword,
       };
-      console.log(payload);
       await axios.patch("http://localhost:8000/api/user/profile", payload, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -72,7 +71,6 @@ const UserDetailsCard = () => {
       console.log("Errore response data:", err.response ? err.response.data : err);
       let errorMessage = "Si è verificato un errore durante l'aggiornamento";
       if (err.response && err.response.data && err.response.data.errors) {
-        // Crea una stringa concatenando i messaggi di errore
         errorMessage = err.response.data.errors.map(error => error.msg).join("\n");
       }
       alert(errorMessage);
@@ -111,25 +109,27 @@ const UserDetailsCard = () => {
 
       {/* Sezione Modifica */}
       {activeSection === "modify" && (
-        <div className="profile-info-section modify">
+        <div className="profile-info-section">
           <div className="section-title">Modifica Profilo</div>
           <form onSubmit={handleModifySubmit}>
-            <Input
-              label="Nuovo numero di telefono"
-              type="tel"
-              onChange={(e) => setNewPhone(e.target.value)}
-            />
-            <Input
-              label="Password attuale"
-              type="password"
-              onChange={(e) => setOldPassword(e.target.value)}
-            />
-            <Input
-              label="Nuova password"
-              type="password"
-              onChange={(e) => setNewPassword(e.target.value)}
-            />
-            <Button label="Salva modifiche" type="submit" />
+            <div className="modify-section">
+              <Input
+                label="Nuovo numero di telefono"
+                type="tel"
+                onChange={(e) => setNewPhone(e.target.value)}
+              />
+              <Input
+                label="Password attuale"
+                type="password"
+                onChange={(e) => setOldPassword(e.target.value)}
+              />
+              <Input
+                label="Nuova password"
+                type="password"
+                onChange={(e) => setNewPassword(e.target.value)}
+              />
+              <Button label="Salva modifiche" type="submit" defaultStyle="search-style"/>
+            </div>
           </form>
         </div>
       )}

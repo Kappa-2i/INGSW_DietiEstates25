@@ -27,8 +27,8 @@ const Home = () => {
                 <Navbar />
             </div>
 
-
-            <h2>Ultime Inserzioni</h2>
+            <div className="last__insertions"><h2>Ultime Inserzioni</h2></div>
+            
             {error && <p className="error">{error}</p>}
             <div className="insertion-card-wrapper">
                 {insertions.length > 0 ? (

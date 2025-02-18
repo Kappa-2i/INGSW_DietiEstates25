@@ -1,13 +1,13 @@
 .image-display-wrapper {
-    width: 25px;       // Imposta una larghezza fissa (o in percentuale, purché altezza e larghezza siano uguali)
-    height: 25px;      // Imposta un'altezza uguale alla larghezza
+    width: 25px;       
+    height: 25px;      
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    border: 1px solid #ddd;
-    border-radius: 50%; // Questo rende il contenitore un cerchio perfetto
-    padding: 5px;       // Se il padding è troppo grande potrebbe ridurre lo spazio per l'immagine, regola se necessario
+    border: 1px solid black;
+    border-radius: 50%; 
+    padding: 5px;       
   
     // Variante di stile
     &.primary {
@@ -20,6 +20,10 @@
 
     &.cursor {
       cursor: pointer;
+    }
+
+    &.invisible{
+      border: 0px;
     }
   }
   
