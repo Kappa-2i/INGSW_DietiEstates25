@@ -14,7 +14,7 @@ router.get('/', insertionController.getAllInsertions);
 router.get('/last', insertionController.getLastInsertions);
 
 //Rotta per ottenere inserzioni tramite ricerca avanzata
-router.get('/filtered', insertionController.getFilteredInsertions);
+router.post('/filtered', insertionController.getFilteredInsertions);
 
 //Rotta per ottenere le inserzioni preferite di un utente
 router.get('/favorites', authMiddleware.authenticate, insertionController.getFavoritesByUser);
