@@ -13,8 +13,8 @@ const Navbar = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
   console.log(token);
-  const [showUserMenu, setShowUserMenu] = useState(false);
 
+  const [showUserMenu, setShowUserMenu] = useState(false);
   const [activeSection, setActiveSection] = useState("vendita");
 
   const toggleUserMenu = () => {
@@ -38,6 +38,10 @@ const Navbar = () => {
     navigate('/offers');
   };
 
+  const handleSearch = () => {
+    navigate("/offers");
+  };
+
 
 
   return (
@@ -45,11 +49,13 @@ const Navbar = () => {
       <div className='navbar__container'>
         {/* LOGO */}
         <div className='navbar__logo'>
-          <ImageDisplay 
+          <a href='/'>
+            <ImageDisplay 
             src='/assets/project-logo.svg' 
             alt='Project Logo' 
             defaultStyle='logo' 
-          />
+            />
+          </a>
         </div>
 
         <div className='div__invisible'/>
@@ -77,6 +83,7 @@ const Navbar = () => {
             <Button 
             label="Cerca"
             defaultStyle="search-style"
+            onClick={() => handleSearch()}
             />
           </div>
         </div>

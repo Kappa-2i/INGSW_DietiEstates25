@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import InsertionCard from "../../elements/insertionCard/InsertionCard"; // Importa la Card
-import "./Home.scss"; // Stile CSS
+import "./Home.scss"; 
 import Navbar from "../../elements/navbar/navbar";
 
 const Home = () => {
     const [insertions, setInsertions] = useState([]);
     const [error, setError] = useState(null);
-    const [userName, setUserName] = useState('')
+    //const [userName, setUserName] = useState('')
     useEffect(() => {
         const fetchInsertions = async () => {
             try {

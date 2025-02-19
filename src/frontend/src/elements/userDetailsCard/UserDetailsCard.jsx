@@ -47,7 +47,7 @@ const UserDetailsCard = () => {
   }
 
   if (!profile) {
-    return <div>Caricamento...</div>;
+    return <div className="loading">Caricamento...</div>;
   }
 
   // Handler per la sottomissione della modifica
@@ -81,18 +81,19 @@ const UserDetailsCard = () => {
     <div className="user-details-card-wrapper">
       {/* Header con i pulsanti per passare da una sezione all'altra */}
       <div className="card-header">
-        <button
-          className={activeSection === "info" ? "active" : ""}
+        <Button
+          defaultStyle="active-style"
+          label="Informazioni"
           onClick={() => setActiveSection("info")}
-        >
-          Informazioni
-        </button>
-        <button
-          className={activeSection === "modify" ? "active" : ""}
+          active={activeSection === "info"}
+        />
+        <Button
+          defaultStyle="active-style"
+          label="Modifica"
           onClick={() => setActiveSection("modify")}
-        >
-          Modifica
-        </button>
+          active={activeSection === "modify"}
+        />
+
       </div>
 
       {/* Sezione Informazioni */}

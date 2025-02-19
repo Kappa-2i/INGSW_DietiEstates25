@@ -1,8 +1,10 @@
 import React from 'react'
-
+import FilterComponent from '../../elements/FilterComponent/FilterComponent'
 const Offer = () => {
   return (
-    <div>Offer</div>
+    <div>
+      <FilterComponent></FilterComponent>
+    </div>
   )
 }
 
