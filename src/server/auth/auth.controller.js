@@ -53,6 +53,18 @@ exports.login = async (req, res) => {
   }
 };
 
+exports.googleCallback = (req, res) => {
+  // Assumendo che req.user sia già impostato da Passport
+  const token = jwt.sign(
+    { id: req.user.id, role: req.user.role },
+    process.env.JWT_SECRET,
+    { expiresIn: '3h' }
+  );
+  
+  // Reindirizza alla pagina di successo passando il token nella query string
+  res.redirect('http://localhost:3000/auth/success?token=' + token);
+};
+
 // Logout di un utente
 exports.logout = (req, res) => {
   // Non c'è nulla da fare lato server per il logout

@@ -31,9 +31,9 @@ passport.use(new GoogleStrategy({
           last_name: profile.name.familyName,
           email: profile.emails[0].value,
           googleId: profile.id,
-          password: 'googlepassword', // oppure una stringa vuota, se la tua logica lo richiede
+          password: 'googlepassword',
           phone: null,
-          role: 'USER' // oppure il ruolo di default
+          role: 'USER'
         };
 
         user = await userRepository.createGoogleUser(newUserData);

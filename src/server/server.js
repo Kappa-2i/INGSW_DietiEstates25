@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const logger = require('./utils/logger');
-const passport = require('./auth/passport-config'); // Assicurati che il percorso sia corretto
+const passport = require('./config/passport-config'); // Assicurati che il percorso sia corretto
 const session = require('express-session');
 
 
@@ -14,7 +14,7 @@ const insertionRoutes = require('./insertions/insertion.routes');
 const offerRoutes = require('./offers/offer.routes');
 
 app.use(session({
-  secret: 'your_secret_key', // Sostituisci con una chiave segreta robusta
+  secret: 'your_secret_key',
   resave: false,
   saveUninitialized: false
 }));

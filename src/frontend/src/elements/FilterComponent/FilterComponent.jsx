@@ -27,7 +27,6 @@ export default function FilterComponent() {
   const [climate, setClimate] = useState(false);
   const [terrace, setTerrace] = useState(false);
   const [reception, setReception] = useState(false);
-  const [insertions, setInsertions] = useState([]);
 
 
   const comuneOptions = selectedRegion ? regioni[selectedRegion.value].map((comune) => ({ value: comune, label: comune })) : [];

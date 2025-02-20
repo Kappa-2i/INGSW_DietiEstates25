@@ -1,0 +1,23 @@
+{
+    "Abruzzo": ["L'Aquila", "Pescara", "Teramo", "Chieti"],
+    "Basilicata": ["Potenza", "Matera"],
+    "Calabria": ["Catanzaro", "Reggio Calabria", "Cosenza", "Crotone", "Vibo Valentia"],
+    "Campania": ["Napoli", "Salerno", "Caserta", "Benevento", "Avellino"],
+    "Emilia-Romagna": ["Bologna", "Modena", "Parma", "Reggio Emilia", "Ferrara"],
+    "Friuli-Venezia Giulia": ["Trieste", "Udine", "Gorizia", "Pordenone"],
+    "Lazio": ["Roma", "Frosinone", "Latina", "Viterbo", "Rieti"],
+    "Liguria": ["Genova", "La Spezia", "Savona", "Imperia"],
+    "Lombardia": ["Milano", "Bergamo", "Brescia", "Como", "Mantova"],
+    "Marche": ["Ancona", "Jesi", "Ascoli Piceno", "Fermo", "Macerata"],
+    "Molise": ["Campobasso", "Isernia"],
+    "Piemonte": ["Torino", "Alessandria", "Biella", "Cuneo", "Novara"],
+    "Puglia": ["Bari", "Lecce", "Foggia", "Taranto", "Brindisi"],
+    "Sardegna": ["Cagliari", "Sassari", "Nuoro", "Oristano"],
+    "Sicilia": ["Palermo", "Catania", "Messina", "Siracusa", "Agrigento"],
+    "Toscana": ["Firenze", "Pisa", "Siena", "Livorno", "Arezzo"],
+    "Trentino-Alto Adige": ["Trento", "Bolzano"],
+    "Umbria": ["Perugia", "Terni"],
+    "Valle d'Aosta": ["Aosta"],
+    "Veneto": ["Venezia", "Verona", "Padova", "Vicenza", "Treviso"]
+  }
+  
