@@ -8,6 +8,7 @@ import UserProfile from "./pages/UserProfile/UserProfile";
 import Favorites from "./pages/Favorites/Favorites";
 import Offer from "./pages/Offers/Offer";
 import AuthSuccess from "./pages/AuthSuccess/AuthSuccess";
+import ResultSearch from "./pages/ResultSearch/ResultSearch";
 
 const App = () => {
     return (
@@ -21,7 +22,8 @@ const App = () => {
                 <Route path="/profile" element={<UserProfile/>} />
                 <Route path="/favorites" element={<Favorites/>} />
                 <Route path="/offers" element={<Offer/>} />
-                
+                <Route path='/search/:activeSection/:searchTerm' element={<ResultSearch />} />
+                <Route path='/filteredSearch' element={<ResultSearch />} />
             </Routes>
         </Router>
     );

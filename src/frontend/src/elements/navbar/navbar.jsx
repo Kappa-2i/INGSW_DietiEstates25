@@ -12,10 +12,10 @@ import Button from '../../components/button/Button';
 const Navbar = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
-  console.log(token);
 
+  const [searchTerm, setSearchTerm] = useState('');
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const [activeSection, setActiveSection] = useState("vendita");
+  const [activeSection, setActiveSection] = useState("BUY");
 
   const toggleUserMenu = () => {
     setShowUserMenu(!showUserMenu);
@@ -39,7 +39,7 @@ const Navbar = () => {
   };
 
   const handleSearch = () => {
-    navigate("/offers");
+    navigate(`/search/${activeSection}/${encodeURIComponent(searchTerm)}`);
   };
 
 
@@ -69,16 +69,16 @@ const Navbar = () => {
             <Button 
               defaultStyle="active-style"
               label="Vendita" 
-              onClick={() => setActiveSection("vendita")}
+              onClick={() => setActiveSection("BUY")}
               active={activeSection === "vendita"}
             />
             <Button 
               defaultStyle="active-style"
               label="Affitto" 
-              onClick={() => setActiveSection("affitto")}
+              onClick={() => setActiveSection("RENT")}
               active={activeSection === "affitto"}
             />
-            <Input placeholder='Cerca...' />
+            <Input placeholder='Cerca...' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
             <div className='div__invisible'/>
             <Button 
             label="Cerca"

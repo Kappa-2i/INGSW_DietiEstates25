@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import Select from "react-select";
 import "./FilterComponent.scss";
 
@@ -11,6 +12,7 @@ const regioni = {
 const regionOptions = Object.keys(regioni).map((regione) => ({ value: regione, label: regione }));
 
 export default function FilterComponent() {
+  const navigate = useNavigate();
   const [selectedRegion, setSelectedRegion] = useState(null);
   const [selectedComune, setSelectedComune] = useState(null);
   const [rooms, setRooms] = useState(1);
@@ -29,7 +31,6 @@ export default function FilterComponent() {
   const handleFilter = async () => {
     const filters = {
         region: selectedRegion,
-        municipality: selectedComune,
         room: rooms,
         bathroom: bathrooms,
         price: price[1], 
@@ -40,19 +41,9 @@ export default function FilterComponent() {
     };
 
     try {
-        const response = await fetch("http://localhost:5000/api/insertions/filtered", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(filters),
-        });
+        navigate("/filteredSearch", { state: filters });
 
-        const data = await response.json();
-
-        if (data.success) {
-            setInsertions(data.data); // Aggiorna lo stato con le inserzioni filtrate
-        } else {
-            setInsertions([]); // Nessuna inserzione trovata
-        }
+        
     } catch (error) {
         console.error("Errore nel filtraggio:", error);
     }
