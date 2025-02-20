@@ -14,14 +14,19 @@ const regionOptions = Object.keys(regioni).map((regione) => ({ value: regione, l
 export default function FilterComponent() {
   const navigate = useNavigate();
   const [selectedRegion, setSelectedRegion] = useState(null);
-  const [selectedComune, setSelectedComune] = useState(null);
-  const [rooms, setRooms] = useState(1);
-  const [bathrooms, setBathrooms] = useState(1);
+  const [selectedMunicipality, setSelectedMunicipality] = useState(null);
+  const [rooms, setRooms] = useState(0);
+  const [bathrooms, setBathrooms] = useState(0);
+  const [balcony, setBalcony] = useState(0);
+  const [energyclass, setEnergyClass] = useState("A");
   const [price, setPrice] = useState([10000, 1000000]);
   const [size, setSize] = useState([20, 1000]);
   const [garage, setGarage] = useState(false);
   const [garden, setGarden] = useState(false);
   const [elevator, setElevator] = useState(false);
+  const [climate, setClimate] = useState(false);
+  const [terrace, setTerrace] = useState(false);
+  const [reception, setReception] = useState(false);
   const [insertions, setInsertions] = useState([]);
 
 
@@ -30,14 +35,20 @@ export default function FilterComponent() {
 
   const handleFilter = async () => {
     const filters = {
-        region: selectedRegion,
-        room: rooms,
-        bathroom: bathrooms,
-        price: price[1], 
-        surface: size[1],
-        garage,
-        garden,
-        elevator
+      region: selectedRegion ? selectedRegion.value : null, 
+      municipality: selectedMunicipality ? selectedMunicipality.value : null,
+      room: Number(rooms),
+      bathroom: Number(bathrooms),
+      price: price[1], 
+      surface: size[0],
+      garage,
+      garden,
+      elevator,
+      balcony: Number(balcony),
+      energyclass,
+      climate,
+      terrace,
+      reception
     };
 
     try {
@@ -54,11 +65,11 @@ export default function FilterComponent() {
       <h2 className="title">Filtri di Ricerca</h2>
       <div className="filters">
         <Select options={regionOptions} placeholder="Regione" onChange={setSelectedRegion} className="select" />
-        <Select options={comuneOptions} placeholder="Comune" onChange={setSelectedComune} className="select" isDisabled={!selectedRegion} />
+        <Select options={comuneOptions} placeholder="Comune" onChange={setSelectedMunicipality} className="select" isDisabled={!selectedRegion} />
         <div className="input-group">
           <label>Stanze</label>
           <select value={rooms} onChange={(e) => setRooms(e.target.value)} className="dropdown">
-            {[1, 2, 3, 4, 5].map((num) => (
+            {[0, 1, 2, 3, 4, 5].map((num) => (
               <option key={num} value={num}>{num}</option>
             ))}
           </select>
@@ -66,7 +77,23 @@ export default function FilterComponent() {
         <div className="input-group">
           <label>Bagni</label>
           <select value={bathrooms} onChange={(e) => setBathrooms(e.target.value)} className="dropdown">
-            {[1, 2, 3, 4].map((num) => (
+            {[0, 1, 2, 3, 4].map((num) => (
+              <option key={num} value={num}>{num}</option>
+            ))}
+          </select>
+        </div>
+        <div className="input-group">
+          <label>Balconi</label>
+          <select value={balcony} onChange={(e) => setBalcony(e.target.value)} className="dropdown">
+            {[0, 1, 2, 3, 4].map((num) => (
+              <option key={num} value={num}>{num}</option>
+            ))}
+          </select>
+        </div>
+        <div className="input-group">
+          <label>Classe Energetica</label>
+          <select value={energyclass} onChange={(e) => setEnergyClass(e.target.value)} className="dropdown">
+            {["G", "F", "E", "D", "C", "B", "A", "A2", "A3", "A4"].map((num) => (
               <option key={num} value={num}>{num}</option>
             ))}
           </select>
@@ -77,7 +104,7 @@ export default function FilterComponent() {
         </div>
         <div className="range-group">
           <label>Superficie: {size[0]} - {size[1]} mq</label>
-          <input type="range" min="20" max="1000" value={size[1]} onChange={(e) => setSize([20, e.target.value])} className="range" />
+          <input type="range" min="20" max="1000" value={size[0]} onChange={(e) => setSize([e.target.value, 1000])} className="range" />
         </div>
         <div className="toggle-group">
           <label>Garage</label>
@@ -90,6 +117,18 @@ export default function FilterComponent() {
         <div className="toggle-group">
           <label>Ascensore</label>
           <input type="checkbox" checked={elevator} onChange={() => setElevator(!elevator)} />
+        </div>
+        <div className="toggle-group">
+          <label>Climatizzazione</label>
+          <input type="checkbox" checked={climate} onChange={() => setClimate(!climate)} />
+        </div>
+        <div className="toggle-group">
+          <label>Terrazzo</label>
+          <input type="checkbox" checked={terrace} onChange={() => setTerrace(!terrace)} />
+        </div>
+        <div className="toggle-group">
+          <label>Portineria</label>
+          <input type="checkbox" checked={reception} onChange={() => setReception(!reception)} />
         </div>
         <button className="filter-button" onClick={handleFilter}>
           Filtra

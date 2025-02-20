@@ -70,13 +70,13 @@ const Navbar = () => {
               defaultStyle="active-style"
               label="Vendita" 
               onClick={() => setActiveSection("BUY")}
-              active={activeSection === "vendita"}
+              active={activeSection === "BUY"}
             />
             <Button 
               defaultStyle="active-style"
               label="Affitto" 
               onClick={() => setActiveSection("RENT")}
-              active={activeSection === "affitto"}
+              active={activeSection === "RENT"}
             />
             <Input placeholder='Cerca...' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
             <div className='div__invisible'/>
