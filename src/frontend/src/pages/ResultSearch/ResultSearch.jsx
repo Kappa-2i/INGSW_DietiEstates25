@@ -10,11 +10,6 @@ const ResultSearch = () => {
     const [errorMessage, setErrorMessage] = useState("");  // Stato per il messaggio di errore
 
     const location = useLocation();
-    // Recupera i filtri dallo state, se disponibili
-    //const filters = location.state || {};
-
-
-
     
     useEffect(() => {
         const getFilteredInsertions = async () => {

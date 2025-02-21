@@ -1,20 +1,17 @@
 import { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { /*Navigate,*/ useNavigate } from "react-router-dom";
 import Select from "react-select";
 import "./FilterComponent.scss";
+import regionsData from '../../data/Italy.json';
+import CustomSelect from "../../components/CustomSelect/CustomSelect";
 
-const regioni = {
-  Campania: ["Napoli", "Salerno", "Caserta", "Benevento", "Avellino"],
-  Lombardia: ["Milano", "Bergamo", "Brescia", "Como", "Mantova"],
-  Lazio: ["Roma", "Viterbo", "Latina", "Frosinone", "Rieti"],
-};
 
-const regionOptions = Object.keys(regioni).map((regione) => ({ value: regione, label: regione }));
+const regionOptions = Object.keys(regionsData).map((regione) => ({ value: regione, label: regione }));
 
 export default function FilterComponent() {
   const navigate = useNavigate();
   const [selectedRegion, setSelectedRegion] = useState(null);
-  const [selectedMunicipality, setSelectedMunicipality] = useState(null);
+  const [selectedProvince, setSelectedProvince] = useState(null);
   const [rooms, setRooms] = useState(0);
   const [bathrooms, setBathrooms] = useState(0);
   const [balcony, setBalcony] = useState(0);
@@ -29,29 +26,30 @@ export default function FilterComponent() {
   const [reception, setReception] = useState(false);
 
 
-  const comuneOptions = selectedRegion ? regioni[selectedRegion.value].map((comune) => ({ value: comune, label: comune })) : [];
+  const provinceOptions = selectedRegion ? regionsData[selectedRegion.value].map((province) => ({ value: province, label: province })) : [];
 
 
   const handleFilter = async () => {
     const filters = {
       region: selectedRegion ? selectedRegion.value : null, 
-      municipality: selectedMunicipality ? selectedMunicipality.value : null,
+      municipality: selectedProvince ? selectedProvince.value : null,
       room: Number(rooms),
       bathroom: Number(bathrooms),
-      price: price[1], 
+      balcony: Number(balcony),
+      energyclass,
+      /*price: price[1], 
       surface: size[0],
       garage,
       garden,
       elevator,
-      balcony: Number(balcony),
-      energyclass,
       climate,
       terrace,
-      reception
+      reception*/
     };
 
     try {
-        navigate("/filteredSearch", { state: filters });
+      navigate(`/filteredSearch?ts=${new Date().getTime()}`, { state: filters });
+
 
         
     } catch (error) {
@@ -64,38 +62,62 @@ export default function FilterComponent() {
       <h2 className="title">Filtri di Ricerca</h2>
       <div className="filters">
         <Select options={regionOptions} placeholder="Regione" onChange={setSelectedRegion} className="select" />
-        <Select options={comuneOptions} placeholder="Comune" onChange={setSelectedMunicipality} className="select" isDisabled={!selectedRegion} />
+        <Select options={provinceOptions} placeholder="Provincia" onChange={setSelectedProvince} className="select" isDisabled={!selectedRegion} />
         <div className="input-group">
-          <label>Stanze</label>
-          <select value={rooms} onChange={(e) => setRooms(e.target.value)} className="dropdown">
+          <CustomSelect
+            label="Stanza"
+            value={rooms}
+            onChange={(e) => setRooms(e.target.value)}
+            defaultStyle="dropdown"
+          >
             {[0, 1, 2, 3, 4, 5].map((num) => (
-              <option key={num} value={num}>{num}</option>
+              <option key={num} value={num}>
+                {num}
+              </option>
             ))}
-          </select>
+          </CustomSelect>
         </div>
         <div className="input-group">
-          <label>Bagni</label>
-          <select value={bathrooms} onChange={(e) => setBathrooms(e.target.value)} className="dropdown">
-            {[0, 1, 2, 3, 4].map((num) => (
-              <option key={num} value={num}>{num}</option>
+        <CustomSelect
+            label="Bagni"
+            value={bathrooms}
+            onChange={(e) => setBathrooms(e.target.value)}
+            defaultStyle="dropdown"
+          >
+            {[0, 1, 2, 3, 4, 5].map((num) => (
+              <option key={num} value={num}>
+                {num}
+              </option>
             ))}
-          </select>
+          </CustomSelect>
         </div>
         <div className="input-group">
-          <label>Balconi</label>
-          <select value={balcony} onChange={(e) => setBalcony(e.target.value)} className="dropdown">
-            {[0, 1, 2, 3, 4].map((num) => (
-              <option key={num} value={num}>{num}</option>
+          <CustomSelect
+            label="Balconi"
+            value={balcony}
+            onChange={(e) => setBalcony(e.target.value)}
+            defaultStyle="dropdown"
+          >
+            {[0, 1, 2, 3, 4, 5].map((num) => (
+              <option key={num} value={num}>
+                {num}
+              </option>
             ))}
-          </select>
+          </CustomSelect>
         </div>
         <div className="input-group">
-          <label>Classe Energetica</label>
-          <select value={energyclass} onChange={(e) => setEnergyClass(e.target.value)} className="dropdown">
+          <CustomSelect
+            label="Classe Energetica"
+            value={energyclass}
+            onChange={(e) => setEnergyClass(e.target.value)}
+            defaultStyle="dropdown"
+          >
             {["G", "F", "E", "D", "C", "B", "A", "A2", "A3", "A4"].map((num) => (
-              <option key={num} value={num}>{num}</option>
+              <option key={num} value={num}>
+                {num}
+              </option>
             ))}
-          </select>
+          </CustomSelect>
         </div>
         <div className="range-group">
           <label>Prezzo: €{price[0]} - {price[1]}</label>
