@@ -26,6 +26,7 @@ const Input = ({
   defaultStyle = "primary",
   disabled = false,
   customLabelClass,
+  checked,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -49,6 +50,7 @@ const Input = ({
           onChange={onChange}
           placeholder={placeholder}
           disabled={disabled}
+          checked={checked}
         />
 
         {/* Bottone toggle per la password (solo se il tipo di input è "password") */}

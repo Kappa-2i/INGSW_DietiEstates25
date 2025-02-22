@@ -1,0 +1,46 @@
+$progressive-color: #c02278;
+$range-color: #ced4da;
+.range-slider {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+
+  .range-label {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+
+  .slider-container {
+    position: relative;
+    width: 100%;
+  }
+
+.slider-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 12px;
+  border-radius: 6px;
+}
+
+.slider-range::-webkit-slider-runnable-track {
+    background: linear-gradient(to right, $progressive-color var(--progress), $range-color var(--progress));
+    border-radius: 16px;
+    height: 12px;
+}
+
+.slider-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    background: $progressive-color;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-top: -3px;
+}
+
+  
+
+}

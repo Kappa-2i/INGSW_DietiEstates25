@@ -33,14 +33,16 @@ $text-color: #888;
     }
   }
 
-  .toggle-password {
-    position: absolute;
-    right: 10px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    color: $text-color;
-  }
 }
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: $text-color;
+}
+

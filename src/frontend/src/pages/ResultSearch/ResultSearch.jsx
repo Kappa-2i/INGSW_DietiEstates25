@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useParams, useLocation } from 'react-router-dom';
 import InsertionCard from '../../elements/insertionCard/InsertionCard';
 import FilterComponent from '../../elements/FilterComponent/FilterComponent';
+import './ResultSearch.scss'
+import Navbar from "../../elements/navbar/navbar";
 
 const ResultSearch = () => {
     const { activeSection, searchTerm} = useParams();
@@ -34,25 +36,30 @@ const ResultSearch = () => {
         getFilteredInsertions();
       }, [activeSection, searchTerm, location.state]);
 
-  return (
-    <div>
-      <h2>Risultati della ricerca</h2>
-      {errorMessage ? (
-          <p>{errorMessage}</p> 
-      ) : (
-          insertions.length > 0 ? (
-              insertions.map((insertion) => (
-                  <InsertionCard key={insertion.id} insertion={insertion} />
-              ))
+      return (
+        <div className='resultSearch-wrap'>
+          
+          <Navbar/>
+          <div className='filter-wrapper'>
+            <FilterComponent />
+          </div>
+          
+      
+          {errorMessage ? (
+            <p>{errorMessage}</p> 
           ) : (
+            insertions.length > 0 ? (
+              <div className="insertions-container"> 
+                {insertions.map((insertion) => (
+                  <InsertionCard key={insertion.id} insertion={insertion} />
+                ))}
+              </div>
+            ) : (
               <p>Caricamento...</p>
-          )
-      )}
-      <div>
-        <FilterComponent/>
-      </div>
-  </div>
-  )
+            )
+          )}
+        </div>
+      );
 }
 
 export default ResultSearch
