@@ -35,18 +35,18 @@ exports.createInsertion = async (insertionData, imageUrls, userid, location) => 
     const {
         title, price, surface, room, bathroom, balcony, contract, region,
         municipality, cap, address, floor, energyclass, garage, garden,
-        elevator, climate, terrace, reception
+        elevator, climate, terrace, reception, province
     } = insertionData;
 
     const query = `
         INSERT INTO insertions (
             title, price, surface, room, bathroom, balcony, contract, region, 
             municipality, cap, address, floor, energyclass, garage, garden, 
-            elevator, climate, terrace, reception, userid, image_url, created_at, latitude, longitude
+            elevator, climate, terrace, reception, userid, image_url, created_at, latitude, longitude, province
         ) 
         VALUES (
             $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15,
-            $16, $17, $18, $19, $20, $21, CURRENT_TIMESTAMP, $22, $23
+            $16, $17, $18, $19, $20, $21, CURRENT_TIMESTAMP, $22, $23, $24
         ) 
         RETURNING *;
     `;
@@ -54,7 +54,7 @@ exports.createInsertion = async (insertionData, imageUrls, userid, location) => 
     const values = [
         title, price, surface, room, bathroom, balcony, contract, region,
         municipality, cap, address, floor, energyclass, garage, garden,
-        elevator, climate, terrace, reception, userid, imageUrls, location.lat, location.lng
+        elevator, climate, terrace, reception, userid, imageUrls, location.lat, location.lng, province
     ];
 
     const result = await pool.query(query, values);
@@ -125,6 +125,11 @@ exports.getFilteredInsertions = async (filters) => {
     if (filters.region) {
         query += ` AND region ILIKE $${index}`;
         values.push(`%${filters.region}%`); // Permette ricerche parziali (case insensitive)
+        index++;
+    }
+    if (filters.province) {
+        query += ` AND province ILIKE $${index}`;
+        values.push(`%${filters.province}%`); // Permette ricerche parziali (case insensitive)
         index++;
     }
     if (filters.municipality) {

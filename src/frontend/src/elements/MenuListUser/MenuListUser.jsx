@@ -1,15 +1,16 @@
 import React from 'react';
 import ImageDisplay from '../../components/imageDisplay/imageDisplay';
-import './menuList.scss';
 
 import profileIcon from '../../assets/person.svg';
 import favoritesIcon from '../../assets/star.svg';
 import offersIcon from '../../assets/google.svg';
 import logoutIcon from '../../assets/box-arrow-left.svg';
 
-const MenuList = ({ onProfile, onFavorites, onOffers, onLogout }) => {
+import './MenuListUser.scss';
+
+const MenuListUser = ({ onProfile, onFavorites, onOffers, onLogout }) => {
   return (
-    <div className='menu-list'>
+    <div className='menu-list-user'>
       <ul>
         <li onClick={onProfile}>
           <ImageDisplay 
@@ -23,7 +24,7 @@ const MenuList = ({ onProfile, onFavorites, onOffers, onLogout }) => {
           <ImageDisplay 
             src={favoritesIcon} 
             alt='Preferiti' 
-            defaultStyle='cursor' 
+            defaultStyle='menu-icon' 
           />
           <span>Preferiti</span>
         </li>
@@ -31,7 +32,7 @@ const MenuList = ({ onProfile, onFavorites, onOffers, onLogout }) => {
           <ImageDisplay 
             src={offersIcon} 
             alt='Offerte' 
-            defaultStyle='cursor' 
+            defaultStyle='menu-icon' 
           />
           <span>Offerte</span>
         </li>
@@ -48,4 +49,4 @@ const MenuList = ({ onProfile, onFavorites, onOffers, onLogout }) => {
   );
 };
 
-export default MenuList;
+export default MenuListUser;

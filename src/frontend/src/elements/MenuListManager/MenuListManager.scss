@@ -1,0 +1,33 @@
+.menu-list-manager {
+    min-width: 300px; // Imposta una larghezza minima
+    background-color: #fff;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+  
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      
+      li {
+        display: flex;
+        align-items: center;
+        padding: 8px 10px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        
+        &:hover {
+          background-color: #f5f5f5;
+        }
+        
+        span {
+          margin-left: 8px;
+          font-size: 14px;
+          color: #333;
+        }
+      }
+    }
+  }
+  

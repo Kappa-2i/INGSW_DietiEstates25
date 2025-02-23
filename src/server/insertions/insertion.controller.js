@@ -96,8 +96,8 @@ exports.createInsertion = async (req, res) => {
         }
 
 
-        const location = await getCoordinates(req.body.address, req.body.cap, req.body.municipality, req.body.municipality);
-        console.log(location.lat);
+        const location = await getCoordinates(req.body.address, req.body.cap, req.body.province, req.body.municipality);
+
         // Creazione inserzione con immagini
         const newInsertion = await insertionRepository.createInsertion(req.body, imageUrls, userId, location);
         if(!newInsertion){

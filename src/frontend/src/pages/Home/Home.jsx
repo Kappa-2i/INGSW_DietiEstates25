@@ -3,6 +3,9 @@ import axios from "axios";
 import InsertionCard from "../../elements/insertionCard/InsertionCard"; // Importa la Card
 import "./Home.scss"; 
 import Navbar from "../../elements/navbar/navbar";
+import ImageDisplay from "../../components/imageDisplay/imageDisplay";
+
+import notFound from "../../assets/notfound.png";
 
 const Home = () => {
     const [insertions, setInsertions] = useState([]);
@@ -36,7 +39,9 @@ const Home = () => {
                         <InsertionCard key={insertion.id} insertion={insertion} />
                     ))
                 ) : (
-                    <p>Caricamento...</p>
+                    <ImageDisplay src={notFound}
+                                    alt='Not Found' 
+                                    defaultStyle='cursor' />
                 )}
             </div>
         </div>

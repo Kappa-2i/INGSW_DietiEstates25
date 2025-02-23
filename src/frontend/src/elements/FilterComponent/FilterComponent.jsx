@@ -2,18 +2,35 @@ import { useState } from "react";
 import { /*Navigate,*/ useNavigate } from "react-router-dom";
 import Select from "react-select";
 import "./FilterComponent.scss";
-import regionsData from '../../data/Italy.json';
 import CustomSelect from "../../components/CustomSelect/CustomSelect";
 import CheckBox from "../../components/checkBox/CheckBox";
 import Button from "../../components/button/Button";
 import RangeSlider from "../../components/rangeSlider/RangeSlider";
 
-const regionOptions = Object.keys(regionsData).map((regione) => ({ value: regione, label: regione }));
 
-export default function FilterComponent() {
+import regionsData from "../../data/gi_regioni.json";
+import provincesData from "../../data/gi_province.json";
+import municipalitiesData from "../../data/gi_comuni.json";
+
+
+
+export default function FilterComponent({ initialFilters }) {
   const navigate = useNavigate();
-  const [selectedRegion, setSelectedRegion] = useState(null);
-  const [selectedProvince, setSelectedProvince] = useState(null);
+  const [selectedRegion, setSelectedRegion] = useState(
+    initialFilters.region
+      ? { value: initialFilters.region, label: initialFilters.region }
+      : null
+  );
+  const [selectedProvince, setSelectedProvince] = useState(
+    initialFilters.province
+      ? { value: initialFilters.province, label: initialFilters.province }
+      : null
+  );
+  const [selectedMunicipality, setSelectedMunicipality] = useState(
+    initialFilters.municipality
+      ? { value: initialFilters.municipality, label: initialFilters.municipality }
+      : null
+  );
   const [rooms, setRooms] = useState(0);
   const [bathrooms, setBathrooms] = useState(0);
   const [balcony, setBalcony] = useState(0);
@@ -28,13 +45,36 @@ export default function FilterComponent() {
   const [reception, setReception] = useState(false);
 
 
-  const provinceOptions = selectedRegion ? regionsData[selectedRegion.value].map((province) => ({ value: province, label: province })) : [];
+  const regionOptions = regionsData.map((region) => ({
+    value: region.codice_regione, // oppure region.denominazione_regione se preferisci
+    label: region.denominazione_regione,
+  }));
+  
+  const provinceOptions = selectedRegion
+      ? provincesData
+          .filter((prov) => prov.codice_regione === selectedRegion.value)
+          .map((prov) => ({
+            value: prov.sigla_provincia, // puoi usare sigla o denominazione
+            label: prov.denominazione_provincia,
+          }))
+      : [];
+  
+    // Costruisci le opzioni per i comuni in base alla provincia selezionata:
+    const municipalityOptions = selectedProvince
+      ? municipalitiesData
+          .filter((mun) => mun.sigla_provincia === selectedProvince.value)
+          .map((mun) => ({
+            value: mun.codice_istat, // oppure mun.denominazione_ita se vuoi usare il nome come value
+            label: mun.denominazione_ita,
+          }))
+      : [];
 
 
   const handleFilter = async () => {
     const filters = {
-      region: selectedRegion ? selectedRegion.value : null, 
-      municipality: selectedProvince ? selectedProvince.value : null,
+      region: selectedRegion ? selectedRegion.label : null,
+      province: selectedProvince ? selectedProvince.label : null,
+      municipality: selectedMunicipality ? selectedMunicipality.label : null,
       price: price[0],
       /*room: Number(rooms),
       bathroom: Number(bathrooms),
@@ -64,8 +104,36 @@ export default function FilterComponent() {
     <div className="filter-container">
       <h2 className="title">Filtri di Ricerca</h2>
       <div className="filters">
-        <Select options={regionOptions} placeholder="Regione" onChange={setSelectedRegion} className="select" />
-        <Select options={provinceOptions} placeholder="Provincia" onChange={setSelectedProvince} className="select" isDisabled={!selectedRegion} />
+      <Select 
+          options={regionOptions} 
+          placeholder="Regione" 
+          onChange={(selected) => {
+            setSelectedRegion(selected);
+            setSelectedProvince(null);
+            setSelectedMunicipality(null);
+          }} 
+          className="select" 
+          value={selectedRegion}
+        />
+        <Select 
+          options={provinceOptions} 
+          placeholder="Provincia" 
+          onChange={(selected) => {
+            setSelectedProvince(selected);
+            setSelectedMunicipality(null);
+          }}
+          className="select" 
+          isDisabled={!selectedRegion}
+          value={selectedProvince}
+        />
+        <Select 
+          options={municipalityOptions} 
+          placeholder="Comune" 
+          onChange={(selected) => setSelectedMunicipality(selected)}
+          className="select" 
+          isDisabled={!selectedProvince}
+          value={selectedMunicipality}
+        />
         <div className="select-group">
           <div className="input-group">
             <CustomSelect
@@ -131,7 +199,7 @@ export default function FilterComponent() {
               max={1000000}
               value={price}
               onChange={setPrice}
-              unit="$"
+              unit="€"
             />
         </div>
         <div className="range-group">

@@ -25,6 +25,19 @@
     &.invisible{
       border: 0px;
     }
+
+    &.notFound {
+      width: 200px;   /* Dimensione maggiore */
+      height: 200px;
+      border: 1px solid #ccc;
+      border-radius: 10px; /* Opzionale, a seconda del look desiderato */
+      padding: 10px;
+      background-color: #fff;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain; /* Puoi usare 'cover' se preferisci */
+    }
   }
   
   .image-display-wrapper img {
@@ -32,4 +45,4 @@
     height: 75%;
     object-fit: cover; 
   }
-  
+}

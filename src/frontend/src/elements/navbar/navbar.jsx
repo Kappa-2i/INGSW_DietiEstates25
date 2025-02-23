@@ -1,29 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import ImageDisplay from '../../components/imageDisplay/imageDisplay';
 import Input from '../../components/input/Input';
 import Button from '../../components/button/Button';
-import MenuList from '../menuList/menuList';
+import MenuListUser from '../MenuListUser/MenuListUser';
+import MenuListAgent from '../MenuListAgent/MenuListAgent';
+import MenuListManager from '../MenuListManager/MenuListManager';
+import MenuListAdmin from '../MenuListAdmin/MenuListAdmin';
+
 import listIcon from '../../assets/list.svg';
 import favoritesIcon from '../../assets/star.svg';
 import offersIcon from '../../assets/google.svg';
-import regionsData from '../../data/Italy.json';
+
 import './navbar.scss';
 
 const Navbar = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
+
+  // Stato per il profilo utente ottenuto dal backend
+  const [userProfile, setUserProfile] = useState(null);
   
+  // Altri stati per la navbar
   const [searchTerm, setSearchTerm] = useState('');
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [activeSection, setActiveSection] = useState("BUY");
 
+  // Recupera il profilo utente se il token esiste
+  useEffect(() => {
+    const fetchProfile = async () => {
+      if (!token) return;
+      try {
+        const response = await axios.get("http://localhost:8000/api/user/profile", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setUserProfile(response.data.data);
+      } catch (error) {
+        console.error("Errore nel recupero del profilo:", error);
+      }
+    };
+    fetchProfile();
+  }, [token]);
+
   const toggleUserMenu = () => {
     setShowUserMenu(!showUserMenu);
+    console.log("Ruolo utente:", userProfile?.role);
   };
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     window.location.href = '/';
   };
 
@@ -31,6 +58,7 @@ const Navbar = () => {
     navigate('/profile');
   };
 
+  // Funzioni per utente "USER"
   const handleFavorites = () => {
     navigate('/favorites');
   };
@@ -39,17 +67,25 @@ const Navbar = () => {
     navigate('/offers');
   };
 
-  // Costruisci un array di tutti i comuni (in minuscolo) dall'oggetto regionsData
-  const validMunicipalities = Object.values(regionsData)
-    .flat()
-    .map(comune => comune.toLowerCase());
+  // Funzioni per "AGENT"
+  const handleAddInsertion = () => {
+    navigate('/agent/add');
+  };
 
+  const handleYourInsertions = () => {
+    navigate('/agent/insertions');
+  };
+
+  const handleManageOffers = () => {
+    navigate('/agent/offers');
+  };
+
+  // Gestione della ricerca
   const handleSearch = () => {
-    // Confronta in modo case-insensitive
-    if (validMunicipalities.includes(searchTerm.trim().toLowerCase())) {
+    if (searchTerm.trim() !== '') {
       navigate(`/search/${activeSection}/${encodeURIComponent(searchTerm)}`);
     } else {
-      alert("Inserisci un comune corretto");
+      alert("Inserisci un termine di ricerca");
     }
   };
 
@@ -128,12 +164,35 @@ const Navbar = () => {
             </div>
             {showUserMenu && (
               <div className='navbar__user-menu'>
-                <MenuList 
-                  onProfile={handleProfile}
-                  onFavorites={handleFavorites}
-                  onOffers={handleOffers}
-                  onLogout={handleLogout}
-                />
+                {userProfile && userProfile.role === "AGENT" ? (
+                  <MenuListAgent 
+                    onProfile={handleProfile}
+                    onAddInsertion={handleAddInsertion}
+                    onManageOffers={handleManageOffers}
+                    onYourInsertions={handleYourInsertions}
+                    onLogout={handleLogout}
+                  />
+                ) : userProfile && userProfile.role === "MANAGER" ? (
+                  <MenuListManager 
+                    onProfile={handleProfile}
+                    onYourInsertions={handleYourInsertions}
+                    onLogout={handleLogout}
+                  />
+                ) : userProfile && userProfile.role === "ADMIN" ? (
+                  <MenuListAdmin 
+                    onProfile={handleProfile}
+                    onManageOffers={handleManageOffers}
+                    onLogout={handleLogout}
+                  />
+                ) : (
+                  // Fallback per utente normale (USER)
+                  <MenuListUser
+                    onProfile={handleProfile}
+                    onFavorites={handleFavorites}
+                    onOffers={handleOffers}
+                    onLogout={handleLogout}
+                  />
+                )}
               </div>
             )}
           </div>
