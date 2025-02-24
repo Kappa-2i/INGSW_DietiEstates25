@@ -21,3 +21,10 @@ $price-color: #c02278;
     font-weight: bold;
     color: $price-color;
 }
+
+.favorites-wrapper {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-right: 10px;
+}

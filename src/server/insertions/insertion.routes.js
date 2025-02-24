@@ -37,6 +37,9 @@ router.get('/:id', insertionController.getInsertionById);
 //Rotta per aggiungere un inserzione ai preferiti
 router.post('/favorites/:insertionId', authMiddleware.authenticate, insertionController.addFavorite);
 
+//Rotta per rimuovere un iserzione dai preferiti
+router.delete('/favorites/:insertionId', authMiddleware.authenticate, insertionController.removeFavorite);
+
 //Rotta per modificare un inserzione specifica tramite ID
 //router.put('/:id', authMiddleware.authenticate,  authorizeMiddleware.authorize(['AGENT', 'MANAGER', 'ADMIN']), insertionController.updateInsertionById);
 

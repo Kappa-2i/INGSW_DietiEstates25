@@ -169,6 +169,33 @@ exports.getFavoritesByUser = async (req, res) => {
     }
 };
 
+exports.removeFavorite = async (req, res) => {
+    try {
+      const { id } = req.user; 
+      const { insertionId } = req.params; 
+  
+      const result = await insertionRepository.removeFavorite(id, insertionId);
+  
+      if (!result) {
+        return res.status(404).json({
+          status: 404,
+          success: false,
+          message: 'Preferito non trovato per l\'utente'
+        });
+      }
+  
+      res.status(200).json({
+        status: 200,
+        success: true,
+        message: 'Preferito rimosso con successo'
+      });
+  
+    } catch (err) {
+      console.error('Errore durante la rimozione del preferito:', err.message);
+      res.status(500).json({ success: false, message: 'Errore interno del server'});
+    }
+};
+
 exports.getFilteredInsertions = async (req, res) => {
     try {
         const filters = req.body;

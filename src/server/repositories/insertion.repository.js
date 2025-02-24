@@ -86,6 +86,19 @@ exports.getFavoritesByUser = async function (id) {
     return result.rows;
 };
 
+exports.removeFavorite = async function (id, insertionId) {
+    const query = `
+      DELETE FROM favorites
+      WHERE userid = $1 AND insertionid = $2
+      RETURNING *;
+    `;
+  
+    const result = await pool.query(query, [id, insertionId]);
+  
+    return result.rows[0];
+  };
+  
+
 exports.getFilteredInsertions = async (filters) => {
     let query = `SELECT * FROM insertions WHERE 1=1`; // Inizializza la query con un filtro sempre vero
     let values = [];
