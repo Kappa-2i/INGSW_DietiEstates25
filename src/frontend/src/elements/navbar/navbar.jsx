@@ -10,7 +10,7 @@ import MenuListManager from '../MenuListManager/MenuListManager';
 import MenuListAdmin from '../MenuListAdmin/MenuListAdmin';
 
 import listIcon from '../../assets/list.svg';
-import favoritesIcon from '../../assets/star.svg';
+import favoritesIcon from '../../assets/heart-fill.svg';
 import offersIcon from '../../assets/google.svg';
 
 import './navbar.scss';
@@ -69,7 +69,7 @@ const Navbar = () => {
 
   // Funzioni per "AGENT"
   const handleAddInsertion = () => {
-    navigate('/agent/add');
+    //navigate('/agent/add');
   };
 
   const handleYourInsertions = () => {
@@ -79,6 +79,14 @@ const Navbar = () => {
   const handleManageOffers = () => {
     navigate('/agent/offers');
   };
+
+  const handleOnCreateManagerOrAgents = () => {
+    navigate('/create-agent', { state: { userRole: userProfile.role } });
+  }
+
+  const handleYourAgents = () => {
+    navigate('your-agents');
+  }
 
   // Gestione della ricerca
   const handleSearch = () => {
@@ -177,12 +185,16 @@ const Navbar = () => {
                     onProfile={handleProfile}
                     onYourInsertions={handleYourInsertions}
                     onLogout={handleLogout}
+                    onCreateManagerOrAgents={handleOnCreateManagerOrAgents}
+                    onYourAgents={handleYourAgents}
                   />
                 ) : userProfile && userProfile.role === "ADMIN" ? (
                   <MenuListAdmin 
                     onProfile={handleProfile}
                     onManageOffers={handleManageOffers}
                     onLogout={handleLogout}
+                    onCreateManagerOrAgents={handleOnCreateManagerOrAgents}
+                    onYourManagersOrAgents={handleYourAgents}
                   />
                 ) : (
                   // Fallback per utente normale (USER)

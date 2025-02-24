@@ -9,6 +9,8 @@ import Favorites from "./pages/Favorites/Favorites";
 import Offer from "./pages/Offers/Offer";
 import AuthSuccess from "./pages/AuthSuccess/AuthSuccess";
 import ResultSearch from "./pages/ResultSearch/ResultSearch";
+import CreateAgent from "./pages/CreateAgent/CreateAgent";
+import YourAgents from "./pages/YourAgents/YourAgents";
 
 function ResultSearchWrapper() {
     const location = useLocation();
@@ -30,7 +32,9 @@ const App = () => {
                 <Route path="/favorites" element={<Favorites/>} />
                 <Route path="/offers" element={<Offer/>} />
                 <Route path='/search/:activeSection/:searchTerm' element={<ResultSearch />} />
-                <Route path='/filteredSearch' element={<ResultSearchWrapper />} />
+                <Route path='/filtered-search' element={<ResultSearchWrapper />} />
+                <Route path='/create-agent' element={<CreateAgent />} />
+                <Route path='/your-agents' element={<YourAgents />} />
             </Routes>
         </Router>
     );

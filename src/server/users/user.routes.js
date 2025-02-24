@@ -17,7 +17,7 @@ router.patch('/myagent/:agentId', authMiddleware.authenticate, authorizeMiddlewa
 router.delete('/myagent/:id', userController.deleteProfileById);
 
 //Rotta per visualizzare tutti i miei agenti
-router.get('/myagent', authMiddleware.authenticate, authorizeMiddleware.authorize(['MANAGER', 'ADMIN']), userController.getMyAgents);
+router.get('/myagent', authMiddleware.authenticate, authorizeMiddleware.authorize(['MANAGER', 'ADMIN']), authMiddleware.validateRegister, userController.getMyAgents);
 
 //Rotta per creare un nuovo agente
 router.post('/myagent/creation', authMiddleware.authenticate, authorizeMiddleware.authorize(['MANAGER', 'ADMIN']), userController.createAgent);

@@ -57,7 +57,7 @@ const MapComponent = ({ insertion, pois }) => {
 
         {/* Pulsante per rigeolocalizzare */}
         <RecenterButton lat={insertion.latitude} lng={insertion.longitude} />
-
+        
         {/* Marker della casa */}
         <Marker position={[insertion.latitude, insertion.longitude]} icon={houseIcon}>
           <Popup>{insertion.address}</Popup>

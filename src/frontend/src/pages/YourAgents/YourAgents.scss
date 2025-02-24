@@ -1,0 +1,36 @@
+.your-agents-page {
+    padding: 20px;
+    background-color: #f4f5f2;
+    min-height: 100vh;
+    font-family: 'Lato', sans-serif;
+  
+    .page-title {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 20px;
+      margin-top: 100px;
+      color: #333;
+      border-bottom: 1px solid black;
+      padding-bottom: 10px;
+    }
+  
+    .agents-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+  
+    .error {
+      color: red;
+      text-align: center;
+      width: 100%;
+    }
+  
+    .no-results {
+      text-align: center;
+      width: 100%;
+      color: #666;
+    }
+  }
+  

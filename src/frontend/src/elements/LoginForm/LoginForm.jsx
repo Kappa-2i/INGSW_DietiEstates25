@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import './LoginForm.scss';
+
 import GoogleLoginButton from "../../components/googleButton/googleLoginButton";
 import Input from "../../components/input/Input";
 import Button from "../../components/button/Button";
 
+import './LoginForm.scss';
 
 const LoginForm = () => {
     const [email, setEmail] = useState("");

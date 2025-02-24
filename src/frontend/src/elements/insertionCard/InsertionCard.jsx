@@ -3,8 +3,8 @@ import axios from "axios";
 import "./InsertionCard.scss"; 
 import { useNavigate } from "react-router-dom";
 import ImageDisplay from "../../components/imageDisplay/imageDisplay";
-import favoritesIcon from '../../assets/star.svg';
-import favoritesFilledIcon from '../../assets/star-fill.svg'
+import favoritesIcon from '../../assets/heart.svg';
+import favoritesFilledIcon from '../../assets/heart-fill.svg'
 
 const InsertionCard = ({ insertion }) => {
   const navigate = useNavigate();

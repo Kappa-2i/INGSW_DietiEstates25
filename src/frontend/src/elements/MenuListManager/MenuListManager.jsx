@@ -13,7 +13,7 @@ import logoutIcon from '../../assets/box-arrow-left.svg';
 import './MenuListManager.scss';
 
 const MenuListManager = ({ 
-  onCreateAgent,
+  onCreateManagerOrAgents,
   onYourAgents,
   onAddInsertion, 
   onYourInsertions, 
@@ -24,7 +24,7 @@ const MenuListManager = ({
   return (
     <div className='menu-list-manager'>
       <ul>
-        <li onClick={onCreateAgent}>
+        <li onClick={onCreateManagerOrAgents}>
           <ImageDisplay 
             src={createAgentIcon}
             alt='Crea Agente'

@@ -1,6 +1,9 @@
 import React from 'react';
-import GoogleImg from '../../assets/google.svg'
-import './googleLoginButton.scss'
+
+import GoogleImg from '../../assets/google.svg';
+
+import './googleLoginButton.scss';
+
 const GoogleLoginButton = () => {
 
   const handleGoogleLogin = () => {

@@ -68,7 +68,7 @@ exports.checkValidateUpdatesAgent = async function (agentId) {
 
 exports.getAgentsByManagerId = async function (id) {
     const query = 
-        `SELECT id, email, first_name, last_name, phone 
+        `SELECT id, email, first_name, last_name, phone, role 
         FROM users
         WHERE supervisor = $1`;
     const result = await pool.query(query, [id]);

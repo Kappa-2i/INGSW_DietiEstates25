@@ -1,0 +1,59 @@
+
+$background-color: #f4f5f2;
+$container-bg: #fff;
+$border-color: #a7a7a7;
+$link-color: #c02278;
+
+.create-agent-form {
+  background-color: $container-bg;
+  box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.1);
+  width: 500px;
+  margin-top: 100px;
+  padding: 20px;
+  border: 1px solid $border-color;
+  border-radius: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h2 {
+    font-size: 30px;
+    margin-bottom: 20px;
+  }
+
+  .message {
+    color: green;
+    margin-bottom: 15px;
+  }
+
+  .error {
+    color: red;
+    margin-bottom: 15px;
+  }
+
+  .select-group{
+    display: flex;
+    flex-direction: wrap;
+    gap: 1rem;
+  }
+  
+  .select{
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #f8f8f8;
+  }
+
+  form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .form-group {
+    width: 100%;
+  }
+}

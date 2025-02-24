@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Input from "../../components/input/Input";
 import Button from "../../components/button/Button";
@@ -26,11 +26,9 @@ const UserDetailsCard = () => {
         }
 
         const response = await axios.get("http://localhost:8000/api/user/profile", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
-        // Impostiamo il profilo; inizialmente impostiamo anche il nuovo numero di telefono
+        // Imposta il profilo e, se necessario, potresti anche preimpostare il nuovo numero
         setProfile(response.data.data);
       } catch (err) {
         console.error("Errore nel recupero delle informazioni dell'utente:", err);
@@ -41,7 +39,6 @@ const UserDetailsCard = () => {
     getProfile();
   }, []);
 
-  // Gestione del caricamento o dell'errore
   if (error) {
     return <div className="error">{error}</div>;
   }
@@ -50,10 +47,8 @@ const UserDetailsCard = () => {
     return <div className="loading">Caricamento...</div>;
   }
 
-  // Handler per la sottomissione della modifica
   const handleModifySubmit = async (e) => {
     e.preventDefault();
-    // Esempio: invia i dati aggiornati (telefono e password) al backend
     try {
       const token = localStorage.getItem("token");
       const payload = {
@@ -68,10 +63,9 @@ const UserDetailsCard = () => {
       window.location.reload();
     } catch (err) {
       console.error("Errore nell'aggiornamento del profilo:", err);
-      console.log("Errore response data:", err.response ? err.response.data : err);
       let errorMessage = "Si è verificato un errore durante l'aggiornamento";
       if (err.response && err.response.data && err.response.data.errors) {
-        errorMessage = err.response.data.errors.map(error => error.msg).join("\n");
+        errorMessage = err.response.data.errors.map((error) => error.msg).join("\n");
       }
       alert(errorMessage);
     }
@@ -87,13 +81,15 @@ const UserDetailsCard = () => {
           onClick={() => setActiveSection("info")}
           active={activeSection === "info"}
         />
-        <Button
-          defaultStyle="active-style"
-          label="Modifica"
-          onClick={() => setActiveSection("modify")}
-          active={activeSection === "modify"}
-        />
-
+        {/* Mostra il pulsante "Modifica" solo se il ruolo consente la modifica */}
+        {!(profile.role === "AGENT" || profile.role === "MANAGER") && (
+          <Button
+            defaultStyle="active-style"
+            label="Modifica"
+            onClick={() => setActiveSection("modify")}
+            active={activeSection === "modify"}
+          />
+        )}
       </div>
 
       {/* Sezione Informazioni */}
@@ -108,8 +104,8 @@ const UserDetailsCard = () => {
         </div>
       )}
 
-      {/* Sezione Modifica */}
-      {activeSection === "modify" && (
+      {/* Sezione Modifica, resa visibile solo se il ruolo consente la modifica */}
+      {activeSection === "modify" && !(profile.role === "AGENT" || profile.role === "MANAGER") && (
         <div className="profile-info-section">
           <div className="section-title">Modifica Profilo</div>
           <form onSubmit={handleModifySubmit}>
@@ -129,7 +125,7 @@ const UserDetailsCard = () => {
                 type="password"
                 onChange={(e) => setNewPassword(e.target.value)}
               />
-              <Button label="Salva modifiche" type="submit" defaultStyle="search-style"/>
+              <Button label="Salva modifiche" type="submit" defaultStyle="search-style" />
             </div>
           </form>
         </div>
