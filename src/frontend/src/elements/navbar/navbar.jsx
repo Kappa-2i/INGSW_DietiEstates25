@@ -157,6 +157,7 @@ const Navbar = () => {
             src={favoritesIcon}
             alt='Preferiti'
             defaultStyle='cursor'
+            onClick={handleFavorites}
           />
         </div>
 

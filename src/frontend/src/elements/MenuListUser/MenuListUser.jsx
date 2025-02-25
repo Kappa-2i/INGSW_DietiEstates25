@@ -2,7 +2,7 @@ import React from 'react';
 import ImageDisplay from '../../components/imageDisplay/imageDisplay';
 
 import profileIcon from '../../assets/person.svg';
-import favoritesIcon from '../../assets/star.svg';
+import favoritesIcon from '../../assets/heart-fill.svg';
 import offersIcon from '../../assets/google.svg';
 import logoutIcon from '../../assets/box-arrow-left.svg';
 

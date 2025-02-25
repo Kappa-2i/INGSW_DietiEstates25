@@ -1,0 +1,25 @@
+.favorites-wrapper {
+    display: flex;
+    flex-direction: column;
+    
+    .insertion-card-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        font-weight: bold;
+        gap: 20px;
+    }
+
+    .error {
+        color: red;
+    }
+
+    .favorites-insertions{
+        text-align: center;
+        margin-top: 100px; 
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+    }
+
+}
