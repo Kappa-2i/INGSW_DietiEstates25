@@ -11,10 +11,10 @@ router.get('/profile', authMiddleware.authenticate, userController.getUserProfil
 router.patch('/profile', authMiddleware.authenticate, authMiddleware.validateUpdatesProfile, userController.updateProfile);
 
 //Rotta per modificare il profilo dei proprio agenti e manager
-router.patch('/myagent/:agentId', authMiddleware.authenticate, authorizeMiddleware.authorize(['MANAGER', 'ADMIN']), authMiddleware.validateUpdatesProfile, userController.updateAgent);
+//router.patch('/myagent/:agentId', authMiddleware.authenticate, authorizeMiddleware.authorize(['MANAGER', 'ADMIN']), authMiddleware.validateUpdatesProfile, userController.updateAgent);
 
 //Rotta per eliminare un profilo specifico
-router.delete('/myagent/:id', userController.deleteProfileById);
+//router.delete('/myagent/:id', userController.deleteProfileById);
 
 //Rotta per visualizzare tutti i miei agenti
 router.get('/myagent', authMiddleware.authenticate, authorizeMiddleware.authorize(['MANAGER', 'ADMIN']), authMiddleware.validateRegister, userController.getMyAgents);

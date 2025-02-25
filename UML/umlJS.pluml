@@ -1,0 +1,200 @@
+@startuml
+!define RECTANGLE class
+left to right direction
+skinparam packageStyle rect
+
+' *******************************
+
+' *******************************
+package "Server" {
+  RECTANGLE server {
+    - app: Express
+    - port: Number
+    - sessionConfig: Object
+    --
+    + constructor()
+    + initializeMiddleware() : void
+    + initializeRoutes() : void
+    + startServer() : void
+    --
+    ' Chiamate alle funzioni app.use()
+    + useSession()
+    + useJSONParser()
+    + useCors()
+    + usePassportInitialize()
+    + usePassportSession()
+    + useAuthRoutes()
+    + useUserRoutes()
+    + useInsertionRoutes()
+    + useOfferRoutes()
+  }
+}
+
+' *******************************
+' Routes
+' *******************************
+package "Routes" {
+  RECTANGLE authRoutes {
+    - router: Express
+    - passport: Passport
+    - authController: AuthController
+    - authMiddleware: AuthMiddleware
+    --
+    + post(route: string, authMidd?: Function, controller: Function)
+    + get(route: string, passport: Function, controller?: Function)
+  }
+  RECTANGLE userRoutes {
+    - router: Express
+    - userController: UserController
+    - authMiddleware: AuthMiddleware
+    - authorizeMiddleware: AuthorizeMiddleware
+    --
+    + get(route: string, authMidd?: Function, authoMidd?: Function, controller: Function)
+    + post(route: string, authMidd?: Function, authoMidd?: Function, controller: Function)
+    + patch(route: string, authMidd: Function, controller: Function)
+  }
+  RECTANGLE insertionRoutes {
+    - router: Express
+    - insertionController: InsertionController
+    - authMiddleware: AuthMiddleware
+    - authorizeMiddleware: AuthorizeMiddleware
+    - uploadMiddleware: UploadMiddleware
+    --
+    + get (route: string, authMidd?: Function, authoMidd?: Function, controller: Function)
+    + post (route: string, authMidd?: Function, authoMidd?: Function, controller: Function)
+    + delete (route: string, authMidd?: Function, controller: Function)
+    + put (route: string, authMidd?: Function, authoMidd?: Function, controller: Function)
+  }
+  RECTANGLE offerRoutes {
+    - router: Express
+    - authMiddleware: authMiddleware
+    - authorizeMiddleware: authorizeMiddleware
+    - offerController: offerController
+    --
+    + get(route: string, authMidd?: Function, authoMidd?: Function, controller: Function): void
+    + post(route: string, authMidd?: Function, authoMidd?: Function, controller: Function): void
+  }
+}
+
+' *******************************
+' Middleware
+' *******************************
+package "Middleware" {
+  RECTANGLE AuthMiddleware {
+    + authenticate(req, res, next) : void
+    + validateRegister(req, res, next) : void
+  }
+  RECTANGLE AuthorizeMiddleware {
+    + authorize(roles) : void
+  }
+  RECTANGLE ValidateMiddleware {
+    + validateInputs(req, res, next) : void
+  }
+  RECTANGLE UploadMiddleware {
+    + upload(req, res, next) : void
+    + uploadToS3(file) : Promise<String>
+  }
+}
+
+' *******************************
+' Controllers
+' *******************************
+package "Controllers" {
+  RECTANGLE AuthController {
+    + register(req, res) : Promise<void>
+    + login(req, res) : Promise<void>
+    + googleCallback(req, res) : Promise<void>
+    + logout(req, res) : Promise<void>
+  }
+  RECTANGLE UserController {
+    + getUserProfile(req, res) : Promise<void>
+    + updateProfile(req, res) : Promise<void>
+    + getAllUsersProfile(req, res) : Promise<void>
+  }
+  RECTANGLE InsertionController {
+    + getAllInsertions(req, res) : Promise<void>
+    + getLastInsertions(req, res) : Promise<void>
+    + getInsertionById(req, res) : Promise<void>
+    + deleteInsertionById(req, res) : Promise<void>
+    + getMyInsertions(req, res) : Promise<void>
+    + createInsertion(req, res) : Promise<void>
+    + addFavorite(req, res) : Promise<void>
+    + getFavoritesByUser(req, res) : Promise<void>
+  }
+  RECTANGLE OfferController {
+    + getOffersByInsertionId(req, res) : Promise<void>
+    + createOffer(req, res) : Promise<void>
+    + getInsertionsWithOffer(req, res) : Promise<void>
+    + getAllOffersByInsertionId(req, res) : Promise<void>
+  }
+}
+
+' *******************************
+' Repositories
+' *******************************
+package "Repositories" {
+  RECTANGLE AuthRepository {
+    + findByEmail(email: String) : Promise<Object>
+    + createUser(email: String, hashedPassword: String, role: String, firstName: String, lastName: String, phone: String) : Promise<Object>
+  }
+  RECTANGLE UserRepository {
+    + findById(id: String) : Promise<Object>
+    + findByEmail(email: String) : Promise<Object>
+    + updateProfile(id: String, hashedPassword: String, phone: String) : Promise<Object>
+    + getAllUsersProfile() : Promise<Array>
+    + deleteProfileById(id: String) : Promise<Boolean>
+    + checkValidateUpdatesAgent(agentId: String) : Promise<Boolean>
+    + getAgentsByManagerId(id: String) : Promise<Array>
+    + createAgent(first_name: String, last_name: String, email: String, password: String, phone: String, supervisorId: String, role: String) : Promise<Object>
+  }
+  RECTANGLE InsertionRepository {
+    + getAllInsertions() : Promise<Array>
+    + getLastInsertions() : Promise<Array>
+    + getInsertionById(id: String) : Promise<Object>
+    + deleteInsertionById(id: String) : Promise<Boolean>
+    + getMyInsertions(id: String) : Promise<Array>
+    + createInsertion(insertionData: Object, imageUrls: Array, userid: String, location: Object) : Promise<Object>
+    + addFavorite(id: String, insertionId: String) : Promise<Boolean>
+    + getFavoritesByUser(id: String) : Promise<Array>
+  }
+  RECTANGLE OfferRepository {
+    + getOffersByInsertionId(insertionId: String) : Promise<Array>
+    + createOffer(insertionId: String, price: Number, user: Object) : Promise<Object>
+    + getInsertionsWithOfferForAnUser(userId: String) : Promise<Array>
+    + receveidOffersOfAnInsertionForAnAgent(user: Object, insertionId: String) : Promise<Array>
+    + receveidOffersOfAnInsertionForAnUser(user: Object, insertionId: String) : Promise<Array>
+    + sendedOffersOfAnInsertionForAnAgent(user: Object, insertionId: String) : Promise<Array>
+    + sendedOffersOfAnInsertionForAnUser(user: Object, insertionId: String) : Promise<Array>
+  }
+}
+
+' *******************************
+' Relazioni (associazioni)
+' *******************************
+
+' server.js usa le Routes
+server --> authRoutes : "/api/auth"
+server --> userRoutes : "/api/user"
+server --> insertionRoutes : "/api/insertion"
+server --> offerRoutes : "/api/offer"
+
+' Le Routes usano i Middleware e invocano i Controllers
+authRoutes --> AuthMiddleware : "usa"
+authRoutes --> AuthController : "invoca"
+userRoutes --> AuthMiddleware : "usa"
+userRoutes --> UserController : "invoca"
+insertionRoutes --> AuthMiddleware : "usa"
+insertionRoutes --> ValidateMiddleware : "usa"
+insertionRoutes --> UploadMiddleware : "usa"
+insertionRoutes --> InsertionController : "invoca"
+offerRoutes --> AuthMiddleware : "usa"
+offerRoutes --> AuthorizeMiddleware: "usa"
+offerRoutes --> OfferController : "invoca"
+
+' I Controller usano i Repositories per le operazioni sui dati
+AuthController --> AuthRepository : "usa"
+UserController --> UserRepository : "usa"
+InsertionController --> InsertionRepository : "usa"
+OfferController --> OfferRepository : "usa"
+
+@enduml

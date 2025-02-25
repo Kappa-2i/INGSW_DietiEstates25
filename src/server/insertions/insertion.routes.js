@@ -17,7 +17,7 @@ router.get('/last', insertionController.getLastInsertions);
 router.post('/filtered', insertionController.getFilteredInsertions);
 
 //Rotta per ottenere le inserzioni preferite di un utente
-router.get('/favorites', authMiddleware.authenticate, insertionController.getFavoritesByUser);
+//router.get('/favorites', authMiddleware.authenticate, insertionController.getFavoritesByUser);
 
 //Rotta per ottenere le inserzioni pubblicate da un'agente
 router.get('/my', authMiddleware.authenticate, authorizeMiddleware.authorize(['AGENT', 'MANAGER', 'ADMIN']), insertionController.getMyInsertions);
@@ -35,10 +35,10 @@ router.delete('/:id', authMiddleware.authenticate,  authorizeMiddleware.authoriz
 router.get('/:id', insertionController.getInsertionById);
 
 //Rotta per aggiungere un inserzione ai preferiti
-router.post('/favorites/:insertionId', authMiddleware.authenticate, insertionController.addFavorite);
+//router.post('/favorites/:insertionId', authMiddleware.authenticate, insertionController.addFavorite);
 
 //Rotta per rimuovere un iserzione dai preferiti
-router.delete('/favorites/:insertionId', authMiddleware.authenticate, insertionController.removeFavorite);
+//router.delete('/favorites/:insertionId', authMiddleware.authenticate, insertionController.removeFavorite);
 
 //Rotta per modificare un inserzione specifica tramite ID
 //router.put('/:id', authMiddleware.authenticate,  authorizeMiddleware.authorize(['AGENT', 'MANAGER', 'ADMIN']), insertionController.updateInsertionById);

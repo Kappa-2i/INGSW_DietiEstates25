@@ -1,186 +1,175 @@
 const { pool } = require('../config/db');
+const Insertion = require('../models/Insertion');
 
-exports.getAllInsertions = async function () {
-    const query = `SELECT * FROM insertions;`;
-    const result = await pool.query(query);
-    return result.rows;
-};
+class InsertionRepository {
 
-exports.getLastInsertions = async function () {
-    const query = `SELECT * FROM insertions ORDER BY created_at DESC;`;
-    const result = await pool.query(query);
-    return result.rows;
-};
-
-exports.getInsertionById = async function (id) {
-    const query = `SELECT * FROM insertions WHERE id = $1;`;
-    const result = await pool.query(query, [id]);
-    return result.rows[0];
-};
-
-exports.deleteInsertionById = async function (id) {
-    const query = `DELETE FROM insertions WHERE id = $1 RETURNING *;`;
-    const result = await pool.query(query, [id]);
-    return result.rows[0];
-};
-
-exports.getMyInsertions = async function (id) {
-    const query = `SELECT * FROM insertions WHERE userid = $1;`;
-    const result = await pool.query(query, [id]);
-    return result.rows;
-};
-
-exports.createInsertion = async (insertionData, imageUrls, userid, location) => {
-    console.log(location.lat, location.lng);
-    const {
-        title, price, surface, room, bathroom, balcony, contract, region,
-        municipality, cap, address, floor, energyclass, garage, garden,
-        elevator, climate, terrace, reception, province
-    } = insertionData;
-
-    const query = `
-        INSERT INTO insertions (
-            title, price, surface, room, bathroom, balcony, contract, region, 
-            municipality, cap, address, floor, energyclass, garage, garden, 
-            elevator, climate, terrace, reception, userid, image_url, created_at, latitude, longitude, province
-        ) 
-        VALUES (
-            $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15,
-            $16, $17, $18, $19, $20, $21, CURRENT_TIMESTAMP, $22, $23, $24
-        ) 
-        RETURNING *;
-    `;
-
-    const values = [
-        title, price, surface, room, bathroom, balcony, contract, region,
-        municipality, cap, address, floor, energyclass, garage, garden,
-        elevator, climate, terrace, reception, userid, imageUrls, location.lat, location.lng, province
-    ];
-
-    const result = await pool.query(query, values);
-    return result.rows[0]; // Restituisce l'inserzione creata
-};
-
-exports.addFavorite = async function (id, insertionId) {
-    const query = `INSERT INTO favorites (userid, insertionid) 
-                    VALUES ($1, $2) 
-                    ON CONFLICT (userid, insertionid) DO NOTHING 
-                    RETURNING *;`; //Prova per inserire un inserzione già esistente nei preferiti
-                    
-                    // INSERT INTO favorites IF NOT EXISTS (userid, insertionid) VALUES ($1, $2) RETURNING *
-    const result = await pool.query(query, [id, insertionId]);
-    return result.rows[0];
-};
-
-exports.getFavoritesByUser = async function (id) {
-    const query = `SELECT 
-                    i.*, 
-                    u.first_name AS first_name, 
-                    u.last_name AS last_name
-                    FROM favorites f
-                    JOIN insertions i ON f.insertionid = i.id
-                    JOIN users u ON i.userid = u.id
-                    WHERE f.userid = $1;
-                    `;
-    const result = await pool.query(query, [id]);
-    return result.rows;
-};
-
-exports.removeFavorite = async function (id, insertionId) {
-    const query = `
-      DELETE FROM favorites
-      WHERE userid = $1 AND insertionid = $2
-      RETURNING *;
-    `;
-  
-    const result = await pool.query(query, [id, insertionId]);
-  
-    return result.rows[0];
-  };
-  
-
-exports.getFilteredInsertions = async (filters) => {
-    let query = `SELECT * FROM insertions WHERE 1=1`; // Inizializza la query con un filtro sempre vero
-    let values = [];
-    let index = 1;
-
-    // Aggiunta dinamica dei filtri
-    if (filters.price) {
-        query += ` AND price <= $${index}`;
-        values.push(filters.price);
-        index++;
-    }
-    if (filters.surface) {
-        query += ` AND surface >= $${index}`;
-        values.push(filters.surface);
-        index++;
-    }
-    if (filters.room) {
-        query += ` AND room >= $${index}`;
-        values.push(filters.room);
-        index++;
-    }
-    if (filters.bathroom) {
-        query += ` AND bathroom >= $${index}`;
-        values.push(filters.bathroom);
-        index++;
-    }
-    if (filters.balcony !== undefined) { // Booleano
-        query += ` AND balcony = $${index}`;
-        values.push(filters.balcony);
-        index++;
-    }
-    if (filters.contract) {
-        query += ` AND contract = $${index}`;
-        values.push(filters.contract);
-        index++;
-    }
-    if (filters.region) {
-        query += ` AND region ILIKE $${index}`;
-        values.push(`%${filters.region}%`); // Permette ricerche parziali (case insensitive)
-        index++;
-    }
-    if (filters.province) {
-        query += ` AND province ILIKE $${index}`;
-        values.push(`%${filters.province}%`); // Permette ricerche parziali (case insensitive)
-        index++;
-    }
-    if (filters.municipality) {
-        query += ` AND municipality ILIKE $${index}`;
-        values.push(`%${filters.municipality}%`);
-        index++;
-    }
-    if (filters.floor) {
-        query += ` AND floor = $${index}`;
-        values.push(filters.floor);
-        index++;
-    }
-    if (filters.energyclass) {
-        query += ` AND energyclass = $${index}`;
-        values.push(filters.energyclass);
-        index++;
+    /**
+     * Recupera tutte le inserzioni dal database.
+     * @returns {Promise<Insertion[]>} - Lista di tutte le inserzioni.
+     */
+    async getAllInsertions() {
+        const query = `SELECT * FROM insertions;`;
+        const result = await pool.query(query);
+        return result.rows.map(row => Insertion.fromDatabase(row));
     }
 
-    
+    /**
+     * Recupera le ultime inserzioni ordinate per data di creazione.
+     * @returns {Promise<Insertion[]>} - Lista delle ultime inserzioni.
+     */
+    async getLastInsertions() {
+        const query = `SELECT * FROM insertions ORDER BY created_at DESC;`;
+        const result = await pool.query(query);
+        return result.rows.map(row => Insertion.fromDatabase(row));
+    }
 
-    // Filtri booleani per caratteristiche opzionali
-    const booleanFields = ['garage', 'garden', 'elevator', 'climate', 'terrace', 'reception'];
-    booleanFields.forEach(field => {
-        if (filters[field] !== undefined) {
-            query += ` AND ${field} = $${index}`;
-            values.push(filters[field]);
+    /**
+     * Recupera un'inserzione dal suo ID.
+     * @param {number} id - ID dell'inserzione.
+     * @returns {Promise<Insertion|null>} - Istanza dell'inserzione o null se non trovata.
+     */
+    async getInsertionById(id) {
+        const query = `SELECT * FROM insertions WHERE id = $1;`;
+        const result = await pool.query(query, [id]);
+        return result.rows.length ? Insertion.fromDatabase(result.rows[0]) : null;
+    }
+
+    /**
+     * Elimina un'inserzione dal suo ID.
+     * @param {number} id - ID dell'inserzione da eliminare.
+     * @returns {Promise<Insertion|null>} - Inserzione eliminata o null se non trovata.
+     */
+    async deleteInsertionById(id) {
+        const query = `DELETE FROM insertions WHERE id = $1 RETURNING *;`;
+        const result = await pool.query(query, [id]);
+        return result.rows.length ? Insertion.fromDatabase(result.rows[0]) : null;
+    }
+
+    /**
+     * Recupera tutte le inserzioni di un utente specifico.
+     * @param {number} userid - ID dell'utente.
+     * @returns {Promise<Insertion[]>} - Lista delle inserzioni dell'utente.
+     */
+    async getMyInsertions(userid) {
+        const query = `SELECT * FROM insertions WHERE userid = $1;`;
+        const result = await pool.query(query, [userid]);
+        return result.rows.map(row => Insertion.fromDatabase(row));
+    }
+
+    /**
+     * Crea una nuova inserzione nel database.
+     * @param {Object} insertionData - Dati dell'inserzione.
+     * @param {string[]} imageUrls - URL delle immagini.
+     * @param {number} userid - ID dell'utente che crea l'inserzione.
+     * @param {Object} location - Latitudine e longitudine.
+     * @returns {Promise<Insertion>} - Inserzione creata.
+     */
+    async createInsertion(insertionData, imageUrls, userid, location) {
+        const {
+            title, description, price, surface, room, bathroom, balcony, contract, region,
+            province, municipality, cap, address, house_number, floor, energyclass, garage, garden,
+            elevator, climate, terrace, reception
+        } = insertionData;
+
+        const query = `
+            INSERT INTO insertions (
+                title, description, price, surface, room, bathroom, balcony, contract, region, province,
+                municipality, cap, address, house_number, floor, energyclass, garage, garden, 
+                elevator, climate, terrace, reception, userid, image_url, created_at, latitude, longitude
+            ) 
+            VALUES (
+                $1, $2, $3, $4, $5, $6, $7, $8, $9, $10,
+                $11, $12, $13, $14, $15, $16, $17, $18,
+                $19, $20, $21, $22, $23, $24, CURRENT_TIMESTAMP, $25, $26
+            ) 
+            RETURNING *;
+        `;
+
+        const values = [
+            title, description, price, surface, room, bathroom, balcony, contract, region, province,
+            municipality, cap, address, house_number, floor, energyclass, garage, garden,
+            elevator, climate, terrace, reception, userid, imageUrls, location.lat, location.lng
+        ];
+
+        const result = await pool.query(query, values);
+        return Insertion.fromDatabase(result.rows[0]);
+    }
+
+    /**
+     * Recupera le inserzioni filtrate in base ai parametri passati.
+     * @param {Object} filters - Filtri di ricerca.
+     * @returns {Promise<Insertion[]>} - Lista delle inserzioni filtrate.
+     */
+    async getFilteredInsertions(filters) {
+        let query = `SELECT * FROM insertions WHERE 1=1`;
+        let values = [];
+        let index = 1;
+
+        if (filters.price) {
+            query += ` AND price <= $${index}`;
+            values.push(filters.price);
             index++;
         }
-    });
+        if (filters.surface) {
+            query += ` AND surface >= $${index}`;
+            values.push(filters.surface);
+            index++;
+        }
+        if (filters.room) {
+            query += ` AND room >= $${index}`;
+            values.push(filters.room);
+            index++;
+        }
+        if (filters.bathroom) {
+            query += ` AND bathroom >= $${index}`;
+            values.push(filters.bathroom);
+            index++;
+        }
+        if (filters.contract) {
+            query += ` AND contract = $${index}`;
+            values.push(filters.contract);
+            index++;
+        }
+        if (filters.region) {
+            query += ` AND region ILIKE $${index}`;
+            values.push(`%${filters.region}%`);
+            index++;
+        }
+        if (filters.province) {
+            query += ` AND province ILIKE $${index}`;
+            values.push(`%${filters.province}%`);
+            index++;
+        }
+        if (filters.municipality) {
+            query += ` AND municipality ILIKE $${index}`;
+            values.push(`%${filters.municipality}%`);
+            index++;
+        }
+        if (filters.floor) {
+            query += ` AND floor = $${index}`;
+            values.push(filters.floor);
+            index++;
+        }
+        if (filters.energyclass) {
+            query += ` AND energyclass = $${index}`;
+            values.push(filters.energyclass);
+            index++;
+        }
 
-    query += ` ORDER BY created_at DESC`; // Ordina le inserzioni più recenti
+        // Filtri booleani per caratteristiche opzionali
+        ['garage', 'garden', 'elevator', 'climate', 'terrace', 'reception'].forEach(field => {
+            if (filters[field] !== undefined) {
+                query += ` AND ${field} = $${index}`;
+                values.push(filters[field]);
+                index++;
+            }
+        });
 
+        query += ` ORDER BY created_at DESC`;
 
-    try {
         const result = await pool.query(query, values);
-        return result.rows;
-    } catch (error) {
-        console.error("Errore nella ricerca avanzata:", error.message);
-        throw error;
+        return result.rows.map(row => Insertion.fromDatabase(row));
     }
-};
+}
+
+module.exports = new InsertionRepository();

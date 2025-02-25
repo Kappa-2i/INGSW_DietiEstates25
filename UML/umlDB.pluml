@@ -1,0 +1,74 @@
+@startuml
+entity "users" {
+    +id: SERIAL [PK]
+    --
+    first_name: varchar(255)
+    last_name: varchar(255)
+    email: varchar(255)
+    password: varchar(255)
+    phone: varchar(10)
+    supervisor: integer [FK]
+    role: typerole
+    googleid: varchar(255)
+}
+
+entity "insertions" {
+    +id: SERIAL [PK]
+    --
+    title: varchar(255)
+    room: integer
+    bathroom: integer
+    balcony: integer
+    contract: typecontract
+    region: varchar(100)
+    province: varchar(100)
+    municipality: varchar(100)
+    cap: varchar(20)
+    house_number: varchar(20)
+    address: varchar(255)
+    floor: integer
+    energyclass: typeenergy
+    garage: boolean
+    garden: boolean
+    elevator: boolean
+    climate: boolean
+    terrace: boolean
+    reception: boolean
+    userid: integer [FK]
+    image_url: text[]
+    created_at: timestamp
+    updated_at: timestamp
+    surface: numeric
+    price: money(10,2)
+    latitude: numeric(9,6)
+    longitude: numeric(9,6)
+    
+}
+
+entity "favorites" {
+    +userid: integer [PK, FK]
+    +insertionid: integer [PK, FK]
+}
+
+entity "offers" {
+    +id: SERIAL [PK]
+    --
+    status: typestatus
+    userid: integer [FK]
+    insertionid: integer [FK]
+    created_at: timestamp
+    updated_at: timestamp
+    first_name: varchar(255)
+    last_name: varchar(255)
+    price: money
+    parent_offer_id: integer [FK]
+}
+
+users }o--o| users: service
+users |o--o{ insertions: public
+users |o--o{ favorites: userid
+users |o--o{ offers: propose
+insertions |o--o{ favorites: insertionid
+insertions |o--o{ offers: insertionid
+offers |o--o| offers: counter-propose
+@enduml
