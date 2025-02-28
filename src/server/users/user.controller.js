@@ -8,7 +8,6 @@ exports.getUserProfile = async (req, res) => {
 
     try {
         const user = await userRepository.findById(id);
-        console.log(user);
         if (!user) {
             return res.status(404).json({ success: false, message: 'Utente non trovato' });
         }
@@ -131,7 +130,6 @@ exports.getMyAgents = async (req, res) => {
     try {
         const { id } = req.user;
         const agents = await userRepository.getAgentsByManagerId(id);
-
         if (!agents || agents.length === 0) {
             return res.status(404).json({ success: false, message: 'Nessun agente trovato' });
         }
@@ -147,7 +145,7 @@ exports.getMyAgents = async (req, res) => {
 exports.createAgent = async (req, res) => {
     const { first_name, last_name, email, password, phone, role } = req.body;
     const { id: supervisorId } = req.user;
-
+    console.log("Create", role);
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
         const newAgent = await userRepository.createAgent(first_name, last_name, email, hashedPassword, phone, supervisorId, role);

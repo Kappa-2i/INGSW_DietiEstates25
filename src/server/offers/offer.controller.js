@@ -53,7 +53,7 @@ exports.createOffer = async (req, res) => {
         const { insertionId } = req.params;
         const { price } = req.body;
         const userId = req.user.id;
-
+        console.log(insertionId, price, userId);
         if (!insertionId || !price) {
             return res.status(400).json({ success: false, message: 'Insertion ID e price richiesti.' });
         }
@@ -71,7 +71,7 @@ exports.createOffer = async (req, res) => {
         const newOffer = new Offer(
             null, 'WAIT', user.id, insertionId, new Date(), null, user.first_name, user.last_name, price, null
         );
-
+        console.log("NEW OFFER:", newOffer);
         const createdOffer = await offerRepository.createOffer(newOffer);
         res.status(201).json({ success: true, message: 'Offerta effettuata correttamente.', data: createdOffer.toJSON() });
     } catch (error) {
@@ -89,7 +89,7 @@ exports.counteroffer = async (req, res) => {
         const userId = req.user.id;
         const userRole = req.user.role;
         const newPrice = req.body.price;
-
+        console.log("COUNTeROFFER:", offerId, userId, userRole, newPrice);
         let offerResult;
         if (userRole === "AGENT" || userRole === "MANAGER" || userRole === "ADMIN") {
             offerResult = await offerRepository.counterofferByUser(offerId, newPrice);
@@ -133,14 +133,14 @@ exports.getAllOffersByInsertionId = async (req, res) => {
         const userId = req.user.id;
         const userRole = req.user.role;
         const user = await userRepository.findById(userId);
-
+        console.log("getAllOffersByInsertionId",insertionId, userRole, userId);
         if (!insertionId) {
             return res.status(400).json({ success: false, message: 'Insertion ID è richiesto' });
         }
 
         let receivedOffers, sentOffers;
         if (userRole === "AGENT" || userRole === "MANAGER" || userRole === "ADMIN") {
-            receivedOffers = await offerRepository.receveidOffersOfAnInsertionForAnAgent(user, insertionId);
+            receivedOffers = await offerRepository.receivedOffersOfAnInsertionForAnAgent(user, insertionId);
             sentOffers = await offerRepository.sendedOffersOfAnInsertionForAnAgent(user, insertionId);
         } else {
             receivedOffers = await offerRepository.receveidOffersOfAnInsertionForAnUser(user, insertionId);

@@ -8,6 +8,8 @@ import Navbar from "../../elements/navbar/navbar";
 import ImageDisplay from '../../components/imageDisplay/imageDisplay';
 import notFound from "../../assets/notfound.png";
 
+
+
 const ResultSearch = () => {
 
     const { activeSection, searchTerm } = useParams();
@@ -52,19 +54,19 @@ const ResultSearch = () => {
           <div className='filter-wrapper'>
             <FilterComponent initialFilters={filters}/>
           </div>
-          
-          {(insertions.length > 0 ? (
-              <div className="insertions-container"> 
-                {insertions.map((insertion) => (
-                  <InsertionCard key={insertion.id} insertion={insertion} />
-                ))}
-              </div>
-            ) : (
-              <ImageDisplay src={notFound}
+        
+
+          <div className="insertions-container">
+                {insertions.length > 0 ? (
+                    insertions.map((insertion) => (
+                        <InsertionCard key={insertion.id} insertion={insertion} />
+                    ))
+                ) : (
+                    <ImageDisplay src={notFound}
                                     alt='Not Found' 
-                                    defaultStyle='notFound' />
-            )
-          )}
+                                    defaultStyle='cursor' />
+                )}
+            </div>
         </div>
       );
 }

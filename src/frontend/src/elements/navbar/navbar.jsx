@@ -73,7 +73,7 @@ const Navbar = () => {
   };
 
   const handleYourInsertions = () => {
-    navigate('/agent/insertions');
+    navigate('/your-insertions');
   };
 
   const handleManageOffers = () => {
@@ -85,7 +85,7 @@ const Navbar = () => {
   }
 
   const handleYourAgents = () => {
-    navigate('your-agents');
+    navigate('/your-agents');
   }
 
   // Gestione della ricerca

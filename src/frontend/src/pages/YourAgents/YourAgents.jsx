@@ -15,8 +15,7 @@ const YourAgents = () => {
         const response = await axios.get("http://localhost:8000/api/user/myagent", {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setAgents(response.data);
-        console.log(agents);
+        setAgents(response.data.data);
       } catch (err) {
         console.error("Errore nel recupero degli agenti:", err);
         setError("Errore nel recupero degli agenti");

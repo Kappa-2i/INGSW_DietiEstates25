@@ -26,7 +26,7 @@ class FavoriteRepository {
      */
     async getFavoritesByUser(userid) {
         const query = `
-            SELECT f.*, i.*
+            SELECT f.*
             FROM favorites f
             JOIN insertions i ON f.insertionid = i.id
             WHERE f.userid = $1;

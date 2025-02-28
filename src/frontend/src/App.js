@@ -11,11 +11,12 @@ import AuthSuccess from "./pages/AuthSuccess/AuthSuccess";
 import ResultSearch from "./pages/ResultSearch/ResultSearch";
 import CreateAgent from "./pages/CreateAgent/CreateAgent";
 import YourAgents from "./pages/YourAgents/YourAgents";
+import YourInsertions from "./pages/YourInsertions/YourInsertions";
 
 function ResultSearchWrapper() {
     const location = useLocation();
     const filters = location.state || {}; // Ottieni i filtri dallo state della navigazione
-  
+    console.log("ResultFilter:", filters);
     return <ResultSearch key={JSON.stringify(filters)} filters={filters} />;
 }
 
@@ -35,6 +36,7 @@ const App = () => {
                 <Route path='/filtered-search' element={<ResultSearchWrapper />} />
                 <Route path='/create-agent' element={<CreateAgent />} />
                 <Route path='/your-agents' element={<YourAgents />} />
+                <Route path='/your-insertions' element={<YourInsertions />} />
             </Routes>
         </Router>
     );

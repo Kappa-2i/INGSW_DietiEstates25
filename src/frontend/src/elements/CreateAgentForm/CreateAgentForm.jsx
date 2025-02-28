@@ -17,7 +17,7 @@ const CreateAgentForm = ({ userRole }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
-  const [role, setRole] = useState(userRole); // Se ADMIN, verrà modificabile
+  const [role, setRole] = useState("AGENT");
   const [message, setMessage] = useState("");
   const [error, setError] = useState(null);
 
@@ -27,11 +27,10 @@ const CreateAgentForm = ({ userRole }) => {
     const payload = {
       first_name: firstName,
       last_name: lastName,
-      email,
-      password,
-      phone,
-      // Se l'utente è ADMIN, usa il ruolo selezionato; altrimenti, forza "AGENT"
-      role: userRole === "ADMIN" ? role : "AGENT",
+      email: email,
+      password: password,
+      phone: phone,
+      role: role,
     };
 
     try {
@@ -51,7 +50,7 @@ const CreateAgentForm = ({ userRole }) => {
 
       if (response.data.success) {
         setMessage(response.data.message);
-        navigate("/your-agent");
+        navigate("/your-agents");
       } else {
         setMessage("Errore durante la creazione dell'agente.");
       }

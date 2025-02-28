@@ -6,11 +6,14 @@ const passport = require('./config/passport-config'); // Assicurati che il perco
 const session = require('express-session');
 
 
+
 const port = process.env.PORT || 8000;
+
 
 const authRoutes = require('./auth/auth.routes');
 const userRoutes = require('./users/user.routes');
 const insertionRoutes = require('./insertions/insertion.routes');
+const favoriteRoutes = require('./favorites/favorite.routes');
 const offerRoutes = require('./offers/offer.routes');
 
 app.use(session({
@@ -28,7 +31,8 @@ app.use(passport.session());
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/insertion', insertionRoutes);
-app.use('/api/offer', offerRoutes)
+app.use('/api/favorite', favoriteRoutes);
+app.use('/api/offer', offerRoutes);
 
 // Gestione degli errori generali
 app.use((err, req, res, next) => {

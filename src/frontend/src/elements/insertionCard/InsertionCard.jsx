@@ -4,14 +4,13 @@ import "./InsertionCard.scss";
 import { useNavigate } from "react-router-dom";
 import ImageDisplay from "../../components/imageDisplay/imageDisplay";
 import favoritesIcon from '../../assets/heart.svg';
-import favoritesFilledIcon from '../../assets/heart-fill.svg'
+import favoritesFilledIcon from '../../assets/heart-fill.svg';
 
 const InsertionCard = ({ insertion }) => {
   const navigate = useNavigate();
   const [isFavorite, setIsFavorite] = useState(false);
   const token = localStorage.getItem("token");
 
-  // Se insertion.price esiste, rimuoviamo eventuali caratteri non numerici e formattiamo in Euro.
   let formattedPrice = "";
   if (insertion.price) {
     const prezzoNumber = parseFloat(insertion.price.replace(/[^0-9.-]+/g, ""));
@@ -21,15 +20,15 @@ const InsertionCard = ({ insertion }) => {
     }).format(prezzoNumber);
   }
 
+
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/insertion/favorites", {
+        const response = await axios.get("http://localhost:8000/api/favorite", {
           headers: { Authorization: `Bearer ${token}` },
         });
-        // Controlla se l'inserzione corrente è nei preferiti
         const favorites = response.data.data || [];
-        setIsFavorite(favorites.some(fav => fav.id === insertion.id));
+        setIsFavorite(favorites.some(fav => fav.insertionid === insertion.id));
       } catch (error) {
         console.error("Errore nel recupero dei preferiti:", error);
       }
@@ -41,25 +40,19 @@ const InsertionCard = ({ insertion }) => {
   }, [insertion.id, token]);
 
   const handleFavorites = async (event) => {
-    event.stopPropagation(); // Evita la propagazione del click alla card
-  
+    event.stopPropagation();
     try {
       if (isFavorite) {
-        await axios.delete(`http://localhost:8000/api/insertion/favorites/${insertion.id}`, {
+        await axios.delete(`http://localhost:8000/api/favorite/${insertion.id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-
         alert("Rimosso dai preferiti!");
-
       } else {
-        await axios.post(`http://localhost:8000/api/insertion/favorites/${insertion.id}`, {}, {
+        await axios.post(`http://localhost:8000/api/favorite/${insertion.id}`, {}, {
           headers: { Authorization: `Bearer ${token}` },
         });
-
         alert("Aggiunto ai preferiti!");
       }
-
-      // Cambia lo stato dopo la richiesta
       setIsFavorite(!isFavorite);
     } catch (error) {
       console.error("Errore nell'aggiornamento dei preferiti:", error);
@@ -71,18 +64,19 @@ const InsertionCard = ({ insertion }) => {
     <div className="card" onClick={() => navigate(`/insertion/${insertion.id}`)}>
       <img src={insertion.image_url[0]} alt="Immagine" />
       <h3>{insertion.title}</h3>
-      <div className='favorites-wrapper'>
+      <p>
+        {insertion.room || 1} {insertion.room > 1 ? "Camere" : "Camera"} | {insertion.bathroom || 1} {insertion.bathroom > 1 ? "Bagni" : "Bagno"} | {insertion.contract === "BUY" ? "In Vendita" : "In Affitto"}
+      </p>
+      <div className="price-wrapper">
+        <p className="price">{formattedPrice}</p>
+        <div className="favorites-wrapper-card" onClick={(e) => handleFavorites(e)}>
           <ImageDisplay
             src={isFavorite ? favoritesFilledIcon : favoritesIcon}
             alt='Preferiti'
             defaultStyle='cursor'
-            onClick={(e) => handleFavorites(e)}
           />
+        </div>
       </div>
-      <p>
-        {insertion.room || 1} {insertion.room > 1 ? "Camere" : "Camera"} | {insertion.bathroom || 1} {insertion.bathroom > 1 ? "Bagni" : "Bagno"} | {insertion.contract === "BUY" ? "In Vendita" : "In Affitto"}
-      </p>
-      <p className="price">{formattedPrice}</p>
     </div>
   );
 };

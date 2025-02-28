@@ -1,4 +1,5 @@
 const favoriteRepository = require('../repositories/favorite.repository');
+const Favorites = require('../models/Favorite');
 
 /**
  * Aggiunge un'inserzione ai preferiti.
