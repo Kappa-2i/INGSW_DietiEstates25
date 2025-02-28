@@ -1,0 +1,72 @@
+$boreder-color: #c02278;
+
+.real-estate-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+
+  
+    .photo-upload {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 15px;
+      .upload-button {
+        background: #ddd;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 4px;
+      }
+    }
+  
+    .form-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .description{
+        width: 100%; 
+        max-width: 593px;
+        height: 150px; 
+        resize: none; 
+        overflow-y: auto; 
+        border: 1.5px solid #ccc;
+        border-radius: 5px;
+
+        &:focus{
+            border: 1.5px solid $boreder-color;
+            outline: none;
+        }
+      }
+
+        .title{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 900px;
+            margin-bottom: 8px;
+
+            .title-input{
+                width: 100%;
+                width: 600px;
+            }
+        }
+    }
+    
+    .select-group {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        justify-content: center;
+
+        .select{
+            max-width: 300px; 
+            width: 100%;
+        }
+    }
+  }
+  

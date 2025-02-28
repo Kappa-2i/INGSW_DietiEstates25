@@ -24,6 +24,7 @@ const Input = ({
   onChange,
   placeholder,
   defaultStyle = "primary",
+  defaultStyleWrapper = "primary",
   disabled = false,
   customLabelClass,
   checked,
@@ -40,7 +41,7 @@ const Input = ({
       {/* Se il label è presente, viene mostrato */}
       {label && <label className={`input-label ${customLabelClass}`}>{label}</label>}
 
-      <div className="input-wrapper">
+      <div className={`input-wrapper ${defaultStyleWrapper}`}>
         {/* Campo di input */}
         <input
           className={`input-style ${defaultStyle}`}

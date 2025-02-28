@@ -69,7 +69,7 @@ const Navbar = () => {
 
   // Funzioni per "AGENT"
   const handleAddInsertion = () => {
-    //navigate('/agent/add');
+    navigate('/add-insertions');
   };
 
   const handleYourInsertions = () => {
@@ -188,6 +188,7 @@ const Navbar = () => {
                     onLogout={handleLogout}
                     onCreateManagerOrAgents={handleOnCreateManagerOrAgents}
                     onYourAgents={handleYourAgents}
+                    onAddInsertion={handleAddInsertion}
                   />
                 ) : userProfile && userProfile.role === "ADMIN" ? (
                   <MenuListAdmin 
@@ -196,6 +197,7 @@ const Navbar = () => {
                     onLogout={handleLogout}
                     onCreateManagerOrAgents={handleOnCreateManagerOrAgents}
                     onYourManagersOrAgents={handleYourAgents}
+                    onAddInsertion={handleAddInsertion}
                   />
                 ) : (
                   // Fallback per utente normale (USER)

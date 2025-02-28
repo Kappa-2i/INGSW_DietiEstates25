@@ -7,13 +7,25 @@ $text-color: #888;
   gap: 5px;
 }
 
+
 .input-wrapper {
   position: relative;
   display: flex;
   align-items: center;
-  width: 500px;
+
   //margin-bottom: 15px;
 
+  &.primary{
+    max-width: 600px;
+    min-width: 500px;
+    width: 100%;
+  }
+
+  &.title-wrapper{
+    min-width: 600px;
+    max-width: 900px;
+  }
+  
   .input-style {
     width: 100%;
     padding: 15px;
