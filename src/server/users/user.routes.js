@@ -28,6 +28,7 @@ router.post('/forgetPassword', userController.forgetPassword);
 //Rotta per vedere tutti gli utenti registrati (adm)
 router.get('/profile/all', userController.getAllUsersProfile);
 
+router.get('/:agentId', userController.getAgentById);
 
 
 module.exports = router;

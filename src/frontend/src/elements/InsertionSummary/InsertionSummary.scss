@@ -1,0 +1,40 @@
+.insertion-summary {
+  text-align: left; /* Allinea tutto a sinistra */
+  margin-bottom: 20px;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+  .insertion-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #333;
+  }
+
+  .insertion-location {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 0.5rem;
+  }
+
+  .insertion-price {
+    font-size: 1.5rem;
+    color: #c02278;
+    margin-bottom: 0.5rem;
+  }
+
+  .agent-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Testo a sinistra, bottone a destra */
+    width: 100%;
+
+    .insertion-agent {
+      margin: 0;
+      font-size: 1rem;
+      color: #666;
+    }
+  }
+}

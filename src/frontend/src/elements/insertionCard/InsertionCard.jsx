@@ -1,26 +1,33 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./InsertionCard.scss"; 
 import { useNavigate } from "react-router-dom";
 import ImageDisplay from "../../components/imageDisplay/imageDisplay";
-import favoritesIcon from '../../assets/heart.svg';
-import favoritesFilledIcon from '../../assets/heart-fill.svg';
+import favoritesIcon from "../../assets/heart.svg";
+import favoritesFilledIcon from "../../assets/heart-fill.svg";
+import "./InsertionCard.scss";
 
 const InsertionCard = ({ insertion }) => {
   const navigate = useNavigate();
-  const [isFavorite, setIsFavorite] = useState(false);
   const token = localStorage.getItem("token");
+  const [isFavorite, setIsFavorite] = useState(false);
 
+  // Formatta il prezzo in Euro
   let formattedPrice = "";
   if (insertion.price) {
     const prezzoNumber = parseFloat(insertion.price.replace(/[^0-9.-]+/g, ""));
-    formattedPrice = new Intl.NumberFormat('it-IT', {
-      style: 'currency',
-      currency: 'EUR'
+    formattedPrice = new Intl.NumberFormat("it-IT", {
+      style: "currency",
+      currency: "EUR",
     }).format(prezzoNumber);
   }
 
+  // Controlla che l'immagine sia disponibile, altrimenti usa un fallback
+  const imageSrc =
+    insertion.image_url && insertion.image_url.length > 0
+      ? insertion.image_url[0]
+      : "https://via.placeholder.com/250x150?text=No+Image";
 
+  // Effettua il fetch dei preferiti per impostare lo stato iniziale
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
@@ -40,7 +47,7 @@ const InsertionCard = ({ insertion }) => {
   }, [insertion.id, token]);
 
   const handleFavorites = async (event) => {
-    event.stopPropagation();
+    event.stopPropagation(); // Evita la propagazione del click alla card
     try {
       if (isFavorite) {
         await axios.delete(`http://localhost:8000/api/favorite/${insertion.id}`, {
@@ -62,19 +69,25 @@ const InsertionCard = ({ insertion }) => {
 
   return (
     <div className="card" onClick={() => navigate(`/insertion/${insertion.id}`)}>
-      <img src={insertion.image_url[0]} alt="Immagine" />
-      <h3>{insertion.title}</h3>
-      <p>
-        {insertion.room || 1} {insertion.room > 1 ? "Camere" : "Camera"} | {insertion.bathroom || 1} {insertion.bathroom > 1 ? "Bagni" : "Bagno"} | {insertion.contract === "BUY" ? "In Vendita" : "In Affitto"}
-      </p>
-      <div className="price-wrapper">
-        <p className="price">{formattedPrice}</p>
-        <div className="favorites-wrapper-card" onClick={(e) => handleFavorites(e)}>
-          <ImageDisplay
-            src={isFavorite ? favoritesFilledIcon : favoritesIcon}
-            alt='Preferiti'
-            defaultStyle='cursor'
-          />
+      <div className="card-image">
+        <img src={imageSrc} alt="Immagine" />
+      </div>
+      <div className="card-content">
+        <h3 className="card-title">{insertion.title}</h3>
+        <p className="card-info">
+          {insertion.room || 1} {insertion.room > 1 ? "Camere" : "Camera"} | {insertion.bathroom || 1} {insertion.bathroom > 1 ? "Bagni" : "Bagno"} | {insertion.contract === "BUY" ? "In Vendita" : "In Affitto"}
+        </p>
+      </div>
+      <div className="card-footer">
+        <div className="price-wrapper">
+          <p className="price">{formattedPrice}</p>
+          <div className="favorites-wrapper-card" onClick={(e) => handleFavorites(e)}>
+            <ImageDisplay
+              src={isFavorite ? favoritesFilledIcon : favoritesIcon}
+              alt="Preferiti"
+              defaultStyle="cursor"
+            />
+          </div>
         </div>
       </div>
     </div>

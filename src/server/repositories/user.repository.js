@@ -208,6 +208,21 @@ class UserRepository {
             result.rows[0].role
         );
     }
+
+    async getAgentById(agentId) {
+        const query = `SELECT * FROM users WHERE id = $1;`;
+        const result = await pool.query(query, [agentId]);
+        
+        return new User(
+            result.rows[0].id,
+            result.rows[0].first_name,
+            result.rows[0].last_name,
+            result.rows[0].email,
+            result.rows[0].phone,
+            null,
+            result.rows[0].role
+        );
+    }
 }
 
 module.exports = new UserRepository();

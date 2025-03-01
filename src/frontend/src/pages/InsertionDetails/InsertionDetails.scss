@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700&display=swap');
+
+.insertion-details-page {
+  background-color: #f4f5f2;
+  min-height: 100vh;
+  font-family: 'Lato', sans-serif;
+  /* Se la navbar è fixed, aggiungi un padding-top per evitare la sovrapposizione */
+  padding-top: 80px; // Regola questo valore in base all'altezza della navbar
+}
+
+.insertion-details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto auto auto;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  grid-template-areas:
+    "gallery summary"
+    "description description"
+    "details map"
+    "additional map";
+}
+
+.gallery-area {
+  grid-area: gallery;
+}
+
+.summary-area {
+  grid-area: summary;
+}
+
+.description-area {
+  grid-area: description;
+}
+
+.details-area {
+  grid-area: details;
+}
+
+.additional-area {
+  grid-area: additional;
+}
+
+.map-area {
+  grid-area: map;
+}

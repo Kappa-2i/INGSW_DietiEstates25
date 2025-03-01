@@ -176,3 +176,19 @@ exports.forgetPassword = async (req, res) => {
         res.status(500).json({ success: false, message: 'Internal server error' });
     }
 };
+
+
+exports.getAgentById = async (req, res) => {
+    const { agentId } = req.params;
+    try{
+        const agentById = await userRepository.getAgentById(agentId);
+        if (!agentById) {
+            return res.status(404).json({ success: false, message: "Agente non trovato" });
+        }
+
+        res.status(201).json({ success: true, message: 'Agente trovato con successo', data: agentById.toJSON() });
+    } catch (err) {
+        console.error('Errore nel trovare agente tramite id:', err.message);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+}
