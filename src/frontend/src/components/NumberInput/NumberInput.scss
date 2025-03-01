@@ -1,0 +1,49 @@
+$input-border: #ccc;
+$input-focus: black;
+$text-color: #888;
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  &.number-style {
+    max-width: 600px;
+    min-width: 500px;
+    width: 100%;
+  }
+
+  .number-input-style {
+    width: 100%;
+    padding: 15px;
+    padding-right: 40px; // Spazio per l'unità di misura
+    border-radius: 5px;
+    border: 1px solid $input-border;
+    font-size: 16px;
+
+    &::placeholder {
+      color: $text-color;
+    }
+
+    &:focus {
+      outline: 1px solid rgba(58, 61, 64, 0.3); // Bordo visibile effetto luce
+      box-shadow: 0 0 8px rgba(52, 53, 54, 0.3); // Effetto glow
+      border: 1px solid rgba(0, 0, 0, 0.7); // Per mantenere un contrasto con il box-shadow
+    }
+  }
+
+  .unit {
+    position: absolute;
+    right: 10px; // Posiziona l'unità sulla destra
+    top: 50%; // Centrato verticalmente
+    transform: translateY(-50%); // Centra esattamente al centro
+    color: #888; // Colore dell'unità
+    font-size: 16px;
+  }
+}

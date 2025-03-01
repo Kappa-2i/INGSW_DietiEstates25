@@ -82,7 +82,7 @@ const UserDetailsCard = () => {
           active={activeSection === "info"}
         />
         {/* Mostra il pulsante "Modifica" solo se il ruolo consente la modifica */}
-        {!(profile.role === "AGENT" || profile.role === "MANAGER") && (
+        {!(profile.role === "AGENT") && (
           <Button
             defaultStyle="active-style"
             label="Modifica"
@@ -105,7 +105,7 @@ const UserDetailsCard = () => {
       )}
 
       {/* Sezione Modifica, resa visibile solo se il ruolo consente la modifica */}
-      {activeSection === "modify" && !(profile.role === "AGENT" || profile.role === "MANAGER") && (
+      {activeSection === "modify" && !(profile.role === "AGENT") && (
         <div className="profile-info-section">
           <div className="section-title">Modifica Profilo</div>
           <form onSubmit={handleModifySubmit}>
