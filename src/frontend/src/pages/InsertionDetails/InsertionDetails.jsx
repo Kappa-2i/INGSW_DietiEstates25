@@ -9,6 +9,7 @@ import DescriptionInsertion from "../../elements/DescriptionInsertion/Descriptio
 import DetailsSurfaceInsertion from "../../elements/DetailsSurfaceInsertion/DetailsSurfaceInsertion";
 import AdditionalFeatures from "../../elements/AdditionalFeatures/AdditionalFeatures";
 import MapElement from "../../elements/MapElement/MapElement";
+import HistoryOffer from "../../elements/HistoryOffer/HistoryOffer";
 
 import "./InsertionDetails.scss";
 
@@ -50,6 +51,7 @@ const InsertionDetails = () => {
             municipality={insertion.municipality}
             insertionId={insertion.id}
           />
+          <HistoryOffer insertionId={insertion.id} />
         </div>
 
         {/* Riga 2: Descrizione su tutta la larghezza */}

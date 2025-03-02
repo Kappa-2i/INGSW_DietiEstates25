@@ -41,7 +41,7 @@
     position: absolute;
     top: 10px;
     right: 10px;
-    background-color: #c02278;
+    background-color: #EF5B5B;
     color: #fff;
     border: none;
     padding: 0.5rem 1rem;
@@ -51,12 +51,13 @@
     transition: background-color 0.3s;
 
     &:hover {
-      background-color: darken(#c02278, 10%);
+      background-color: darken(#EF5B5B, 10%);
     }
   }
 
   .address-info {
     margin-top: 10px;
+    margin-bottom: 10px;
     padding: 10px;
     font-size: 0.9rem;
     color: #555;

@@ -10,9 +10,10 @@ import "./NumberInput.scss"; // Importa il file SCSS
  * @param {Function} onChange - Funzione per gestire il cambiamento del valore.
  * @param {string} placeholder - Il testo del placeholder.
  * @param {string} unit - L'unità di misura da visualizzare.
+ * @param {string} defaultStyle - Tipo di stile applicato nel scss
  * @returns {React.Element}
  */
-const NumberInput = ({ label, value, onChange, placeholder, unit }) => {
+const NumberInput = ({ label, value, onChange, placeholder, unit, defaultStyle="primary" }) => {
     // Funzione per gestire il cambiamento dell'input
     const handleInputChange = (e) => {
         let input = e.target.value;
@@ -53,7 +54,7 @@ const NumberInput = ({ label, value, onChange, placeholder, unit }) => {
         <div className="input-wrapper number-style">
           {/* Campo di input numerico */}
           <input
-            className="number-input-style"
+            className={`number-input-style ${defaultStyle}`}
             type="text" // Usa tipo text per formattare e convalidare manualmente
             value={value}
             onChange={handleInputChange} // Usa onChange per aggiornare il valore

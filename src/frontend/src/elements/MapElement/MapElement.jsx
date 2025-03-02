@@ -73,6 +73,7 @@ const MapElement = ({ insertion }) => {
   return (
     <div className="map-element">
       <div className="address-info">
+        <h2>Posizione e Punti d'Interesse</h2>
         <p><strong>Regione:</strong> {insertion.region}</p>
         <p><strong>Provincia:</strong> {insertion.province}</p>
         <p><strong>Comune:</strong> {insertion.municipality}</p>
@@ -112,7 +113,7 @@ const MapElement = ({ insertion }) => {
           <Circle
             center={[insertion.latitude, insertion.longitude]}
             radius={1000} // 1000 metri = 1 km
-            pathOptions={{ color: "#c02278", fillOpacity: 0.2 }}
+            pathOptions={{ color: "#20A39E", fillOpacity: 0.2 }}
           />
           <Marker
             position={[insertion.latitude, insertion.longitude]}

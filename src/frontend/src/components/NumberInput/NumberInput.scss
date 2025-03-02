@@ -36,6 +36,17 @@ $text-color: #888;
       box-shadow: 0 0 8px rgba(52, 53, 54, 0.3); // Effetto glow
       border: 1px solid rgba(0, 0, 0, 0.7); // Per mantenere un contrasto con il box-shadow
     }
+
+    &.primary{
+        
+    }
+
+    &.offer{
+        width:70%;
+        min-width: 300px;
+        max-width: none;
+
+    }
   }
 
   .unit {

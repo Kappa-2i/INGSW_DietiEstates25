@@ -1,6 +1,6 @@
-$button-bg: #c02278;
-$button-hover: #a42169;
-$font-color: #b62682;
+$button-bg: #FFBA49;
+$button-hover: #FFBA49;
+$font-color: #FFBA49;
 
 .button-style{
     color: white;
@@ -29,6 +29,16 @@ $font-color: #b62682;
     
         &:hover {
             background-color: $button-hover;
+        }
+    }
+
+    &.offer {
+        padding: 15px;
+        width: 100%;
+        background-color: #EF5B5B;
+        cursor: pointer;
+        &:hover{
+            background-color: #b72222;
         }
     }
 

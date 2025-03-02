@@ -27,7 +27,12 @@ const InsertionCard = ({ insertion }) => {
       ? insertion.image_url[0]
       : "https://via.placeholder.com/250x150?text=No+Image";
 
-  // Effettua il fetch dei preferiti per impostare lo stato iniziale
+  // Troncamento del titolo se supera i 60 caratteri
+  const truncatedTitle =
+    insertion.title.length > 60
+      ? insertion.title.substring(0, 60) + "..."
+      : insertion.title;
+
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
@@ -47,7 +52,11 @@ const InsertionCard = ({ insertion }) => {
   }, [insertion.id, token]);
 
   const handleFavorites = async (event) => {
-    event.stopPropagation(); // Evita la propagazione del click alla card
+    event.stopPropagation();
+    if (!token) {
+      alert("Per aggiungere ai preferiti devi effettuare il login o registrarti.");
+      return;
+    }
     try {
       if (isFavorite) {
         await axios.delete(`http://localhost:8000/api/favorite/${insertion.id}`, {
@@ -73,9 +82,11 @@ const InsertionCard = ({ insertion }) => {
         <img src={imageSrc} alt="Immagine" />
       </div>
       <div className="card-content">
-        <h3 className="card-title">{insertion.title}</h3>
+        <h3 className="card-title">{truncatedTitle}</h3>
         <p className="card-info">
           {insertion.room || 1} {insertion.room > 1 ? "Camere" : "Camera"} | {insertion.bathroom || 1} {insertion.bathroom > 1 ? "Bagni" : "Bagno"} | {insertion.contract === "BUY" ? "In Vendita" : "In Affitto"}
+          <br />
+          <span>{insertion.province} - {insertion.municipality}</span>
         </p>
       </div>
       <div className="card-footer">

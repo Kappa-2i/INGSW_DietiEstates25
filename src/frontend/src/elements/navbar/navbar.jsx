@@ -35,7 +35,6 @@ const Navbar = () => {
         const response = await axios.get("http://localhost:8000/api/user/profile", {
           headers: { Authorization: `Bearer ${token}` },
         });
-        console.log(response.data.data);
         setUserProfile(response.data.data);
       } catch (error) {
         console.error("Errore nel recupero del profilo:", error);
@@ -46,7 +45,6 @@ const Navbar = () => {
 
   const toggleUserMenu = () => {
     setShowUserMenu(!showUserMenu);
-    console.log("Ruolo utente:", userProfile?.role);
   };
 
   const handleLogout = () => {

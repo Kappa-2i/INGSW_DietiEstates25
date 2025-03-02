@@ -21,12 +21,12 @@
       background: transparent;
       border: none;
       font-size: 1rem;
-      color: #c02278;
+      color: #23001E;
       cursor: pointer;
       transition: color 0.3s;
 
       &:hover {
-        color: darken(#c02278, 10%);
+        color: darken(#23001E, 10%);
       }
     }
   }

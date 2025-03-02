@@ -17,7 +17,7 @@
     .controls {
       margin: 10px 0;
       button {
-        background-color: #c02278;
+        background-color: #23001E;
         color: white;
         border: none;
         padding: 0.5rem 1rem;
@@ -27,7 +27,7 @@
         font-size: 1rem;
         transition: background-color 0.3s;
         &:hover {
-          background-color: darken(#c02278, 10%);
+          background-color: darken(#23001E, 10%);
         }
       }
     }
@@ -47,7 +47,7 @@
         &.active {
           opacity: 1;
           transform: scale(1.1);
-          border: 2px solid #c02278;
+          border: 2px solid #23001E;
         }
         &:hover {
           opacity: 1;
