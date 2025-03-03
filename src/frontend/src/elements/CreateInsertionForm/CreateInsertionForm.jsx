@@ -185,17 +185,22 @@ const CreateInsertionForm = () => {
                 />
             </div>
             
-            <NumberInput
-              value={houseNumber}
-              onChange={setHouseNumber} 
-              placeholder="Civico"
-            />
-            
-            <NumberInput
-              value={cap}
-              onChange={setCap} 
-              placeholder="Cap"
-            />
+            <div className="address-wrapper">
+              <NumberInput
+                value={houseNumber}
+                onChange={setHouseNumber} 
+                placeholder="Civico"
+                isHouseNumber={true}
+              />
+              
+              <NumberInput
+                value={cap}
+                onChange={setCap} 
+                placeholder="Cap"
+                isCap={true}
+              />
+            </div>
+
 
             <div className="description-wrapper">
               <textarea

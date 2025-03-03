@@ -13,60 +13,66 @@ import "./NumberInput.scss"; // Importa il file SCSS
  * @param {string} defaultStyle - Tipo di stile applicato nel scss
  * @returns {React.Element}
  */
-const NumberInput = ({ label, value, onChange, placeholder, unit, defaultStyle="primary" }) => {
-    // Funzione per gestire il cambiamento dell'input
-    const handleInputChange = (e) => {
-        let input = e.target.value;
+const NumberInput = ({ label, value, onChange, placeholder, unit, isCap = false, isHouseNumber = false }) => {
     
-        // Rimuovi tutti i caratteri tranne i numeri, il punto e la virgola
-        input = input.replace(/[^0-9,]/g, ""); // Rimuovi qualsiasi altro carattere tranne numeri e virgola
-    
-        // Dividi l'input in parte intera e decimale
-        let [integer, decimal] = input.split(",");
-    
-        // Aggiungi separatori di migliaia (per esempio: 1.000.000)
-        if (integer) {
-            // Inserisci il punto ogni 3 cifre
-            integer = integer.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-        }
-    
-        // Limita la parte decimale a 2 cifre, se esiste
-        if (decimal) {
-            decimal = decimal.slice(0, 2); // Limita a 2 decimali
-        }
-    
-        // Combina la parte intera e decimale con la virgola
-        let formattedValue = integer;
-        if (decimal) {
-            formattedValue += "," + decimal;
-        }
-    
-        // Passa il valore formattato al callback onChange
-        onChange(formattedValue);
-    };
-    
-  
-    return (
-      <div className="input-container">
-        {/* Se l'etichetta è presente, visualizzala */}
-        {label && <label className="input-label">{label}</label>}
-  
-        <div className="input-wrapper number-style">
-          {/* Campo di input numerico */}
-          <input
-            className={`number-input-style ${defaultStyle}`}
-            type="text" // Usa tipo text per formattare e convalidare manualmente
-            value={value}
-            onChange={handleInputChange} // Usa onChange per aggiornare il valore
-            placeholder={placeholder}
-          />
-          {/* Unità di misura (m², o altro se specificato) */}
-          {unit && <span className="unit">{unit}</span>}
-        </div>
-      </div>
-    );
+  // Funzione per input numerici con separatori di migliaia
+  const handleNumberInputChange = (e) => {
+      let input = e.target.value;
+
+      input = input.replace(/[^0-9,]/g, "");
+      let [integer, decimal] = input.split(",");
+
+      if (integer) {
+          integer = integer.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      }
+      if (decimal) {
+          decimal = decimal.slice(0, 2);
+      }
+
+      let formattedValue = decimal ? `${integer},${decimal}` : integer;
+      onChange(formattedValue);
   };
-  
-  
+
+  // Funzione per il CAP (solo numeri, massimo 5 cifre)
+  const handleCapInputChange = (e) => {
+      let input = e.target.value;
+
+      input = input.replace(/\D/g, "");
+
+      // Limita la lunghezza a 5 cifre
+      input = input.slice(0, 5);
+
+      onChange(input);
+  };
+
+  // Funzione per il Civico (solo numeri, massimo 10 cifre)
+  const handleHouseNumberChange = (e) => {
+      let input = e.target.value;
+
+      // Permette solo numeri
+      input = input.replace(/\D/g, "");
+
+      input = input.slice(0, 10);
+
+      onChange(input);
+  };
+
+  return (
+    <div className="input-container">
+      {label && <label className="input-label">{label}</label>}
+      <div className="input-wrapper number-style">
+        <input
+          className="number-input-style"
+          type="text"
+          value={value}
+          onChange={isCap ? handleCapInputChange : isHouseNumber ? handleHouseNumberChange : handleNumberInputChange}
+          placeholder={placeholder}
+        />
+        {unit && <span className="unit">{unit}</span>}
+      </div>
+    </div>
+  );
+};
 
 export default NumberInput;
+

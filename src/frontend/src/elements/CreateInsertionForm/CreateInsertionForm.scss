@@ -44,6 +44,10 @@ $boreder-color: #c02278;
         font-family: Arial, Helvetica, sans-serif;
         padding: 12px;
 
+        &::placeholder{
+          color: #888;
+        }
+
         &:focus{
           outline: 1px solid rgba(58, 61, 64, 0.3); // Bordo visibile effetto luce
           box-shadow: 0 0 8px rgba(52, 53, 54, 0.3); // Effetto glow
@@ -77,9 +81,13 @@ $boreder-color: #c02278;
       }
     }
 
-    .address-wrapper{
-      display: wrap;
-      flex-direction: row;
+    .address-wrapper {
+      display: flex;
+      align-items: center; // Allinea verticalmente
+      max-width: 100%;
+      flex-wrap: wrap; // Permette il wrap su schermi piccoli
+      justify-content: space-between;
     }
+    
   }
   

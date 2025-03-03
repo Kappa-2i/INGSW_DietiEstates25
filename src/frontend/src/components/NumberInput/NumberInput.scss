@@ -15,14 +15,14 @@ $text-color: #888;
 
   &.number-style {
     max-width: 600px;
-    min-width: 500px;
+    min-width: 280px;
     width: 100%;
   }
 
   .number-input-style {
     width: 100%;
     padding: 15px;
-    padding-right: 40px; // Spazio per l'unità di misura
+    padding-right: 40px;
     border-radius: 5px;
     border: 1px solid $input-border;
     font-size: 16px;
@@ -32,9 +32,9 @@ $text-color: #888;
     }
 
     &:focus {
-      outline: 1px solid rgba(58, 61, 64, 0.3); // Bordo visibile effetto luce
-      box-shadow: 0 0 8px rgba(52, 53, 54, 0.3); // Effetto glow
-      border: 1px solid rgba(0, 0, 0, 0.7); // Per mantenere un contrasto con il box-shadow
+      outline: 1px solid rgba(58, 61, 64, 0.3); 
+      box-shadow: 0 0 8px rgba(52, 53, 54, 0.3); 
+      border: 1px solid rgba(0, 0, 0, 0.7);
     }
 
     &.primary{
