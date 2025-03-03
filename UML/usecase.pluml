@@ -1,0 +1,93 @@
+@startuml
+!theme cerulean
+
+' Definizione degli attori
+actor "Utente\nRegistrato" as userLogged
+actor "Utente\nNon Registrato" as userNotLogged
+actor "Admin" as admin
+actor "Gestore Agenzie" as manager
+actor "Agente Immobiliare" as agent
+actor "API\nGOOGLE" as google
+actor "API\nHERE" as geoApi
+actor "API\nS3" as s3Api
+
+' Frecce invisibili per forzare la disposizione verticale degli attori
+admin -[hidden]-> manager
+manager -[hidden]-> agent
+
+' Package per le funzionalità degli utenti
+package "Operazioni Utente" {
+  usecase "Effettuare Login" as login
+  usecase "Effettuare Login con Google" as loginGoogle
+  usecase "Effettuare Registrazione" as reg
+  usecase "Ricercare Immobile" as search
+  usecase "Proporre offerta per immobile" as offer
+  usecase "Visualizzare storico offerte" as history
+  usecase "Modificare profilo" as modifyProfile
+  usecase "Aggiungere un immobile\nai preferiti" as addFavorite
+  usecase "Visualizzare informazioni immobile" as seeInsertion
+}
+
+' Package per la registrazione
+package "Registrazione" {
+  usecase "Registrazione al Sistema tramite email" as registerEmail
+  usecase "Registrazione al Sistema tramite Google" as registerGoogle
+}
+
+' Package per le operazioni di Admin
+package "Operazioni Admin" {
+  usecase "Creare Account per Gestore Immobiliare" as createAccountManager
+}
+
+' Package per le operazioni del Gestore Agenzie
+package "Operazioni Gestore" {
+  usecase "Creare Account per Agente Immobiliare" as createAccountAgent
+  usecase "Modifica Profilo" as modifyProfileManager
+}
+
+' Package per le operazioni dell'Agente Immobiliare
+package "Operazioni Agente" {
+  usecase "Caricare immobile" as addInsertion
+  usecase "Effettuare autenticazione" as loginAgent
+  usecase "Visualizzare tracking offerte" as seeHistoryOffer
+  usecase "Gestire offerta" as manageOffer
+}
+
+' Associazioni per Utenti Registrati
+userLogged --> login
+userLogged --> loginGoogle
+userLogged --> reg
+userLogged --> search
+userLogged --> offer
+userLogged --> history
+userLogged --> modifyProfile
+userLogged --> addFavorite
+userLogged --> seeInsertion
+geoApi <-- seeInsertion
+
+google <-- loginGoogle
+
+' Associazioni per Utenti Non Registrati
+userNotLogged --> registerEmail
+userNotLogged --> registerGoogle
+
+google <-- registerGoogle
+
+' Associazioni per Admin, Gestore e Agente
+admin --> createAccountManager
+
+manager --> createAccountAgent
+manager --> modifyProfileManager
+
+agent --> addInsertion
+geoApi <-- addInsertion
+s3Api <-- addInsertion
+agent --> loginAgent
+agent --> seeHistoryOffer
+agent --> manageOffer
+
+' Relazioni di ereditarietà
+admin -|> manager
+manager -|> agent
+
+@enduml

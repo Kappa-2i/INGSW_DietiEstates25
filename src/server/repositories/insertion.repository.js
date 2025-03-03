@@ -18,7 +18,9 @@ class InsertionRepository {
      * @returns {Promise<Insertion[]>} - Lista delle ultime inserzioni.
      */
     async getLastInsertions() {
-        const query = `SELECT * FROM insertions ORDER BY created_at DESC;`;
+        const query = `SELECT * FROM insertions
+                        ORDER BY created_at DESC
+                        LIMIT 12;`;
         const result = await pool.query(query);
         return result.rows.map(row => Insertion.fromDatabase(row));
     }
