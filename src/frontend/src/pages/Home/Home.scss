@@ -1,12 +1,23 @@
 .home-page-wrapper {
 
     .insertion-card-wrapper {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        font-weight: bold;
+        display: grid;
         gap: 20px;
-    }
+        /* Per schermi grandi: 3 colonne */
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 1200px;   // Imposta una larghezza massima per centrare il contenuto
+        margin: 0 auto;      // Centra il container nella pagina
+      
+        /* Per schermi medi: 2 colonne */
+        @media (max-width: 1024px) {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      
+        /* Per schermi piccoli: 1 colonna */
+        @media (max-width: 768px) {
+          grid-template-columns: 1fr;
+        }
+      }
 
     .error {
         color: red;

@@ -4,6 +4,7 @@ import CheckBox from "../../components/checkBox/CheckBox";
 import Select from "react-select";
 import CustomSelect from "../../components/CustomSelect/CustomSelect";
 import Input from "../../components/input/Input";
+import NumberInput from "../../components/NumberInput/NumberInput";
 
 //FILE JSON
 import regionsData from "../../data/gi_regioni.json";
@@ -16,15 +17,17 @@ const CreateInsertionForm = () => {
     const [selectedProvince, setSelectedProvince] = useState();
     const [selectedMunicipality, setSelectedMunicipality] = useState(); 
     const [title, setTitle] = useState("");
-    const [prezzo, setPrezzo] = useState("");
-    const [superficie, setSuperficie] = useState("");
-    const [camere, setCamere] = useState("");
-    const [bagni, setBagni] = useState("");
+    const [price, setPrice] = useState("");
+    const [surface, setSurface] = useState("");
+    const [room, setRoom] = useState(null);
+    const [bathroom, setBathroom] = useState(null);
+    const [floor, setFloor] = useState(null);
+    const [balcony, setBalcony] = useState(null);
     const [address, setAddress] = useState("");
-    const [piano, setPiano] = useState("");
-    const [energyclass, setEnergyClass] = useState("B");
+    const [houseNumber, setHouseNumber] = useState("");
+    const [cap, setCap] = useState("");
+    const [energyclass, setEnergyClass] = useState(null);
     const [category, setCategory] = useState({ value: "Affitto", label: "Affitto" });
-    const [balcony, setBalcony] = useState("");
     const [garage, setGarage] = useState(false);
     const [garden, setGarden] = useState(false);
     const [elevator, setElevator] = useState(false);
@@ -42,26 +45,75 @@ const CreateInsertionForm = () => {
         label: region.denominazione_regione,
       }));
       
-      const provinceOptions = selectedRegion
-          ? provincesData
-              .filter((prov) => prov.codice_regione === selectedRegion.value)
-              .map((prov) => ({
-                value: prov.sigla_provincia,
-                label: prov.denominazione_provincia,
-              }))
-          : [];
+    const provinceOptions = selectedRegion
+        ? provincesData
+            .filter((prov) => prov.codice_regione === selectedRegion.value)
+            .map((prov) => ({
+              value: prov.sigla_provincia,
+              label: prov.denominazione_provincia,
+            }))
+        : [];
       
-      const municipalityOptions = selectedProvince
-          ? municipalitiesData
-              .filter((mun) => mun.sigla_provincia === selectedProvince.value)
-              .map((mun) => ({
-                value: mun.codice_istat,
-                label: mun.denominazione_ita,
-              }))
-          : [];
+    const municipalityOptions = selectedProvince
+        ? municipalitiesData
+            .filter((mun) => mun.sigla_provincia === selectedProvince.value)
+            .map((mun) => ({
+              value: mun.codice_istat,
+              label: mun.denominazione_ita,
+            }))
+        : [];
 
-    const handleChange = (setter) => (e) => {
-        setter(e.target.type === "checkbox" ? e.target.checked : e.target.value);
+
+    const energyClassOptions = [
+      { value: "A4", label: "A4" },
+      { value: "A3", label: "A3" },
+      { value: "A2", label: "A2" },
+      { value: "A", label: "A" },
+      { value: "B", label: "B" },
+      { value: "C", label: "C" },
+      { value: "D", label: "D" },
+      { value: "E", label: "E" },
+      { value: "F", label: "F" },
+      { value: "G", label: "G" },
+    ];
+
+    const camereOptions = Array.from({ length: 10 }, (_, i) => ({
+      value: i + 1,
+      label: `${i + 1} Camere`,
+    }));
+    
+    const bagniOptions = Array.from({ length: 10 }, (_, i) => ({
+      value: i + 1,
+      label: `${i + 1} Bagni`,
+    }));
+    
+    const pianoOptions = [
+      { value: "piano_terra", label: "Piano Terra" },
+      { value: "1", label: "1° Piano" },
+      { value: "2", label: "2° Piano" },
+      { value: "3", label: "3° Piano" },
+      { value: "altro", label: "Altro" },
+    ];
+
+    const balconiOptions = Array.from({ length: 6 }, (_, i) => ({
+      value: i,
+      label: i === 0 ? "Nessun Balcone" : `${i} Balcon${i > 1 ? 'i' : 'e'}`,
+    }));
+
+    // Funzione per stampare i valori dei campi
+    const handleSubmit = () => {
+      if (!title || !price || !surface || !room || !bathroom || !floor || !address || !energyclass || !category || !selectedRegion || !selectedProvince || !selectedMunicipality) {
+          alert("Tutti i campi obbligatori devono essere compilati!");
+          return;
+      }
+      
+      const formData = {
+          title, price, surface, room, bathroom, floor, balcony,
+          address, energyclass, category, selectedRegion,
+          selectedProvince, selectedMunicipality, garage, garden, elevator, climate, reception, terrace
+      };
+      
+      console.log("Dati del Form:", formData);
     };
 
   return (
@@ -115,7 +167,6 @@ const CreateInsertionForm = () => {
                 <Input 
                     defaultStyle="input-style"
                     defaultStyleWrapper="title-wrapper"
-                    type="email" 
                     value={title} 
                     onChange={(e) => setTitle(e.target.value)} 
                     placeholder="Titolo"
@@ -123,34 +174,97 @@ const CreateInsertionForm = () => {
                 />
             </div>
 
+            <div className="title">
+                <Input 
+                    defaultStyle="input-style"
+                    defaultStyleWrapper="title-wrapper" 
+                    value={address} 
+                    onChange={(e) => setAddress(e.target.value)} 
+                    placeholder="Indirizzo"
+                    required 
+                />
+            </div>
+            
+            <div className="address-wrapper">
+              <NumberInput
+                value={houseNumber}
+                onChange={setHouseNumber} 
+                placeholder="Civico"
+                isHouseNumber={true}
+              />
+              
+              <NumberInput
+                value={cap}
+                onChange={setCap} 
+                placeholder="Cap"
+                isCap={true}
+              />
+            </div>
 
-            <textarea
-                className="description"
-                placeholder="Descrizione"
-                maxLength={500} 
+
+            <div className="description-wrapper">
+              <textarea
+                  className="description"
+                  placeholder="Descrizione"
+                  maxLength={500} 
+              />
+            </div>
+
+            <NumberInput
+              value={price}
+              onChange={setPrice} // Usa setSurface direttamente, senza una funzione intermediaria
+              placeholder="Prezzo"
+              unit="€"
+            />
+            
+            <NumberInput
+              value={surface}
+              onChange={setSurface} // Usa setSurface direttamente, senza una funzione intermediaria
+              placeholder="Superfice"
+              unit="m²"
             />
 
-            <div className="input-group">
-              <CustomSelect
-                label="Classe Energetica"
-                value={energyclass}
-                onChange={(e) => setEnergyClass(e.target.value)}
-                defaultStyle="dropdown"
-              >
-                {["G", "F", "E", "D", "C", "B", "A", "A2", "A3", "A4"].map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </CustomSelect>
-            </div>
-            <input type="number" placeholder="Prezzo" onChange={handleChange(setPrezzo)} />
-            <input type="number" placeholder="Superficie" onChange={handleChange(setSuperficie)} />
-            <input type="number" placeholder="Camere" onChange={handleChange(setCamere)} />
-            <input type="number" placeholder="Bagni" onChange={handleChange(setBagni)} />
-            <input type="text" placeholder="Indirizzo" onChange={handleChange(setAddress)} />
-            <input type="text" placeholder="Piano" onChange={handleChange(setPiano)} />
-            <input type="text" placeholder="Balconi" onChange={handleChange(setBalcony)} />
+
+            <Select
+              options={energyClassOptions}
+              value={energyclass ? { value: energyclass, label: energyclass } : null}
+              onChange={(selectedOption) => setEnergyClass(selectedOption.value)}
+              placeholder="Seleziona Classe Energetica"
+              className="select"
+            />
+
+            <Select
+              options={camereOptions}
+              value={room}
+              onChange={setRoom}
+              placeholder="Seleziona Camere"
+              className="select"
+            />
+
+            <Select
+              options={bagniOptions}
+              value={bathroom}
+              onChange={setBathroom}
+              placeholder="Seleziona Bagni"
+              className="select"
+            />
+
+            <Select
+              options={pianoOptions}
+              value={floor}
+              onChange={setFloor}
+              placeholder="Seleziona Piano"
+              className="select"
+            />
+
+            <Select
+              options={balconiOptions}
+              value={balcony}
+              onChange={setBalcony}
+              placeholder="Seleziona Balcone"
+              className="select"
+            />
+
             <div className="checkbox-group">
                 <div className="toggle-group">
                 <CheckBox label="Garage" checked={garage} onChange={() => setGarage(!garage)} />
@@ -171,9 +285,15 @@ const CreateInsertionForm = () => {
                 <CheckBox label="Portineria" checked={reception} onChange={() => setReception(!reception)} />
                 </div>
             </div>
+
             <div className="buttons">
-            <button className="cancel">Annulla</button>
-            <button className="continue">Continua</button>
+                <button className="cancel">Annulla</button>
+                <button 
+                  className="continue" 
+                  onClick={handleSubmit} // Aggiungi il click handler
+                >
+                  Continua
+                </button>
             </div>
         </div>
     </div>

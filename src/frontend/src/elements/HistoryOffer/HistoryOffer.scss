@@ -1,0 +1,68 @@
+.history-offer-container {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  
+    h3, h4 {
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+      color: #333;
+    }
+  
+    .history-offer-table-wrapper {
+      max-height: 300px; /* Altezza fissa per lo scrolling verticale */
+      overflow-y: auto;
+      overflow-x: auto;
+    }
+  
+    .history-offer-table {
+      width: 100%;
+      border-collapse: collapse;
+  
+      th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+  
+      th {
+        background-color: #f8f8f8;
+        font-weight: bold;
+      }
+  
+      tr:nth-child(even) {
+        background-color: #f4f4f4;
+      }
+  
+      tr:hover {
+        background-color: #eaeaea;
+      }
+    }
+  
+    .offer-proposal {
+      margin-top: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+  
+        .offer-form {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            align-content: stretch;
+            flex-wrap: nowrap;
+            flex-direction: row;
+            justify-content: space;
+        }
+      
+    }
+  
+    .error {
+      color: red;
+      font-size: 0.9rem;
+    }
+  }
+  

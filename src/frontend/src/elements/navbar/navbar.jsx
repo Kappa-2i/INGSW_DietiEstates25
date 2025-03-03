@@ -45,7 +45,6 @@ const Navbar = () => {
 
   const toggleUserMenu = () => {
     setShowUserMenu(!showUserMenu);
-    console.log("Ruolo utente:", userProfile?.role);
   };
 
   const handleLogout = () => {

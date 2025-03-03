@@ -28,18 +28,30 @@ $boreder-color: #c02278;
       flex-direction: column;
       gap: 10px;
 
+      .description-wrapper{
+        width: 100%;
+      }
+
       .description{
         width: 100%; 
-        max-width: 593px;
+        max-width: 575px;
         height: 150px; 
         resize: none; 
         overflow-y: auto; 
-        border: 1.5px solid #ccc;
+        border: 1px solid #ccc;
         border-radius: 5px;
+        font-size: 16px;
+        font-family: Arial, Helvetica, sans-serif;
+        padding: 12px;
+
+        &::placeholder{
+          color: #888;
+        }
 
         &:focus{
-            border: 1.5px solid $boreder-color;
-            outline: none;
+          outline: 1px solid rgba(58, 61, 64, 0.3); // Bordo visibile effetto luce
+          box-shadow: 0 0 8px rgba(52, 53, 54, 0.3); // Effetto glow
+          border: 1px solid rgba(0, 0, 0, 0.7); // Per mantenere un contrasto con il box-shadow
         }
       }
 
@@ -58,15 +70,24 @@ $boreder-color: #c02278;
     }
     
     .select-group {
-        display: flex;
-        gap: 1rem;
-        margin-bottom: 1rem;
-        justify-content: center;
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      justify-content: center;
 
-        .select{
-            max-width: 300px; 
-            width: 100%;
-        }
+      .select{
+          max-width: 300px; 
+          width: 100%;
+      }
     }
+
+    .address-wrapper {
+      display: flex;
+      align-items: center; // Allinea verticalmente
+      max-width: 100%;
+      flex-wrap: wrap; // Permette il wrap su schermi piccoli
+      justify-content: space-between;
+    }
+    
   }
   

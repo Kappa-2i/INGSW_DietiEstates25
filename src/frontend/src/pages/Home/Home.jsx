@@ -10,7 +10,6 @@ import notFound from "../../assets/notfound.png";
 const Home = () => {
     const [insertions, setInsertions] = useState([]);
     const [error, setError] = useState(null);
-    //const [userName, setUserName] = useState('')
     useEffect(() => {
         const fetchInsertions = async () => {
             try {
