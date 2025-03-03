@@ -1,15 +1,18 @@
 import React, { useState } from "react";
+import axios from "axios";
 import "./CreateInsertionForm.scss";
 import CheckBox from "../../components/checkBox/CheckBox";
 import Select from "react-select";
-import CustomSelect from "../../components/CustomSelect/CustomSelect";
 import Input from "../../components/input/Input";
 import NumberInput from "../../components/NumberInput/NumberInput";
+import Button from "../../components/button/Button";
+import ImageUpload from "../../components/ImageUpload/ImageUpload";
 
 //FILE JSON
 import regionsData from "../../data/gi_regioni.json";
 import provincesData from "../../data/gi_province.json";
 import municipalitiesData from "../../data/gi_comuni.json";
+
 
 
 const CreateInsertionForm = () => {
@@ -27,18 +30,19 @@ const CreateInsertionForm = () => {
     const [houseNumber, setHouseNumber] = useState("");
     const [cap, setCap] = useState("");
     const [energyclass, setEnergyClass] = useState(null);
-    const [category, setCategory] = useState({ value: "Affitto", label: "Affitto" });
+    const [category, setCategory] = useState({ value: "BUY", label: "Vendita" });
     const [garage, setGarage] = useState(false);
     const [garden, setGarden] = useState(false);
     const [elevator, setElevator] = useState(false);
     const [climate, setClimate] = useState(false);
     const [reception, setReception] = useState(false);
     const [terrace, setTerrace] = useState(false);
+    const [selectedImages, setSelectedImages] = useState([]);
 
     const categoriaOptions = [
-        { value: "Affitto", label: "Affitto" },
-        { value: "Vendita", label: "Vendita" },
-      ];
+      { value: "BUY", label: "Vendita" },
+      { value: "RENT", label: "Affitto" }, 
+    ];
       
     const regionOptions = regionsData.map((region) => ({
         value: region.codice_regione,
@@ -88,11 +92,12 @@ const CreateInsertionForm = () => {
     }));
     
     const pianoOptions = [
-      { value: "piano_terra", label: "Piano Terra" },
+      { value: "0", label: "Piano Terra" },
       { value: "1", label: "1° Piano" },
       { value: "2", label: "2° Piano" },
       { value: "3", label: "3° Piano" },
-      { value: "altro", label: "Altro" },
+      { value: "4", label: "4° Piano" },
+      { value: "5", label: "5° Piano" },
     ];
 
     const balconiOptions = Array.from({ length: 6 }, (_, i) => ({
@@ -100,26 +105,69 @@ const CreateInsertionForm = () => {
       label: i === 0 ? "Nessun Balcone" : `${i} Balcon${i > 1 ? 'i' : 'e'}`,
     }));
 
+
     // Funzione per stampare i valori dei campi
-    const handleSubmit = () => {
-      if (!title || !price || !surface || !room || !bathroom || !floor || !address || !energyclass || !category || !selectedRegion || !selectedProvince || !selectedMunicipality) {
-          alert("Tutti i campi obbligatori devono essere compilati!");
-          return;
+    const handleSubmit = async () => {
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("price", price.replace('.', ''));
+      formData.append("surface", surface);
+      formData.append("room", room.value);
+      formData.append("bathroom", bathroom.value);
+      formData.append("floor", floor.value);
+      formData.append("balcony", balcony.value);
+      formData.append("address", address);
+      formData.append("energyclass", energyclass);
+      formData.append("contract", category.value);
+      formData.append("region", selectedRegion.label);
+      formData.append("province", selectedProvince.label);
+      formData.append("municipality", selectedMunicipality.label);
+      formData.append("garage", garage);
+      formData.append("garden", garden);
+      formData.append("elevator", elevator);
+      formData.append("climate", climate);
+      formData.append("reception", reception);
+      formData.append("terrace", terrace);
+      formData.append("cap", cap);
+      formData.append("house_number", houseNumber);
+
+      selectedImages.forEach((image) => {
+        formData.append("images", image);
+      });
+
+      // Log the FormData to see if it contains all values correctly
+      for (let pair of formData.entries()) {
+          console.log(pair[0] + ": " + pair[1]);
       }
-      
-      const formData = {
-          title, price, surface, room, bathroom, floor, balcony,
-          address, energyclass, category, selectedRegion,
-          selectedProvince, selectedMunicipality, garage, garden, elevator, climate, reception, terrace
-      };
-      
-      console.log("Dati del Form:", formData);
+  
+      try {
+          const response = await axios.post("http://localhost:8000/api/insertion/creation", formData, {
+              headers: {
+                  "Content-Type": "multipart/form-data", // FormData expects this header
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+          });
+  
+          if (response.data.success) {
+              console.log("Inserzione creata con successo:", response.data.data);
+              alert("Inserzione creata con successo!");
+          } else {
+              console.error("Errore durante la creazione dell'inserzione:", response.data.message);
+              alert("Errore durante la creazione dell'inserzione.");
+          }
+      } catch (error) {
+          console.error("Error:", error.message);
+          alert("Errore interno del server. Per favore riprova più tardi.");
+      }
     };
+  
+    
+    
 
   return (
     <div className="real-estate-form">
       <div className="photo-upload">
-        <button className="upload-button">+ Aggiungi Foto</button>
+        <ImageUpload onImagesChange={setSelectedImages} />
       </div>
         <div className="form-fields">
 
@@ -287,13 +335,12 @@ const CreateInsertionForm = () => {
             </div>
 
             <div className="buttons">
-                <button className="cancel">Annulla</button>
-                <button 
-                  className="continue" 
-                  onClick={handleSubmit} // Aggiungi il click handler
-                >
-                  Continua
-                </button>
+                <Button label="Annulla" type="submit" defaultStyle="cancel-style"/>
+                <Button 
+                  label="Conferma" 
+                  type="submit" 
+                  defaultStyle="search-style"
+                  onClick={handleSubmit} />
             </div>
         </div>
     </div>
