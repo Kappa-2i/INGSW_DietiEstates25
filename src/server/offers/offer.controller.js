@@ -1,6 +1,7 @@
 const offerRepository = require('../repositories/offer.repository');
 const userRepository = require('../repositories/user.repository');
 const Offer = require('../models/Offer');
+const Insertion = require('../models/Insertion');
 
 /**
  * Recupera le inserzioni con offerte fatte da un utente.
@@ -13,6 +14,7 @@ exports.getInsertionsWithOffer = async (req, res) => {
         if (!insertionsWithOffers.length) {
             return res.status(404).json({ success: false, message: 'Non ci sono inserzioni per cui hai fatto offerte' });
         }
+        console.log("Inserzioni con off nel rep:", insertionsWithOffers);
 
         res.status(200).json({ success: true, data: insertionsWithOffers });
     } catch (error) {
@@ -65,7 +67,8 @@ exports.createOffer = async (req, res) => {
 
         const offerAlreadyExists = await offerRepository.offerAlreadyExists(user, insertionId);
         if (offerAlreadyExists) {
-            return res.status(400).json({ success: false, message: 'Offerta già in corso, non puoi inviarne un\'altra.' });
+            console.log("Offerta già esiste");
+            return res.status(208).json({ success: false, message: 'Offerta già in corso, non puoi inviarne un\'altra.' });
         }
 
         const newOffer = new Offer(
@@ -133,6 +136,7 @@ exports.getAllOffersByInsertionId = async (req, res) => {
         const userId = req.user.id;
         const userRole = req.user.role;
         const user = await userRepository.findById(userId);
+        
         console.log("getAllOffersByInsertionId",insertionId, userRole, userId);
         if (!insertionId) {
             return res.status(400).json({ success: false, message: 'Insertion ID è richiesto' });
