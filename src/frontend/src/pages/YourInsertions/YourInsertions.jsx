@@ -55,7 +55,7 @@ const YourInsertions = () => {
           <ImageDisplay 
             src={notFound} 
             alt="Not Found" 
-            defaultStyle="notFound" 
+            defaultStyle="cursor" 
           />
         )}
       </div> 

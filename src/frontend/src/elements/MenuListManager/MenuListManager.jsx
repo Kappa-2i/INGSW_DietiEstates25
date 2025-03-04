@@ -21,6 +21,7 @@ const MenuListManager = ({
   onProfile, 
   onLogout 
 }) => {
+  console.log(onYourInsertions);
   return (
     <div className='menu-list-manager'>
       <ul>

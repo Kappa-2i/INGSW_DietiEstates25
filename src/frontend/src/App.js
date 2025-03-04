@@ -13,6 +13,7 @@ import CreateAgent from "./pages/CreateAgent/CreateAgent";
 import YourAgents from "./pages/YourAgents/YourAgents";
 import YourInsertions from "./pages/YourInsertions/YourInsertions";
 import CreateInsertionForm from "./elements/CreateInsertionForm/CreateInsertionForm";
+import OfferInsertion from "./pages/OfferInsertion/OfferInsertion";
 
 function ResultSearchWrapper() {
     const location = useLocation();
@@ -39,6 +40,7 @@ const App = () => {
                 <Route path='/your-agents' element={<YourAgents />} />
                 <Route path='/your-insertions' element={<YourInsertions />} />
                 <Route path='/add-insertions' element={<CreateInsertionForm />} />
+                <Route path='/offers/insertion/:insertionId' element={<OfferInsertion />} />
             </Routes>
         </Router>
     );

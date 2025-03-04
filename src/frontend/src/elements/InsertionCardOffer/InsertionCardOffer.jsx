@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom";
 import ImageDisplay from "../../components/imageDisplay/imageDisplay";
 import favoritesIcon from "../../assets/heart.svg";
 import favoritesFilledIcon from "../../assets/heart-fill.svg";
-import "./InsertionCard.scss";
+import "./InsertionCardOffer.scss";
 
-const InsertionCard = ({ insertion }) => {
+const InsertionCardOffer = ( { insertion } ) => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const [isFavorite, setIsFavorite] = useState(false);
@@ -77,7 +77,7 @@ const InsertionCard = ({ insertion }) => {
   };
 
   return (
-    <div className="card" onClick={() => navigate(`/insertion/${insertion.id}`)}>
+    <div className="card" onClick={() => navigate(`/offers/insertion/${insertion.id}`)}>
       <div className="card-image">
         <img src={imageSrc} alt="Immagine" />
       </div>
@@ -105,4 +105,4 @@ const InsertionCard = ({ insertion }) => {
   );
 };
 
-export default InsertionCard;
+export default InsertionCardOffer;
