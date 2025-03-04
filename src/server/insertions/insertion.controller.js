@@ -91,7 +91,7 @@ exports.createInsertion = async (req, res) => {
             imageUrls = await Promise.all(uploadPromises);
         }
 
-        const location = await getCoordinates(req.body.address, req.body.cap, req.body.province, req.body.municipality);
+        const location = await getCoordinates(req.body.address, req.body.cap, req.body.province, req.body.municipality, req.body.region);
 
         const newInsertion = await insertionRepository.createInsertion(req.body, imageUrls, userId, location);
         if (!newInsertion) {
@@ -165,7 +165,7 @@ exports.getFilteredInsertions = async (req, res) => {
 };
 
 // Funzione per ottenere coordinate geografiche
-async function getCoordinates(address, cap, municipality, province, region) {
+async function getCoordinates(address, cap, province, municipality, region) {
     const fullAddress = `${address}, ${cap}, ${municipality}, ${province}, ${region}`;
     const url = `https://geocode.search.hereapi.com/v1/geocode?q=${encodeURIComponent(fullAddress)}&apiKey=${API_KEY}`;
 
