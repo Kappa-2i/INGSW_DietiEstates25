@@ -38,9 +38,9 @@ const Home = () => {
                         <InsertionCard key={insertion.id} insertion={insertion} />
                     ))
                 ) : (
-                    <ImageDisplay src={notFound}
-                                    alt='Not Found' 
-                                    defaultStyle='cursor' />
+                    <div className="notFound-wrapper">
+                        <ImageDisplay src={notFound} alt="Not Found" defaultStyle="cursor" />
+                    </div>
                 )}
             </div>
         </div>

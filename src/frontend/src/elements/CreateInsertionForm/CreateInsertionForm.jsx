@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "./CreateInsertionForm.scss";
 import CheckBox from "../../components/checkBox/CheckBox";
 import Select from "react-select";
@@ -12,6 +13,7 @@ import ImageUpload from "../../components/ImageUpload/ImageUpload";
 import regionsData from "../../data/gi_regioni.json";
 import provincesData from "../../data/gi_province.json";
 import municipalitiesData from "../../data/gi_comuni.json";
+
 
 
 
@@ -38,6 +40,8 @@ const CreateInsertionForm = () => {
     const [reception, setReception] = useState(false);
     const [terrace, setTerrace] = useState(false);
     const [selectedImages, setSelectedImages] = useState([]);
+
+    const navigate = useNavigate();
 
     const categoriaOptions = [
       { value: "BUY", label: "Vendita" },
@@ -335,7 +339,11 @@ const CreateInsertionForm = () => {
             </div>
 
             <div className="buttons">
-                <Button label="Annulla" type="submit" defaultStyle="cancel-style"/>
+                <Button 
+                  label="Annulla"
+                  type="submit" 
+                  defaultStyle="cancel-style"
+                  onClick={() => navigate("/")}/>
                 <Button 
                   label="Conferma" 
                   type="submit" 
