@@ -153,7 +153,7 @@ class InsertionRepository {
             index++;
         }
         if (filters.energyclass) {
-            query += ` AND energyclass >= $${index}`;
+            query += ` AND energyclass <= $${index}`;
             values.push(filters.energyclass);
             index++;
         }
