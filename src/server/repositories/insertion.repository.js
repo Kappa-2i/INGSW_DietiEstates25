@@ -165,7 +165,7 @@ class InsertionRepository {
 
         // Filtri booleani per caratteristiche opzionali
         ['garage', 'garden', 'elevator', 'climate', 'terrace', 'reception'].forEach(field => {
-            if (filters[field] !== undefined) {
+            if (filters[field] !== "qualsiasi" && filters[field] !== undefined) {
                 query += ` AND ${field} = $${index}`;
                 values.push(filters[field]);
                 index++;
