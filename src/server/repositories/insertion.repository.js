@@ -148,13 +148,18 @@ class InsertionRepository {
             index++;
         }
         if (filters.floor) {
-            query += ` AND floor = $${index}`;
+            query += ` AND floor >= $${index}`;
             values.push(filters.floor);
             index++;
         }
         if (filters.energyclass) {
-            query += ` AND energyclass = $${index}`;
+            query += ` AND energyclass <= $${index}`;
             values.push(filters.energyclass);
+            index++;
+        }
+        if (filters.balcony){
+            query += ` AND balcony >= $${index}`;
+            values.push(filters.balcony);
             index++;
         }
 
