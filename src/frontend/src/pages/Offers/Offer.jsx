@@ -13,6 +13,8 @@ const Offer = () => {
   const [insertions, setInsertions] = useState([]);
   const [error, setError] = useState(null);
 
+  
+
 
   useEffect(() => {
     const fetchInsertions = async () => {

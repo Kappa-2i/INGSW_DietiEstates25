@@ -11,7 +11,7 @@ import MenuListAdmin from '../MenuListAdmin/MenuListAdmin';
 
 import listIcon from '../../assets/list.svg';
 import favoritesIcon from '../../assets/heart-fill.svg';
-import offersIcon from '../../assets/google.svg';
+import offersIcon from '../../assets/sale-offer.svg';
 
 import './navbar.scss';
 
@@ -76,7 +76,7 @@ const Navbar = () => {
   };
 
   const handleManageOffers = () => {
-    navigate('/agent/offers');
+    navigate('/offers');
   };
 
   const handleOnCreateManagerOrAgents = () => {
@@ -147,6 +147,7 @@ const Navbar = () => {
             src={offersIcon}
             alt='Offerte'
             defaultStyle='cursor'
+            onClick={handleOffers}
           />
         </div>
 
@@ -176,13 +177,14 @@ const Navbar = () => {
                   <MenuListAgent 
                     onProfile={handleProfile}
                     onAddInsertion={handleAddInsertion}
-                    onManageOffers={handleManageOffers}
+
                     onYourInsertions={handleYourInsertions}
                     onLogout={handleLogout}
                   />
                 ) : userProfile && userProfile.role === "MANAGER" ? (
                   <MenuListManager 
                     onProfile={handleProfile}
+
                     onYourInsertions={handleYourInsertions}
                     onLogout={handleLogout}
                     onCreateManagerOrAgents={handleOnCreateManagerOrAgents}
@@ -192,10 +194,11 @@ const Navbar = () => {
                 ) : userProfile && userProfile.role === "ADMIN" ? (
                   <MenuListAdmin 
                     onProfile={handleProfile}
-                    onManageOffers={handleManageOffers}
+
                     onLogout={handleLogout}
                     onCreateManagerOrAgents={handleOnCreateManagerOrAgents}
                     onYourManagersOrAgents={handleYourAgents}
+                    onYourInsertions={handleYourInsertions}
                     onAddInsertion={handleAddInsertion}
                   />
                 ) : (

@@ -6,7 +6,7 @@ import createAgentIcon from '../../assets/person-fill-add.svg';
 import yourAgentsIcon from '../../assets/people-fill.svg';
 import addInsertionIcon from '../../assets/house-add-fill.svg';
 import yourInsertionsIcon from '../../assets/house-fill.svg';
-import manageOffersIcon from '../../assets/notfound.png';
+import manageOffersIcon from '../../assets/sale-offer.svg';
 import profileIcon from '../../assets/person.svg';
 import logoutIcon from '../../assets/box-arrow-left.svg';
 

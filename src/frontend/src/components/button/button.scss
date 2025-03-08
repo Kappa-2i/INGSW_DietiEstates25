@@ -44,6 +44,30 @@ $cancel-bg-hover: #B10D18;
         }
     }
 
+    &.accept {
+        margin: 5px;
+        width: 50%;
+        padding: 5px;
+        background-color: green;
+        cursor: pointer;
+
+    }
+
+    &.reject {
+        margin: 5px;
+        width: 50%;
+        padding: 5px;
+        background-color: $cancel-bg;
+        cursor: pointer;
+    }
+
+    &.counteroffer {
+        margin: 5px;
+        width: 50%;
+        padding: 5px;
+        background-color: $button-bg;
+        cursor: pointer;
+    }
     &.active-style{
         border: 2px solid transparent;
         background-color: transparent;

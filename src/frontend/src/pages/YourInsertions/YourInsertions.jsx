@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-import InsertionCard from "../../elements/insertionCard/InsertionCard";
+
 import Navbar from "../../elements/navbar/navbar";
 import ImageDisplay from "../../components/imageDisplay/imageDisplay";
 import notFound from "../../assets/notfound.png";
 
 import "./YourInsertions.scss";
+import InsertionCardOffer from "../../elements/InsertionCardOffer/InsertionCardOffer";
 
 
 const YourInsertions = () => {
@@ -46,7 +47,7 @@ const YourInsertions = () => {
           insertions
             .filter(insertion => insertion !== null && insertion !== undefined)
             .map((insertion) => (
-              <InsertionCard 
+              <InsertionCardOffer 
                 key={insertion.id} 
                 insertion={insertion} 
               />
