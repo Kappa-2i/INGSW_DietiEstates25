@@ -297,6 +297,27 @@ async counterofferByAgent(offerId, userId, newPrice) {
     return Offer.fromDatabase(result.rows[0]);
 }
 
+
+async getCounterOfferDetails(offerId) {
+    console.log("Sono nella funzione rep");
+    const query = `
+      SELECT 
+        c.id AS counteroffer_id,
+        c.created_at AS counteroffer_date,
+        c.status AS counteroffer_status,
+        o.first_name AS original_first_name,
+        o.last_name AS original_last_name,
+        o.price AS original_price
+      FROM offers c
+      JOIN offers o ON c.parent_offer_id = o.id
+      WHERE c.id = $1;
+    `;
+    
+    const result = await pool.query(query, [offerId]);
+    return result.rows[0]; // restituisce i dettagli per quella controfferta
+  }
+  
+
 }
 
 module.exports = new OfferRepository();

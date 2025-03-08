@@ -1,4 +1,4 @@
-const { pool } = require('../config/db');
+const pool = require('../config/db');
 const Favorite = require('../models/Favorite');
 
 class FavoriteRepository {
@@ -42,6 +42,7 @@ class FavoriteRepository {
      * @returns {Promise<Favorite|null>} - Istanza `Favorite` rimossa o `null` se non trovata.
      */
     async removeFavorite(userid, insertionid) {
+
         const query = `
             DELETE FROM favorites
             WHERE userid = $1 AND insertionid = $2
