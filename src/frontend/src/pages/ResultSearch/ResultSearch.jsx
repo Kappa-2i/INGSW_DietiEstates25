@@ -5,8 +5,8 @@ import InsertionCard from '../../elements/insertionCard/InsertionCard';
 import FilterComponent from '../../elements/FilterComponent/FilterComponent';
 import './ResultSearch.scss'
 import Navbar from "../../elements/navbar/navbar";
+import NoResultsFound from '../../elements/NoResultFound/NoResultFound';
 import ImageDisplay from '../../components/imageDisplay/imageDisplay';
-import notFound from "../../assets/notfound.png";
 
 
 
@@ -21,7 +21,7 @@ const ResultSearch = () => {
 
     const [ insertions, setInsertions ] = useState([]);
     const [errorMessage, setErrorMessage] = useState("");  // Stato per il messaggio di errore
-
+    const [loading, setLoading] = useState(true);
     const [filters] = useState(initialFilters);
 
 
@@ -38,9 +38,10 @@ const ResultSearch = () => {
             const response = await axios.post("http://localhost:8000/api/insertion/filtered", filters);
             setInsertions(response.data.data);
           } catch (err) {
-            
               setErrorMessage("Errore durante il recupero delle inserzioni");
-            
+          }
+          finally {
+            setTimeout(() => setLoading(false), 500);
           }
         };
     
@@ -57,14 +58,20 @@ const ResultSearch = () => {
         
 
           <div className="insertions-container">
-                {insertions.length > 0 ? (
+                {loading ? (
+                    <div className="notFound-container">
+                    <ImageDisplay  
+                      defaultStyle="cursor" 
+                    />
+                  </div>
+                ) : errorMessage ? (
+                    <p className="error-message">{errorMessage}</p>
+                ) : insertions.length > 0 ? (
                     insertions.map((insertion) => (
                         <InsertionCard key={insertion.id} insertion={insertion} />
                     ))
                 ) : (
-                    <ImageDisplay src={notFound}
-                                    alt='Not Found' 
-                                    defaultStyle='cursor' />
+                    <NoResultsFound/>
                 )}
             </div>
         </div>
