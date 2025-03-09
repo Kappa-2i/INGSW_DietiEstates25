@@ -33,7 +33,9 @@ exports.updateProfile = async (req, res) => {
         // Creiamo un oggetto per i dati da aggiornare
         const updateData = {};
 
-        if (phone) updateData.phone = phone;
+        if (phone) {
+            updateData.phone = phone;
+        }
 
         if (newPassword) {
             if (!oldPassword) {

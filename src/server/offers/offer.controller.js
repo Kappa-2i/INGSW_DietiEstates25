@@ -14,7 +14,6 @@ exports.getInsertionsWithOffer = async (req, res) => {
         if (!insertionsWithOffers.length) {
             return res.status(404).json({ success: false, message: 'Non ci sono inserzioni per cui hai fatto offerte' });
         }
-        console.log("Inserzioni con off nel rep:", insertionsWithOffers);
 
         res.status(200).json({ success: true, data: insertionsWithOffers });
     } catch (error) {
@@ -55,7 +54,7 @@ exports.createOffer = async (req, res) => {
         const { insertionId } = req.params;
         const { price } = req.body;
         const userId = req.user.id;
-        console.log(insertionId, price, userId);
+
         if (!insertionId || !price) {
             return res.status(400).json({ success: false, message: 'Insertion ID e price richiesti.' });
         }
@@ -67,14 +66,13 @@ exports.createOffer = async (req, res) => {
 
         const offerAlreadyExists = await offerRepository.offerAlreadyExists(user, insertionId);
         if (offerAlreadyExists) {
-            console.log("Offerta già esiste");
             return res.status(208).json({ success: false, message: 'Offerta già in corso, non puoi inviarne un\'altra.' });
         }
 
         const newOffer = new Offer(
             null, 'WAIT', user.id, insertionId, new Date(), null, user.first_name, user.last_name, price, null
         );
-        console.log("NEW OFFER:", newOffer);
+
         const createdOffer = await offerRepository.createOffer(newOffer);
         res.status(201).json({ success: true, message: 'Offerta effettuata correttamente.', data: createdOffer.toJSON() });
     } catch (error) {
@@ -92,7 +90,7 @@ exports.counteroffer = async (req, res) => {
         const userId = req.user.id;
         const userRole = req.user.role;
         const newPrice = req.body.price;
-        console.log("COUNTeROFFER:", offerId, userId, userRole, newPrice);
+
         let offerResult;
         if (userRole === "AGENT" || userRole === "MANAGER" || userRole === "ADMIN") {
             offerResult = await offerRepository.counterofferByUser(offerId, newPrice);
@@ -137,7 +135,7 @@ exports.getAllOffersByInsertionId = async (req, res) => {
         const userRole = req.user.role;
         const user = await userRepository.findById(userId);
         
-        console.log("getAllOffersByInsertionId",insertionId, userRole, userId);
+
         if (!insertionId) {
             return res.status(400).json({ success: false, message: 'Insertion ID è richiesto' });
         }
@@ -203,3 +201,20 @@ exports.acceptOffer = async (req, res) => {
         res.status(500).json({ success: false, message: 'Errore interno del server' });
     }
 };
+
+exports.getCounterOfferDetails = async (req, res) => {
+    try {
+      const { offerId } = req.params;
+      console.log("sono nella funzione backend");
+      const details = await offerRepository.getCounterOfferDetails(offerId);
+  
+      if (!details) {
+        return res.status(404).json({ success: false, message: "Offerta originale non trovata" });
+      }
+      console.log("details backend", details);
+      res.status(200).json({ success: true, data: details });
+    } catch (error) {
+      console.error("Errore nel recupero dei dettagli della controfferta:", error);
+      res.status(500).json({ success: false, message: "Errore interno del server" });
+    }
+  };

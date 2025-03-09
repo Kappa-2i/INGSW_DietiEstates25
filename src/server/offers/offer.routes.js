@@ -29,5 +29,7 @@ router.get('/history/:insertionId', offerController.offersByInsertionId);
 //Rotta per accettare un offerta da parte di un utente o da parte di un agente (with delete)
 router.post('/my/:offerId/accepted', authMiddleware.authenticate, offerController.acceptOffer);
 
+router.get('/my/:offerId/counteroffer/details',authMiddleware.authenticate, offerController.getCounterOfferDetails);
+
 
 module.exports = router

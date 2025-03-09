@@ -1,4 +1,4 @@
-const { pool } = require('../config/db');
+const pool = require('../config/db');
 const User = require('../models/User');
 
 class UserRepository {
@@ -45,7 +45,6 @@ class UserRepository {
     }
 
     async updateProfile(id, hashedPassword, phone) {
-        try {
             const query = `
                 UPDATE users
                 SET 
@@ -69,10 +68,7 @@ class UserRepository {
                 null, // Non restituiamo la password
                 result.rows[0].role
             );
-        } catch (error) {
-            console.error('Errore aggiornamento profilo:', error.message);
-            throw new Error('Errore interno del server');
-        }
+        
     }
 
     async getAllUsersProfile() {
