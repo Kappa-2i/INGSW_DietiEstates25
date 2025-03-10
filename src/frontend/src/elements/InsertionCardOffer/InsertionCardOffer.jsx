@@ -6,7 +6,7 @@ import favoritesIcon from "../../assets/heart.svg";
 import favoritesFilledIcon from "../../assets/heart-fill.svg";
 import "./InsertionCardOffer.scss";
 
-const InsertionCardOffer = ( { insertion } ) => {
+const InsertionCardOffer = ({ insertion }) => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const [isFavorite, setIsFavorite] = useState(false);
@@ -21,18 +21,13 @@ const InsertionCardOffer = ( { insertion } ) => {
     }).format(prezzoNumber);
   }
 
-  // Controlla che l'immagine sia disponibile, altrimenti usa un fallback
-  const imageSrc =
-    insertion.image_url && insertion.image_url.length > 0
-      ? insertion.image_url[0]
-      : "https://via.placeholder.com/250x150?text=No+Image";
-
   // Troncamento del titolo se supera i 60 caratteri
   const truncatedTitle =
     insertion.title.length > 60
       ? insertion.title.substring(0, 60) + "..."
       : insertion.title;
 
+  // Fetch dei preferiti
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
@@ -40,7 +35,7 @@ const InsertionCardOffer = ( { insertion } ) => {
           headers: { Authorization: `Bearer ${token}` },
         });
         const favorites = response.data.data || [];
-        setIsFavorite(favorites.some(fav => fav.insertionid === insertion.id));
+        setIsFavorite(favorites.some((fav) => fav.insertionid === insertion.id));
       } catch (error) {
         console.error("Errore nel recupero dei preferiti:", error);
       }
@@ -64,9 +59,11 @@ const InsertionCardOffer = ( { insertion } ) => {
         });
         alert("Rimosso dai preferiti!");
       } else {
-        await axios.post(`http://localhost:8000/api/favorite/${insertion.id}`, {}, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        await axios.post(
+          `http://localhost:8000/api/favorite/${insertion.id}`,
+          {},
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
         alert("Aggiunto ai preferiti!");
       }
       setIsFavorite(!isFavorite);
@@ -77,16 +74,20 @@ const InsertionCardOffer = ( { insertion } ) => {
   };
 
   return (
-    <div className="card" onClick={() => navigate(`/offers/insertion/${insertion.id}`)}>
+    <div className="card" onClick={() => navigate(`/insertion/${insertion.id}`)}>
       <div className="card-image">
-        <img src={imageSrc} alt="Immagine" />
+        <img src={insertion.image_url[0]} alt="Immagine" />
       </div>
       <div className="card-content">
         <h3 className="card-title">{truncatedTitle}</h3>
         <p className="card-info">
-          {insertion.room || 1} {insertion.room > 1 ? "Camere" : "Camera"} | {insertion.bathroom || 1} {insertion.bathroom > 1 ? "Bagni" : "Bagno"} | {insertion.contract === "BUY" ? "In Vendita" : "In Affitto"}
+          {insertion.room || 1} {insertion.room > 1 ? "Camere" : "Camera"} |{" "}
+          {insertion.bathroom || 1} {insertion.bathroom > 1 ? "Bagni" : "Bagno"} |{" "}
+          {insertion.contract === "BUY" ? "In Vendita" : "In Affitto"}
           <br />
-          <span>{insertion.province} - {insertion.municipality} - {insertion.surface} mq</span>
+          <span>
+            {insertion.province} - {insertion.municipality} - {insertion.surface} mq
+          </span>
         </p>
       </div>
       <div className="card-footer">
@@ -100,6 +101,15 @@ const InsertionCardOffer = ( { insertion } ) => {
             />
           </div>
         </div>
+        <p
+          className="offers"
+          onClick={(e) => {
+            e.stopPropagation();
+            navigate(`/offers/insertion/${insertion.id}`);
+          }}
+        >
+          Visualizza Offerte
+        </p>
       </div>
     </div>
   );

@@ -66,14 +66,17 @@ const HistoryOffer = ({ insertionId }) => {
         payload,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      alert(response.data.message);
-      window.location.reload();
+      alert(response.data.message || "Offerta proposta con successo!");
       setNewOffer("");
+      window.location.reload(); // Aggiorna le offerte
     } catch (err) {
       console.error("Errore nel proporre l'offerta:", err);
       alert("Errore nel proporre l'offerta!");
     }
   };
+
+  // Se esiste almeno un'offerta con status ACCEPTED, non mostrare il form
+  const acceptedOfferExists = offers.some((offer) => offer.status === "ACCEPTED");
 
   return (
     <div className="history-offer-container">
@@ -109,19 +112,20 @@ const HistoryOffer = ({ insertionId }) => {
           </tbody>
         </table>
       </div>
-      <div className="offer-proposal">
-        <h4>Proponi un'offerta</h4>
-        <form onSubmit={handleOfferSubmit} className="offer-form">
-          <NumberInput
-            value={newOffer}
-            onChange={setNewOffer}
-            placeholder="Inserisci il prezzo dell'offerta"
-            defaultStyle="offer"
-          />
-
-          <Button defaultStyle="offer" label="Proponi Offerta" type="submit" />
-        </form>
-      </div>
+      {!acceptedOfferExists && (
+        <div className="offer-proposal">
+          <h4>Proponi un'offerta</h4>
+          <form onSubmit={handleOfferSubmit} className="offer-form">
+            <NumberInput
+              value={newOffer}
+              onChange={setNewOffer}
+              placeholder="Inserisci il prezzo dell'offerta"
+              defaultStyle="offer"
+            />
+            <Button defaultStyle="offer" label="Proponi Offerta" type="submit" />
+          </form>
+        </div>
+      )}
     </div>
   );
 };

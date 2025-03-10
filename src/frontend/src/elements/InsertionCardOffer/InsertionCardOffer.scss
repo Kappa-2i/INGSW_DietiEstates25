@@ -5,7 +5,7 @@ $price-color: #EF5B5B;
   border-radius: 8px;
   overflow: hidden;
   width: 350px;
-  height: 450px;
+  height: 500px;
   margin: 10px;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
@@ -74,4 +74,13 @@ $price-color: #EF5B5B;
   background-color: #f8f8f8;
   margin-bottom: 10px;
   cursor: pointer;
+}
+
+.offers {
+  margin-top: 10px;
+  font-size: 1rem;
+  color: $price-color;
+  text-decoration: underline;
+  cursor: pointer;
+  text-align: center;
 }

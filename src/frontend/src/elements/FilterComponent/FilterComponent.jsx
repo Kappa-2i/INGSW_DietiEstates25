@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import "./FilterComponent.scss";
-import CustomSelect from "../../components/CustomSelect/CustomSelect";
 import CheckBox from "../../components/checkBox/CheckBox";
 import Button from "../../components/button/Button";
 import RangeSlider from "../../components/rangeSlider/RangeSlider";
@@ -61,7 +60,7 @@ export default function FilterComponent({ initialFilters = {} }) {
   }));
 
   const energyClassOptions = [
-    { value: "", label: "Qualsiasi classe"},
+    { value: "", label: "Qualsiasi classe energetica"},
     { value: "A4", label: "A4" },
     { value: "A3", label: "A3" },
     { value: "A2", label: "A2" },
