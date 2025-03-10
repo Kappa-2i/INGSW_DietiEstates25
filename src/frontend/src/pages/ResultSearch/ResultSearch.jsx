@@ -64,8 +64,6 @@ const ResultSearch = () => {
                       defaultStyle="cursor" 
                     />
                   </div>
-                ) : errorMessage ? (
-                    <p className="error-message">{errorMessage}</p>
                 ) : insertions.length > 0 ? (
                     insertions.map((insertion) => (
                         <InsertionCard key={insertion.id} insertion={insertion} />

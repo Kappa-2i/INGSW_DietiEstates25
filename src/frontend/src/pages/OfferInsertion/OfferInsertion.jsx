@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../../elements/navbar/navbar";
 import Button from "../../components/button/Button";
+import CreateManualOffer from "../../elements/ CreateManualOffer/CreateManualOffer";
 import "./OfferInsertion.scss";
 
 const OfferInsertion = () => {
@@ -129,11 +130,17 @@ const OfferInsertion = () => {
     }
   }, [sentOffers]);
 
+  const acceptedOfferExists =
+    receivedOffers.some((offer) => offer.status === "ACCEPTED") ||
+    sentOffers.some((offer) => offer.status === "ACCEPTED");
+
   return (
     <div className="offer-insertion-page">
       <Navbar />
       <h1>Offerte per l'inserzione {insertionId}</h1>
       {error && <p className="error">{error}</p>}
+      {/* Se non esiste un'offerta ACCEPTED, mostra il form per creare un'offerta manuale */}
+      {!acceptedOfferExists && <CreateManualOffer insertionId={insertionId} />}
       <div className="offers-tables">
         {/* Tabella Offerte Ricevute */}
         <div className="table-container received-offers">

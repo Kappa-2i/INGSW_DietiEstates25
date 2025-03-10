@@ -52,7 +52,7 @@ const CreateAgentForm = ({ userRole }) => {
         setMessage(response.data.message);
         navigate("/your-agents");
       } else {
-        setMessage("Errore durante la creazione dell'agente.");
+        setMessage(response.data.message);
       }
     } catch (err) {
       console.error("Errore nella creazione dell'agente:", err);
