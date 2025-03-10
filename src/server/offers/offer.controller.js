@@ -38,6 +38,11 @@ exports.createManualOffer = async (req, res) => {
             null, 'WAIT', userId, insertionId, new Date(), null, first_name, last_name, price, null
         );
 
+        const manualOfferAlreadyExists = await offerRepository.manualOfferAlreadyExists(userId, first_name, last_name, insertionId);
+        if (manualOfferAlreadyExists) {
+            return res.status(208).json({ success: false, message: 'Offerta già in corso, non puoi inviarne un\'altra.' });
+        }
+
         const createdOffer = await offerRepository.createOffer(manualOffer);
         res.status(201).json({ success: true, message: 'Offerta manuale creata con successo.', data: createdOffer.toJSON() });
     } catch (error) {

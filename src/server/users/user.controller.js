@@ -150,9 +150,13 @@ exports.createAgent = async (req, res) => {
     
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newAgent = await userRepository.createAgent(first_name, last_name, email, hashedPassword, phone, supervisorId, role);
-
-        res.status(201).json({ success: true, message: 'Agente creato con successo', data: newAgent.toJSON() });
+        const emailAlreadyExists = await userRepository.emailAlreadyExists(email);
+        if (!emailAlreadyExists){
+            const newAgent = await userRepository.createAgent(first_name, last_name, email, hashedPassword, phone, supervisorId, role);
+            res.status(201).json({ success: true, message: 'Agente creato con successo', data: newAgent.toJSON() });
+        }
+        res.status(208).json({ success: false, message: 'Email non valida'});
+        
     } catch (err) {
         console.error('Errore nella creazione dell\'agente:', err.message);
         res.status(500).json({ success: false, message: 'Internal server error' });
