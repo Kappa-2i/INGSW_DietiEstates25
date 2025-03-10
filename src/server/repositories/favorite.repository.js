@@ -1,4 +1,4 @@
-const pool = require('../config/db');
+const { pool } = require('../config/db');
 const Favorite = require('../models/Favorite');
 
 class FavoriteRepository {
