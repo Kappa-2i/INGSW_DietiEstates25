@@ -23,7 +23,7 @@ router.post('/filtered', insertionController.getFilteredInsertions);
 router.get('/my', authMiddleware.authenticate, authorizeMiddleware.authorize(['AGENT', 'MANAGER', 'ADMIN']), insertionController.getMyInsertions);
 
 //Rotta per aggiungere un inserzione
-router.post('/creation', authMiddleware.authenticate, authorizeMiddleware.authorize(['AGENT', 'MANAGER', 'ADMIN']), uploadMiddleware.upload, insertionMiddleware.validateInputs, insertionController.createInsertion);
+router.post('/creation', authMiddleware.authenticate, authorizeMiddleware.authorize(['AGENT', 'MANAGER', 'ADMIN']), uploadMiddleware.upload, /*insertionMiddleware.validateInputs,*/ insertionController.createInsertion);
 
 //Rotta per ottenere POI vicini all'inserzione
 router.get("/:insertionId/pois", insertionController.getPOIsForInsertion);

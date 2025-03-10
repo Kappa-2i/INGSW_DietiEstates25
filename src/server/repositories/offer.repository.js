@@ -1,4 +1,5 @@
 const { pool } = require('../config/db');
+const Insertion = require('../models/Insertion');
 const Offer = require('../models/Offer');
 
 class OfferRepository {
@@ -9,7 +10,19 @@ class OfferRepository {
      * @returns {Promise<Offer[]>} - Lista delle offerte.
      */
     async getOffersByInsertionId(insertionId) {
-        const query = 'SELECT * FROM offers WHERE insertionid = $1;';
+        const query = `WITH agent AS (
+            SELECT first_name AS agent_first_name, last_name AS agent_last_name
+            FROM users
+            WHERE id = (SELECT userid FROM insertions WHERE id = $1)
+          )
+          SELECT o.*, agent.agent_first_name, agent.agent_last_name
+          FROM offers o, agent
+          WHERE o.insertionid = $1
+            AND o.status IN ('ACCEPTED', 'WAIT', 'REJECTED')
+            AND o.first_name <> agent.agent_first_name
+            AND o.last_name <> agent.agent_last_name
+          ORDER BY o.created_at DESC;
+        `;
         const result = await pool.query(query, [insertionId]);
         return result.rows.map(row => Offer.fromDatabase(row));
     }
@@ -20,6 +33,7 @@ class OfferRepository {
      * @returns {Promise<Offer>} - L'offerta creata.
      */
     async createOffer(offer) {
+        console.log("Offer Rep:", offer);
         const query = `
             INSERT INTO offers (status, userid, insertionid, first_name, last_name, price, created_at, updated_at)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
@@ -28,13 +42,13 @@ class OfferRepository {
 
         const values = [
             offer.status,
-            offer.userId,
-            offer.insertionId,
-            offer.firstName,
-            offer.lastName,
+            offer.userid,
+            offer.insertionid,
+            offer.first_name,
+            offer.last_name,
             offer.price,
-            offer.createdAt,
-            offer.updatedAt
+            offer.created_at,
+            offer.updated_at
         ];
 
         const result = await pool.query(query, values);
@@ -48,7 +62,7 @@ class OfferRepository {
      * @returns {Promise<boolean>} - True se l'offerta esiste già, altrimenti false.
      */
     async offerAlreadyExists(user, insertionId) {
-        const query = `SELECT * FROM offers WHERE userid = $1 AND insertionid = $2;`;
+        const query = `SELECT * FROM offers WHERE userid = $1 AND insertionid = $2 AND status = 'WAIT';`;
         const values = [user.id, insertionId];
         const result = await pool.query(query, values);
         return result.rows.length > 0;
@@ -57,18 +71,18 @@ class OfferRepository {
     /**
      * Recupera le inserzioni su cui un utente ha fatto offerte.
      * @param {number} userId - L'ID dell'utente.
-     * @returns {Promise<Object[]>} - Lista delle inserzioni con offerte.
+     * @returns {Insertion<Object[]>} - Lista delle inserzioni con offerte.
      */
     async getInsertionsWithOfferForAnUser(userId) {
         const query = `
-            SELECT insertions.*
+            SELECT DISTINCT insertions.*
             FROM insertions
             JOIN offers ON offers.insertionid = insertions.id
             WHERE offers.userid = $1;
         `;
 
         const result = await pool.query(query, [userId]);
-        return result.rows;
+        return result.rows.map(row => Insertion.fromDatabase(row));
     }
 
     /**
@@ -94,7 +108,7 @@ class OfferRepository {
     /**
      * Recupera le offerte ricevute da un utente su una specifica inserzione.
      */
-    async receivedOffersOfAnInsertionForAnUser(user, insertionId) {
+    async receveidOffersOfAnInsertionForAnUser(user, insertionId) {
         const query = `
         SELECT *
         FROM offers
@@ -105,7 +119,7 @@ class OfferRepository {
         AND (status = 'COUNTEROFFER' OR status = 'REJECTED' OR status = 'ACCEPTED') ORDER BY updated_at DESC; 
         `;
 
-        const values = [user.id, insertionId];
+        const values = [user.id, insertionId, user.first_name, user.last_name];
         const result = await pool.query(query, values);
         return result.rows.map(row => Offer.fromDatabase(row));
     }
@@ -206,7 +220,7 @@ class OfferRepository {
     
         const result = await pool.query(query, values);
         
-        return result.rows;
+        return Offer.fromDatabase(result.rows);
     }
     
     async acceptOfferByAgent(offerId) {
@@ -228,7 +242,7 @@ class OfferRepository {
     
         const result = await pool.query(query, values);
         
-        return result.rows;
+        return Offer.fromDatabase(result.rows);
     }
     
 
@@ -237,15 +251,12 @@ class OfferRepository {
      */
     async rejectOffer(offerId) {
         const query = `
-            WITH rejected_offer AS (
                 UPDATE offers
                 SET status = 'REJECTED', updated_at = CURRENT_TIMESTAMP
                 WHERE id = $1 AND status = 'WAIT'
                 RETURNING insertionid
-            )
-            DELETE FROM offers
-            WHERE insertionid = (SELECT insertionid FROM rejected_offer) AND id <> $1
-            RETURNING *;`;
+            
+            `;
 
         const result = await pool.query(query, [offerId]);
         return Offer.fromDatabase(result.rows[0]);
@@ -294,6 +305,27 @@ async counterofferByAgent(offerId, userId, newPrice) {
 
     return Offer.fromDatabase(result.rows[0]);
 }
+
+
+async getCounterOfferDetails(offerId) {
+    
+    const query = `
+      SELECT 
+        c.id AS counteroffer_id,
+        c.created_at AS counteroffer_date,
+        c.status AS counteroffer_status,
+        o.first_name AS original_first_name,
+        o.last_name AS original_last_name,
+        o.price AS original_price
+      FROM offers c
+      JOIN offers o ON c.parent_offer_id = o.id
+      WHERE c.id = $1;
+    `;
+    
+    const result = await pool.query(query, [offerId]);
+    return result.rows[0]; // restituisce i dettagli per quella controfferta
+  }
+  
 
 }
 

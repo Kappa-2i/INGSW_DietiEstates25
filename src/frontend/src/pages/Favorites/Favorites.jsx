@@ -87,11 +87,9 @@ const Favorites = () => {
               />
             ))
         ) : (
-          <ImageDisplay 
-            src={notFound} 
-            alt="Not Found" 
-            defaultStyle="notFound" 
-          />
+              <div className="notFound-wrapper">
+                <ImageDisplay src={notFound} alt="Not Found" defaultStyle="cursor" />
+              </div>
         )}
       </div> 
     </div>

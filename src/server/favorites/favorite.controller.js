@@ -47,7 +47,7 @@ exports.removeFavorite = async (req, res) => {
     try {
         const { id: userid } = req.user;
         const { insertionId } = req.params;
-
+        
         const removedFavorite = await favoriteRepository.removeFavorite(userid, insertionId);
         if (!removedFavorite) {
             return res.status(404).json({ success: false, message: 'L\'inserzione non era nei preferiti' });

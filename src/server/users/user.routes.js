@@ -20,7 +20,7 @@ router.patch('/profile', authMiddleware.authenticate, authMiddleware.validateUpd
 router.get('/myagent', authMiddleware.authenticate, authorizeMiddleware.authorize(['MANAGER', 'ADMIN']), userController.getMyAgents);
 
 //Rotta per creare un nuovo agente
-router.post('/myagent/creation', authMiddleware.authenticate, authorizeMiddleware.authorize(['MANAGER', 'ADMIN']), userController.createAgent);
+router.post('/myagent/creation', authMiddleware.authenticate, authorizeMiddleware.authorize(['MANAGER', 'ADMIN']), authMiddleware.validateRegister, userController.createAgent);
 
 //Rotta per reimpostare la password
 router.post('/forgetPassword', userController.forgetPassword);

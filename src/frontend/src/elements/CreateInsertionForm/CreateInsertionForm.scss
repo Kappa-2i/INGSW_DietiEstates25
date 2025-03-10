@@ -1,13 +1,16 @@
 $boreder-color: #c02278;
 
 .real-estate-form {
-    display: flex;
-    flex-direction: column;
-    max-width: 600px;
-    margin: auto;
-    padding: 20px;
-    background: #f9f9f9;
-    border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 6px 6px 10px rgba(0,0,0,0.1);
+  width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   
     .photo-upload {
@@ -62,10 +65,29 @@ $boreder-color: #c02278;
             max-width: 900px;
             margin-bottom: 8px;
 
-            .title-input{
-                width: 100%;
-                width: 600px;
-            }
+
+        }
+
+        .buttons{
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+
+          button {
+            flex: 1; 
+            min-width: 120px;
+            max-width: 200px;
+          }
+        }
+
+        .checkbox-group{
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          flex: 1;
+          justify-content: left;
+          margin-top: 10px;
+          margin-bottom: 20px;
         }
     }
     
@@ -83,9 +105,8 @@ $boreder-color: #c02278;
 
     .address-wrapper {
       display: flex;
-      align-items: center; // Allinea verticalmente
-      max-width: 100%;
-      flex-wrap: wrap; // Permette il wrap su schermi piccoli
+      align-items: center; 
+      flex-wrap: wrap; 
       justify-content: space-between;
     }
     

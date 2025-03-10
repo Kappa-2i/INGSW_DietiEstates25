@@ -10,6 +10,30 @@ const HistoryOffer = ({ insertionId }) => {
   const [newOffer, setNewOffer] = useState("");
   const token = localStorage.getItem("token");
 
+  // Funzione helper per censurare un nome: la prima lettera seguita da 4 asterischi
+  const censorName = (name) => {
+    if (!name) return "";
+    return name.charAt(0).toUpperCase() + "****";
+  };
+
+  // Mappatura per lo status
+  const statusMapping = {
+    WAIT: "In attesa",
+    COUNTEROFFER: "Controfferta",
+    REJECTED: "Rifiutata",
+    ACCEPTED: "Accettata",
+  };
+
+  // Funzione helper per formattare il prezzo
+  const formatPrice = (price) => {
+    if (!price) return "";
+    const prezzoNumber = parseFloat(price.replace(/[^0-9.-]+/g, ""));
+    return new Intl.NumberFormat("it-IT", {
+      style: "currency",
+      currency: "EUR",
+    }).format(prezzoNumber);
+  };
+
   useEffect(() => {
     const fetchOffersHistory = async () => {
       try {
@@ -20,7 +44,7 @@ const HistoryOffer = ({ insertionId }) => {
         setOffers(response.data.data);
       } catch (err) {
         console.error("Errore nel recupero della cronologia delle offerte:", err);
-        setError("Errore nel recupero della cronologia delle offerte");
+        setError("");
       }
     };
 
@@ -36,7 +60,7 @@ const HistoryOffer = ({ insertionId }) => {
       return;
     }
     try {
-      const payload = { price: newOffer };
+      const payload = { price: newOffer.replace('.', '') };
       const response = await axios.post(
         `http://localhost:8000/api/offer/creation/${insertionId}`,
         payload,
@@ -44,12 +68,15 @@ const HistoryOffer = ({ insertionId }) => {
       );
       alert(response.data.message || "Offerta proposta con successo!");
       setNewOffer("");
-      // Puoi aggiornare la cronologia delle offerte dopo l'invio se necessario
+      window.location.reload(); // Aggiorna le offerte
     } catch (err) {
       console.error("Errore nel proporre l'offerta:", err);
       alert("Errore nel proporre l'offerta!");
     }
   };
+
+  // Se esiste almeno un'offerta con status ACCEPTED, non mostrare il form
+  const acceptedOfferExists = offers.some((offer) => offer.status === "ACCEPTED");
 
   return (
     <div className="history-offer-container">
@@ -70,11 +97,11 @@ const HistoryOffer = ({ insertionId }) => {
             {offers.length > 0 ? (
               offers.map((offer) => (
                 <tr key={offer.id}>
-                  <td>{offer.first_name}</td>
-                  <td>{offer.last_name}</td>
-                  <td>{offer.price}</td>
+                  <td>{censorName(offer.first_name)}</td>
+                  <td>{censorName(offer.last_name)}</td>
+                  <td>{formatPrice(offer.price)}</td>
                   <td>{new Date(offer.created_at).toLocaleDateString()}</td>
-                  <td>{offer.status}</td>
+                  <td>{statusMapping[offer.status] || offer.status}</td>
                 </tr>
               ))
             ) : (
@@ -85,18 +112,20 @@ const HistoryOffer = ({ insertionId }) => {
           </tbody>
         </table>
       </div>
-      <div className="offer-proposal">
-            <h4>Proponi un'offerta</h4>
-            <form onSubmit={handleOfferSubmit} className="offer-form">
-                <NumberInput
-                value={newOffer}
-                onChange={(e) => setNewOffer(e.target.value)}
-                placeholder="Inserisci il prezzo dell'offerta"
-                defaultStyle="offer"
-                />
-                <Button defaultStyle="offer" label="Proponi Offerta" type="submit" />
-            </form>
-       </div>
+      {!acceptedOfferExists && (
+        <div className="offer-proposal">
+          <h4>Proponi un'offerta</h4>
+          <form onSubmit={handleOfferSubmit} className="offer-form">
+            <NumberInput
+              value={newOffer}
+              onChange={setNewOffer}
+              placeholder="Inserisci il prezzo dell'offerta"
+              defaultStyle="offer"
+            />
+            <Button defaultStyle="offer" label="Proponi Offerta" type="submit" />
+          </form>
+        </div>
+      )}
     </div>
   );
 };

@@ -91,7 +91,7 @@ exports.createInsertion = async (req, res) => {
             imageUrls = await Promise.all(uploadPromises);
         }
 
-        const location = await getCoordinates(req.body.address, req.body.cap, req.body.province, req.body.municipality);
+        const location = await getCoordinates(req.body.address, req.body.cap, req.body.province, req.body.municipality, req.body.region);
 
         const newInsertion = await insertionRepository.createInsertion(req.body, imageUrls, userId, location);
         if (!newInsertion) {
@@ -130,7 +130,8 @@ exports.getPOIsForInsertion = async (req, res) => {
 // Funzione per ottenere i POI vicini tramite API esterna
 async function getNearbyPOIs(lat, lng, category) {
     const radius = 1000; // Raggio di ricerca in metri (1 km)
-    const url = `https://discover.search.hereapi.com/v1/discover?at=${lat},${lng}&q=${category}&limit=10&apiKey=${API_KEY}`;
+    const url = `https://discover.search.hereapi.com/v1/discover?at=${lat},${lng}&q=${category}&limit=10&radius=${radius}&apiKey=${API_KEY}`;
+    
 
     try {
         const response = await axios.get(url);
@@ -165,7 +166,7 @@ exports.getFilteredInsertions = async (req, res) => {
 };
 
 // Funzione per ottenere coordinate geografiche
-async function getCoordinates(address, cap, municipality, province, region) {
+async function getCoordinates(address, cap, province, municipality, region) {
     const fullAddress = `${address}, ${cap}, ${municipality}, ${province}, ${region}`;
     const url = `https://geocode.search.hereapi.com/v1/geocode?q=${encodeURIComponent(fullAddress)}&apiKey=${API_KEY}`;
 

@@ -10,21 +10,21 @@ exports.validateRegister = [
 
     body('email')
     .isEmail()
-    .withMessage('Email non valida'),
+    .withMessage('Email non valida.\n'),
     body('password')
     .isLength({min: 6})
-    .withMessage('La password deve essere lunga almeno 6 caratteri')
+    .withMessage('La password deve essere lunga almeno 6 caratteri.\n')
     .matches(/^(?=.*[a-zA-Z])(?=.*\d).{6,}$/)
-    .withMessage('La password deve contenere almeno un numero e una lettera'),
+    .withMessage('La password deve contenere almeno un numero e una lettera.\n'),
     body('role').isIn(['USER','AGENT','MANAGER'])
-    .withMessage('Ruolo non valido'),
+    .withMessage('Ruolo non valido.\n'),
     body('first_name')
     .notEmpty()
-    .withMessage('Devi inserire il nome'),
+    .withMessage('Devi inserire il nome.\n'),
     body('last_name')
     .notEmpty()
-    .withMessage('Devi inserire il cognome'),
-    body('phone').matches(/^\d{10}$/).withMessage('Numero di telefono non valido'),
+    .withMessage('Devi inserire il cognome.\n'),
+    body('phone').matches(/^\d{10}$/).withMessage('Numero di telefono non valido.\n'),
     (req, res, next) => {
         const errors =validationResult(req);
         if(!errors.isEmpty()){

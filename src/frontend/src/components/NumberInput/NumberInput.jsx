@@ -58,7 +58,7 @@ const NumberInput = ({ label, value, onChange, placeholder, unit, isCap = false,
   };
 
   return (
-    <div className="input-container">
+    <div className="input">
       {label && <label className="input-label">{label}</label>}
       <div className="input-wrapper number-style">
         <input

@@ -6,7 +6,7 @@ import createAgentIcon from '../../assets/person-fill-add.svg';
 import yourAgentsIcon from '../../assets/people-fill.svg';
 import addInsertionIcon from '../../assets/house-add-fill.svg';
 import yourInsertionsIcon from '../../assets/house-fill.svg';
-import manageOffersIcon from '../../assets/notfound.png';
+
 import profileIcon from '../../assets/person.svg';
 import logoutIcon from '../../assets/box-arrow-left.svg';
 
@@ -17,7 +17,6 @@ const MenuListAdmin = ({
   onYourManagersOrAgents,
   onAddInsertion,
   onYourInsertions,
-  onManageOffers,
   onProfile,
   onLogout
 }) => {
@@ -55,14 +54,6 @@ const MenuListAdmin = ({
             defaultStyle='menu-icon'
           />
           <span>Le tue Inserzioni</span>
-        </li>
-        <li onClick={onManageOffers}>
-          <ImageDisplay 
-            src={manageOffersIcon}
-            alt='Gestisci Offerte'
-            defaultStyle='menu-icon'
-          />
-          <span>Gestisci Offerte</span>
         </li>
         <li onClick={onProfile}>
           <ImageDisplay 

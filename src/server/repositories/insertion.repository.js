@@ -148,19 +148,24 @@ class InsertionRepository {
             index++;
         }
         if (filters.floor) {
-            query += ` AND floor = $${index}`;
+            query += ` AND floor >= $${index}`;
             values.push(filters.floor);
             index++;
         }
         if (filters.energyclass) {
-            query += ` AND energyclass = $${index}`;
+            query += ` AND energyclass <= $${index}`;
             values.push(filters.energyclass);
+            index++;
+        }
+        if (filters.balcony){
+            query += ` AND balcony >= $${index}`;
+            values.push(filters.balcony);
             index++;
         }
 
         // Filtri booleani per caratteristiche opzionali
         ['garage', 'garden', 'elevator', 'climate', 'terrace', 'reception'].forEach(field => {
-            if (filters[field] !== undefined) {
+            if (filters[field] !== "qualsiasi" && filters[field] !== undefined) {
                 query += ` AND ${field} = $${index}`;
                 values.push(filters[field]);
                 index++;

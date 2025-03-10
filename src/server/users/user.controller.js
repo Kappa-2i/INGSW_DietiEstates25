@@ -33,7 +33,9 @@ exports.updateProfile = async (req, res) => {
         // Creiamo un oggetto per i dati da aggiornare
         const updateData = {};
 
-        if (phone) updateData.phone = phone;
+        if (phone) {
+            updateData.phone = phone;
+        }
 
         if (newPassword) {
             if (!oldPassword) {
@@ -145,7 +147,7 @@ exports.getMyAgents = async (req, res) => {
 exports.createAgent = async (req, res) => {
     const { first_name, last_name, email, password, phone, role } = req.body;
     const { id: supervisorId } = req.user;
-    console.log("Create", role);
+    
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
         const newAgent = await userRepository.createAgent(first_name, last_name, email, hashedPassword, phone, supervisorId, role);
