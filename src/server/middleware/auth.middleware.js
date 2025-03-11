@@ -5,7 +5,19 @@ const { body, validationResult } = require('express-validator');
 
 
 
-//Funzione che controlla i campi compilati per la registrazione
+/**
+ * Middleware di validazione per la registrazione utente.
+ *
+ * Verifica che i campi inviati siano validi:
+ * - **email**: deve essere un indirizzo email valido.
+ * - **password**: deve essere lunga almeno 6 caratteri e contenere almeno una lettera e un numero.
+ * - **role**: il ruolo deve essere uno tra 'USER', 'AGENT' o 'MANAGER'.
+ * - **first_name**: non deve essere vuoto.
+ * - **last_name**: non deve essere vuoto.
+ * - **phone**: deve essere composto esattamente da 10 cifre.
+ *
+ * Se la validazione fallisce, viene restituito un errore HTTP 400 con l'elenco degli errori.
+ */
 exports.validateRegister = [
 
     body('email')
@@ -34,7 +46,17 @@ exports.validateRegister = [
     },
 ];
 
-//Funzione che controlla se l'utente è autenticato
+/**
+ * Middleware di autenticazione.
+ *
+ * Verifica tramite il token se l'utente è correttamente autenticato.
+ *
+ * In caso di token mancante, non valido o scaduto, risponde con un errore HTTP 401.
+ *
+ * @param {object} req - Oggetto della richiesta HTTP.
+ * @param {object} res - Oggetto della risposta HTTP.
+ * @param {function} next - Funzione di callback per passare il controllo al middleware successivo.
+ */
 exports.authenticate = (req, res, next) => {
     const token = req.headers['authorization']?.split(' ')[1]; // Recupera il token dal header Authorization
 
@@ -43,7 +65,6 @@ exports.authenticate = (req, res, next) => {
     }
 
     try {
-        // Verifica il token
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.user = decoded; // Aggiunge i dati dell'utente alla richiesta
         next();
@@ -53,17 +74,26 @@ exports.authenticate = (req, res, next) => {
     }
 };
 
-
+/**
+ * Middleware di validazione per l'aggiornamento del profilo utente.
+ *
+ * - **phone**: deve essere composto esattamente da 10 cifre.
+ *
+ * Se l'utente intende modificare la password, devono essere presenti entrambi i campi:
+ * - **oldPassword**: la vecchia password.
+ * - **newPassword**: la nuova password, che deve essere lunga almeno 6 caratteri e contenere almeno una lettera e un numero.
+ *
+ * In caso di errori di validazione, risponde con un errore HTTP 400 contenente l'elenco degli errori.
+ */
 exports.validateUpdatesProfile = [
-  // Validazione del telefono: opzionale; se presente deve essere esattamente 10 cifre
   body('phone')
     .optional()
     .matches(/^\d{10}$/)
     .withMessage('Numero di telefono non valido'),
 
-  // Se l'utente intende cambiare la password, devono essere inviati entrambi i campi.
-  // Utilizziamo .if() per attivare la validazione solo se almeno uno dei due campi è presente.
+  
   body('oldPassword')
+    // Utilizziamo .if() per attivare la validazione solo se almeno uno dei due campi è presente.
     .if((value, { req }) => req.body.newPassword || req.body.oldPassword)
     .notEmpty()
     .withMessage('La vecchia password è richiesta per modificare la password'),
@@ -75,18 +105,16 @@ exports.validateUpdatesProfile = [
     .matches(/^(?=.*[a-zA-Z])(?=.*\d).{6,}$/)
     .withMessage('La nuova password deve contenere almeno un numero e una lettera'),
 
-  // Middleware finale per controllare errori di validazione e, se richiesto, confrontare le password
   async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    // Se non si sta modificando la password (entrambi i campi vuoti), prosegui
+    
     if (!req.body.oldPassword || !req.body.newPassword) {
       return next();
     }
     try {
-      // Verifica che la vecchia password fornita corrisponda a quella memorizzata
       const isMatch = await bcrypt.compare(req.body.oldPassword, req.user.password);
       if (!isMatch) {
         return res.status(400).json({

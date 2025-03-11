@@ -4,6 +4,7 @@ const crypto = require('crypto');
 const path = require('path');
 require('dotenv').config();
 
+//Client S3 di AWS configurato con le credenziali.
 const s3 = new S3Client({
     region: process.env.AWS_REGION,
     credentials: {
@@ -12,8 +13,17 @@ const s3 = new S3Client({
     }
 });
 
+/*
+  Configurazione di multer per caricare file in memoria.
+  La memoria viene utilizzata per gestire i file temporaneamente prima di inviarli a S3.
+ */
 const storage = multer.memoryStorage();
 
+/**
+ * Middleware multer per la gestione dei file caricati.
+ * - Impone un limite di 5MB per ogni file.
+ * - Filtra i file per consentire solo immagini JPEG, JPG e PNG.
+ */
 const upload = multer({
     storage,
     limits: { fileSize: 5 * 1024 * 1024 },
@@ -28,6 +38,13 @@ const upload = multer({
     }
 }).array('images', 5);
 
+/**
+ * Funzione per caricare il file sul bucket S3 specificato.
+ * - Genera un nome univoco per ogni file utilizzando un UUID.
+ * 
+ * @param {Object} file - Il file da caricare.
+ * @returns {string|null} - L'URL del file caricato su S3, oppure null se non ci sono file.
+ */
 const uploadToS3 = async (file) => {
     if (!file) {
         console.error("Nessun file da caricare su S3!");

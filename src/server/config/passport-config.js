@@ -2,6 +2,10 @@ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const userRepository = require('../repositories/user.repository');
 
+/**
+ * Configurazione della strategia di autenticazione con Google.
+ * @constant {GoogleStrategy} - Strategia OAuth 2.0 per Google.
+ */
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,         
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -9,23 +13,21 @@ passport.use(new GoogleStrategy({
   },
   async (accessToken, refreshToken, profile, done) => {
     try {
-      // Prova a cercare l'utente tramite googleId
+      // Cerca l'utente tramite googleId
       let user = await userRepository.findByGoogleId(profile.id);
 
-      // Se non lo trovi, potresti voler controllare se esiste un utente con la stessa email
+      // Se non esiste, cerca un utente con la stessa email
       if (!user) {
         user = await userRepository.findByEmail(profile.emails[0].value);
       }
 
-      // Se l'utente esiste, ma non ha il googleId, puoi aggiornare il record
+      // Se l'utente esiste, viene aggiunto il googleId
       if (user && !user.googleId) {
         user = await userRepository.updateGoogleUser(user.id, { googleId: profile.id });
       }
 
-      // Se l'utente non esiste, crealo
+      // Se l'utente non esiste viene creato
       if (!user) {
-        // Nota: per un utente creato tramite Google potresti non avere una password,
-        // quindi imposta il campo password a null o a una stringa vuota (a seconda della logica della tua applicazione)
         const newUserData = {
           first_name: profile.name.givenName,
           last_name: profile.name.familyName,
@@ -40,6 +42,7 @@ passport.use(new GoogleStrategy({
       }
 
       return done(null, user);
+
     } catch (err) {
       return done(err, null);
     }

@@ -1,4 +1,39 @@
 class Insertion {
+
+    /**
+     * Costruttore per l'oggetto Insertion.
+     *
+     * @param id - ID univoco dell'inserzione.
+     * @param title - Titolo dell'inserzione.
+     * @param description - Descrizione dell'inserzione.
+     * @param room - Numero di stanze.
+     * @param bathroom - Numero di bagni.
+     * @param balcony - Numero di balconi.
+     * @param contract - Tipo di contratto ("BUY" o "RENT").
+     * @param region - Regione in cui si trova l'immobile.
+     * @param province - Provincia dell'immobile.
+     * @param municipality - Comune dell'immobile.
+     * @param cap - CAP dell'immobile.
+     * @param address - Indirizzo completo dell'immobile.
+     * @param house_number - Numero civico dell'immobile.
+     * @param floor - Piano in cui si trova l'immobile.
+     * @param energyclass - Classe energetica dell'immobile.
+     * @param garage - Se l'immobile ha un garage.
+     * @param garden - Se l'immobile ha un giardino.
+     * @param elevator - Se l'immobile è dotato di ascensore.
+     * @param climate - Tipo di riscaldamento/clima.
+     * @param terrace - Se l'immobile ha una terrazza.
+     * @param reception - Se l'immobile ha una reception.
+     * @param userid - ID dell'utente che ha creato l'inserzione.
+     * @param image_url - URL dell'immagine principale dell'inserzione.
+     * @param created_at - Data di creazione dell'inserzione.
+     * @param updated_at - Data dell'ultima modifica dell'inserzione.
+     * @param surface - Superficie dell'immobile in metri quadrati.
+     * @param price - Prezzo dell'immobile.
+     * @param latitude - Latitudine dell'immobile.
+     * @param longitude - Longitudine dell'immobile.
+     * @returns {Insertion} - Ritorna una nuova istanza di Insertion.
+     */
     constructor(
         id, title, description, room, bathroom, balcony, contract, region, province, municipality, cap, address,
         house_number ,floor, energyclass, garage, garden, elevator, climate, terrace, reception, userid,
