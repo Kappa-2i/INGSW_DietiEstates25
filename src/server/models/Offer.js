@@ -1,4 +1,20 @@
 class Offer {
+
+    /**
+     * Costruttore per l'oggetto Offer.
+     * 
+     * @param id - ID univoco dell'offerta.
+     * @param status - Stato dell'offerta (Accettata, Rifiutata, In Attesa, Controfferta).
+     * @param userid - ID dell'utente che ha fatto l'offerta.
+     * @param insertionid - ID dell'inserzione per la quale è stata fatta l'offerta.
+     * @param created_at - Data e ora di creazione dell'offerta.
+     * @param updated_at - Data e ora dell'ultima modifica dell'offerta.
+     * @param first_name - Nome dell'utente che ha fatto l'offerta.
+     * @param last_name - Cognome dell'utente che ha fatto l'offerta.
+     * @param price - Prezzo proposto nell'offerta.
+     * @param parent_offer_id - ID di un'offerta parentale, se presente.
+     * @returns {Offer} - Ritorna una nuova istanza di Offer.
+     */
     constructor(id, status, userid, insertionid, created_at, updated_at, first_name, last_name, price, parent_offer_id) {
         this.id = id;
         this.status = status;

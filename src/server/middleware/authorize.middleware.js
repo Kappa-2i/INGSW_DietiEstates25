@@ -1,10 +1,18 @@
 const logger = require('../utils/logger');
 
 
-// Middleware per autorizzare l'accesso in base al ruolo
+/**
+ * Middleware per autorizzare l'accesso in base al ruolo.
+ *
+ * Se il ruolo dell'utente non è autorizzato, la richiesta viene interrotta con un errore 403.
+ *
+ * @param {string[]} roles - Array contenente i ruoli autorizzati.
+ * @returns {Function} Middleware asincrono per la verifica del ruolo utente.
+ *
+ */
 exports.authorize = (roles) => {
     return async (req, res, next) => {
-      const { role } = req.user; // Ruolo dell'utente autenticato
+      const { role } = req.user;
       try {
         
         if (!roles || !roles.includes(role)) {

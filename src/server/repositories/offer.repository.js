@@ -69,6 +69,19 @@ class OfferRepository {
     }
 
     /**
+     * Controlla se un'utente ha già un'offerta attiva su un'inserzione.
+     * @param {Object} user - L'utente che effettua l'offerta.
+     * @param {number} insertionId - L'ID dell'inserzione.
+     * @returns {Promise<boolean>} - True se l'offerta esiste già, altrimenti false.
+     */
+    async manualOfferAlreadyExists(userId, first_name, last_name, insertionId) {
+        const query = `SELECT * FROM offers WHERE userid = $1 AND insertionid = $2 AND status = 'WAIT' AND first_name = $3 AND last_name = $4;`;
+        const values = [userId, insertionId, first_name, last_name];
+        const result = await pool.query(query, values);
+        return result.rows.length > 0;
+    }
+
+    /**
      * Recupera le inserzioni su cui un utente ha fatto offerte.
      * @param {number} userId - L'ID dell'utente.
      * @returns {Insertion<Object[]>} - Lista delle inserzioni con offerte.
