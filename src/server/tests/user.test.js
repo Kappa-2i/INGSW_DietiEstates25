@@ -1,83 +1,553 @@
 const { removeFavorite } = require('../repositories/favorite.repository');
-const { updateProfile } = require('../repositories/user.repository');
+const { updateProfile, createAgent } = require('../repositories/user.repository');
 const pool = require('../config/db'); 
 
 jest.mock('../config/db', () => ({
   query: jest.fn(),
 }));
 
-describe('removeFavorite N-Sect', () => {
+describe('createAgent N-Wect', () => {
 
 
-  console.log("userId:\n 1) CEuId1 = userId >= 1 (valid) \n 2) CEuId2 = userId < 1 (not valid)");
-  console.log("insertionId:\n 1) CEiId1 = insertionId >= 1 (valid)\n 2) CEiId2 = insertionId < 1 (not valid)");
+  console.log("first_name:\n 1) CEfn1 = Stringa (valid)\n 2) CEfn2 = null (not valid)\n 3) CEfn3 = Stringa vuota (not valid)\n");
+  console.log("last_name:\n 1) CEln1 = Stringa (valid)\n 2) CEln2 = null (not valid)\n 3) CEln3 = Stringa vuota (not valid)\n");
+  console.log("email:\n 1) CEemail1 = Stringa contiene una @ e un . (valid)\n 2) CEemail2 = null (not valid)\n 3) CEemail3 = Stringa vuota (not valid)\n 4) CEemail4 = Stringa già esistente (not valid)\n 5) CEemail5 = Qualsiasi stringa diversa dai casi precedenti\n");
+  console.log("password:\n 1) CEpass1 = lunghezza >= 5 && prima lettera maiuscola && contiene un numero (valid)\n 2) CEpass2 = null (not valid)\n 3) CEpass3 = vuota (not valid)\n"
+  + " 4) CEpass4 = qualisasi stringa diversa dai casi precedenti (not valid)");
+  console.log("phone:\n 1) CEphone1 = lunghezza = 10 (valid)\n 2) CEphone2 = null (valid)\n 3) CEphone3 = vuota (valid)\n"
+  + " 4) CEphone4 = qualisasi stringa diversa dai casi precedenti (not valid)");
+  console.log("supervisorId:\n 1) CEsupId1 = supId >= 1 (valid)\n 2) CEsupId1 = supId < 1 (not valid)\n");
+  console.log("role:\n 1) CErole1 = 'AGENT' (valid)\n 2) CErole2 = 'MANAGER' (valid) \n 3) CErole3 = null (not valid)\n 4) CErole4 = Stringa vuota (not valid)\n 5) CErole5 = Qualsiasi stringa diversa dai casi precedenti (not valid)\n");
   console.log("---------------------------------------");
 
 
-  test('N-Sect con copertura su classi CEuId1 e CEiId1: deve rimuovere il preferito correttamente', async () => {
-    const validUserId = 1;
-    const validInsertionId = 1;
-    const fakeRow = { userid: validUserId, insertionid: validInsertionId };
+  test('N-Wect con copertura su classi CEfn1, CEln1, CEemail1, CEpass1, CEphone1, CEsupId1 e CErole1: deve creare un agente con successo', async () => {
 
-    // Imposta il mock per gestire i parametri validi
-    pool.query.mockImplementation((query, params) => {
-      if (params[0] >= 1 && params[1] >= 1) {
+      // Parametri validi (copertura classi di equivalenza valide)
+      const first_name = "Mario";               // CEfn1
+      const last_name = "Rossi";                // CEln1
+      const email = "mario.rossi@example.com";  // CEemail1
+      const password = "Password1";             // CEpass1
+      const phone = "3331234567";               // CEphone1
+      const supervisorId = 1;                   // CEsupId1
+      const role = "AGENT";                    // CErole1
+  
+      // Oggetto risultato atteso
+      const fakeRow = {
+        id: 1,
+        first_name,
+        last_name,
+        email,
+        phone,
+        role,
+        supervisor: supervisorId
+      };
+
+      pool.query.mockImplementation((query, params) => {
+        const [fn, ln, em, pw, ph, rl, supId] = params;
+        // Controllo first_name (CEfn1)
+        if (!fn) {
+          return Promise.reject(new Error('Invalid first_name'));
+        }
+  
+        // Controllo last_name (CEln1)
+        if (!ln) {
+          return Promise.reject(new Error('Invalid last_name'));
+        }
+  
+        // Controllo email (CEemail1)
+        if (!em.includes('@') || !em.includes('.')) {
+          return Promise.reject(new Error('Invalid email'));
+        }
+  
+        // Controllo password (CEpass1)
+        if (
+          !pw || 
+          pw.length < 5 || 
+          pw.charAt(0) !== pw.charAt(0).toUpperCase() || 
+          !/\d/.test(pw) 
+        ) {
+          return Promise.reject(new Error("Parametro password non valido"));
+        }
+  
+        // Controllo phone (CEphone1, CEphone2, CEphone3 validi)
+        if (!ph || ph.length !== 10 || !/^\d{10}$/.test(ph)) {
+          return Promise.reject(new Error("Parametro phone non valido"));
+        }
+  
+        // Controllo supervisorId (CEsupId1)
+        if (supId < 1) {
+          return Promise.reject(new Error('Invalid supervisorId'));
+        }
+  
+        // Controllo role (CErole1, CErole2)
+        if (rl !== 'AGENT' && rl !== 'MANAGER') {
+          return Promise.reject(new Error('Invalid role'));
+        }
+  
+        // Se tutti validi, ritorna la riga finta
         return Promise.resolve({ rows: [fakeRow] });
-      }
-      return Promise.reject(new Error("Parametri non validi"));
-    });
+      });
 
-    const result = await removeFavorite(validUserId, validInsertionId);
-    expect(result).toEqual(fakeRow);
+    const result = await createAgent(first_name, last_name, email, password, phone, supervisorId, role);
+    expect(result).toEqual(expect.objectContaining(fakeRow));
+    
   });
 
-  test('N-Sect con copertura su classi CEuId2 e CEiId2: deve lanciare errore', async () => {
-    const invalidUserId = 0;
-    const invalidInsertionId = -2;
 
-    // Imposta il mock per rifiutare la Promise se i parametri non sono validi
+  test('N-Wect con copertura su classi CEfn3, CEln1, CEemail1, CEpass1, CEphone1, CEsupId1 e CErole1: non deve creare un agente a causa del nome non valido', async () => {
+
+    // Parametri validi (copertura classi di equivalenza valide)
+    const first_name = "";                    // CEfn3
+    const last_name = "Rossi";                // CEln1
+    const email = "mario.rossi@example.com";  // CEemail1
+    const password = "Password1";             // CEpass1
+    const phone = "3331234567";               // CEphone1
+    const supervisorId = 1;                   // CEsupId1
+    const role = "AGENT";                     // CErole1
+
+    // Oggetto risultato atteso
+    const fakeRow = {
+      id: 1,
+      first_name,
+      last_name,
+      email,
+      phone,
+      role,
+      supervisor: supervisorId
+    };
+
     pool.query.mockImplementation((query, params) => {
-      if (params[0] >= 1 && params[1] >= 1) {
-        return Promise.resolve({ rows: [fakeRow] });
+      const [fn, ln, em, pw, ph, rl, supId] = params;
+
+      // Controlli di validità sui parametri
+
+      // Controllo first_name (CEfn1)
+      if (!fn) {
+        return Promise.reject(new Error('Parametro Nome non valido'));
       }
-      return Promise.reject(new Error("Parametri non validi"));
+
+      // Controllo last_name (CEln1)
+      if (!ln) {
+        return Promise.reject(new Error('Parametro Cognome non valido'));
+      }
+
+      // Controllo email (CEemail1)
+      if (!em.includes('@') || !em.includes('.')) {
+        return Promise.reject(new Error('Parametro Email non valido'));
+      }
+
+      // Controllo password (CEpass1)
+      if (
+        !pw || 
+        pw.length < 5 || 
+        pw.charAt(0) !== pw.charAt(0).toUpperCase() || 
+        !/\d/.test(pw) 
+      ) {
+        return Promise.reject(new Error("Parametro password non valido"));
+      }
+
+      // Controllo phone (CEphone1, CEphone2, CEphone3 validi)
+      if (!ph || ph.length !== 10 || !/^\d{10}$/.test(ph)) {
+        return Promise.reject(new Error("Parametro phone non valido"));
+      }
+
+      // Controllo supervisorId (CEsupId1)
+      if (supId < 1) {
+        return Promise.reject(new Error('Parametro SupervisorId non valido'));
+      }
+
+      // Controllo role (CErole1, CErole2)
+      if (rl !== 'AGENT' && rl !== 'MANAGER') {
+        return Promise.reject(new Error('Parametro Ruolo non valido'));
+      }
+
+      // Se tutti validi, ritorna la riga finta
+      return Promise.resolve({ rows: [fakeRow] });
     });
 
-    await expect(removeFavorite(invalidUserId, invalidInsertionId))
-      .rejects.toThrow('Parametri non validi');
+  await expect(createAgent(first_name, last_name, email, password, phone, supervisorId, role)).rejects.toThrow('Parametro Nome non valido');
+  
+});
+
+
+test('N-Wect con copertura su classi CEfn1, CEln3, CEemail1, CEpass1, CEphone1, CEsupId1 e CErole1: non deve creare un agente a causa del cognome non valido', async () => {
+
+  // Parametri validi (copertura classi di equivalenza valide)
+  const first_name = "Mario";               // CEfn1
+  const last_name = "";                     // CEln3
+  const email = "mario.rossi@example.com";  // CEemail1
+  const password = "Password1";             // CEpass1
+  const phone = "3331234567";               // CEphone1
+  const supervisorId = 1;                   // CEsupId1
+  const role = "AGENT";                    // CErole1
+
+  // Oggetto risultato atteso
+  const fakeRow = {
+    id: 1,
+    first_name,
+    last_name,
+    email,
+    phone,
+    role,
+    supervisor: supervisorId
+  };
+
+  pool.query.mockImplementation((query, params) => {
+    const [fn, ln, em, pw, ph, rl, supId] = params;
+
+    // Controlli di validità sui parametri
+
+    // Controllo first_name (CEfn1)
+    if (!fn) {
+      return Promise.reject(new Error('Parametro Nome non valido'));
+    }
+
+    // Controllo last_name (CEln1)
+    if (!ln) {
+      return Promise.reject(new Error('Parametro Cognome non valido'));
+    }
+
+    // Controllo email (CEemail1)
+    if (!em.includes('@') || !em.includes('.')) {
+      return Promise.reject(new Error('Parametro Email non valido'));
+    }
+
+    // Controllo password (CEpass1)
+    if (
+      !pw || 
+      pw.length < 5 || 
+      pw.charAt(0) !== pw.charAt(0).toUpperCase() || 
+      !/\d/.test(pw) 
+    ) {
+      return Promise.reject(new Error("Parametro password non valido"));
+    }
+
+    // Controllo phone (CEphone1, CEphone2, CEphone3 validi)
+    if (!ph || ph.length !== 10 || !/^\d{10}$/.test(ph)) {
+      return Promise.reject(new Error("Parametro phone non valido"));
+    }
+
+    // Controllo supervisorId (CEsupId1)
+    if (supId < 1) {
+      return Promise.reject(new Error('Parametro SupervisorId non valido'));
+    }
+
+    // Controllo role (CErole1, CErole2)
+    if (rl !== 'AGENT' && rl !== 'MANAGER') {
+      return Promise.reject(new Error('Parametro Ruolo non valido'));
+    }
+
+    // Se tutti validi, ritorna la riga finta
+    return Promise.resolve({ rows: [fakeRow] });
   });
 
-  test('N-Sect con copertura su classi CEuId1 e CEiId2: deve lanciare errore', async () => {
-    const invalidUserId = 1;
-    const invalidInsertionId = -2;
+await expect(createAgent(first_name, last_name, email, password, phone, supervisorId, role)).rejects.toThrow('Parametro Cognome non valido');
 
-    // Imposta il mock per rifiutare la Promise se i parametri non sono validi
-    pool.query.mockImplementation((query, params) => {
-      if (params[0] >= 1 && params[1] >= 1) {
-        return Promise.resolve({ rows: [fakeRow] });
-      }
-      return Promise.reject(new Error("Parametri non validi"));
-    });
+});
 
-    await expect(removeFavorite(invalidUserId, invalidInsertionId))
-      .rejects.toThrow('Parametri non validi');
+test('N-Wect con copertura su classi CEfn1, CEln1, CEemail5, CEpass1, CEphone1, CEsupId1 e CErole1: non deve creare un agente a causa dell email non valido', async () => {
+
+  const first_name = "Mario";               // CEfn1
+  const last_name = "Rossi";                // CEln1
+  const email = "mario.rossi";              // CEemail5
+  const password = "Password1";             // CEpass1
+  const phone = "3331234567";               // CEphone1
+  const supervisorId = 1;                   // CEsupId1
+  const role = "AGENT";                    // CErole1
+
+  // Oggetto risultato atteso
+  const fakeRow = {
+    id: 1,
+    first_name,
+    last_name,
+    email,
+    phone,
+    role,
+    supervisor: supervisorId
+  };
+
+  pool.query.mockImplementation((query, params) => {
+    const [fn, ln, em, pw, ph, rl, supId] = params;
+
+    // Controlli di validità sui parametri
+
+    // Controllo first_name (CEfn1)
+    if (!fn) {
+      return Promise.reject(new Error('Parametro Nome non valido'));
+    }
+
+    // Controllo last_name (CEln1)
+    if (!ln) {
+      return Promise.reject(new Error('Parametro Cognome non valido'));
+    }
+
+    // Controllo email (CEemail1)
+    if (!em.includes('@') || !em.includes('.')) {
+      return Promise.reject(new Error('Parametro Email non valido'));
+    }
+
+    // Controllo password (CEpass1)
+    if (
+      !pw || 
+      pw.length < 5 || 
+      pw.charAt(0) !== pw.charAt(0).toUpperCase() || 
+      !/\d/.test(pw) 
+    ) {
+      return Promise.reject(new Error("Parametro password non valido"));
+    }
+
+    // Controllo phone (CEphone1, CEphone2, CEphone3 validi)
+    if (!ph || ph.length !== 10 || !/^\d{10}$/.test(ph)) {
+      return Promise.reject(new Error("Parametro phone non valido"));
+    }
+
+    // Controllo supervisorId (CEsupId1)
+    if (supId < 1) {
+      return Promise.reject(new Error('Parametro SupervisorId non valido'));
+    }
+
+    // Controllo role (CErole1, CErole2)
+    if (rl !== 'AGENT' && rl !== 'MANAGER') {
+      return Promise.reject(new Error('Parametro Ruolo non valido'));
+    }
+
+    // Se tutti validi, ritorna la riga finta
+    return Promise.resolve({ rows: [fakeRow] });
   });
 
-  test('N-Sect con copertura su classi CEuId2 e CEiId1: deve lanciare errore', async () => {
-    const invalidUserId = 0;
-    const invalidInsertionId = 2;
+await expect(createAgent(first_name, last_name, email, password, phone, supervisorId, role)).rejects.toThrow('Parametro Email non valido');
 
-    // Imposta il mock per rifiutare la Promise se i parametri non sono validi
-    pool.query.mockImplementation((query, params) => {
-      if (params[0] >= 1 && params[1] >= 1) {
-        return Promise.resolve({ rows: [fakeRow] });
-      }
-      return Promise.reject(new Error("Parametri non validi"));
-    });
+});
 
-    await expect(removeFavorite(invalidUserId, invalidInsertionId))
-      .rejects.toThrow('Parametri non validi');
+
+test('N-Wect con copertura su classi CEfn1, CEln1, CEemail1, CEpass4, CEphone1, CEsupId1 e CErole1: non deve creare un agente a causa del password non valido', async () => {
+
+  const first_name = "Mario";               // CEfn1
+  const last_name = "Rossi";                // CEln1
+  const email = "mario.rossi@example.com";  // CEemail1
+  const password = "Pass";                  // CEpass4
+  const phone = "3331234567";               // CEphone1
+  const supervisorId = 1;                   // CEsupId1
+  const role = "AGENT";                    // CErole1
+
+  // Oggetto risultato atteso
+  const fakeRow = {
+    id: 1,
+    first_name,
+    last_name,
+    email,
+    phone,
+    role,
+    supervisor: supervisorId
+  };
+
+  pool.query.mockImplementation((query, params) => {
+    const [fn, ln, em, pw, ph, rl, supId] = params;
+
+    // Controlli di validità sui parametri
+
+    // Controllo first_name (CEfn1)
+    if (!fn) {
+      return Promise.reject(new Error('Parametro Nome non valido'));
+    }
+
+    // Controllo last_name (CEln1)
+    if (!ln) {
+      return Promise.reject(new Error('Parametro Cognome non valido'));
+    }
+
+    // Controllo email (CEemail1)
+    if (!em.includes('@') || !em.includes('.')) {
+      return Promise.reject(new Error('Parametro Email non valido'));
+    }
+
+    // Controllo password (CEpass1)
+    if (
+      !pw || 
+      pw.length < 5 || 
+      pw.charAt(0) !== pw.charAt(0).toUpperCase() || 
+      !/\d/.test(pw) 
+    ) {
+      return Promise.reject(new Error("Parametro password non valido"));
+    }
+
+    // Controllo phone (CEphone1, CEphone2, CEphone3 validi)
+    if (!ph || ph.length !== 10 || !/^\d{10}$/.test(ph)) {
+      return Promise.reject(new Error("Parametro phone non valido"));
+    }
+
+    // Controllo supervisorId (CEsupId1)
+    if (supId < 1) {
+      return Promise.reject(new Error('Parametro SupervisorId non valido'));
+    }
+
+    // Controllo role (CErole1, CErole2)
+    if (rl !== 'AGENT' && rl !== 'MANAGER') {
+      return Promise.reject(new Error('Parametro Ruolo non valido'));
+    }
+
+    // Se tutti validi, ritorna la riga finta
+    return Promise.resolve({ rows: [fakeRow] });
   });
+
+await expect(createAgent(first_name, last_name, email, password, phone, supervisorId, role)).rejects.toThrow('Parametro password non valido');
+
+});
+
+
+test('N-Wect con copertura su classi CEfn1, CEln1, CEemail1, CEpass1, CEphone4, CEsupId1 e CErole1: non deve creare un agente a causa del telefono non valido', async () => {
+
+
+  const first_name = "Mario";               // CEfn1
+  const last_name = "Rossi";                // CEln1
+  const email = "mario.rossi@example.com";  // CEemail1
+  const password = "Password1";             // CEpass1
+  const phone = "12345";                    // CEphone4
+  const supervisorId = 1;                   // CEsupId1
+  const role = "AGENT";                    // CErole1
+
+  // Oggetto risultato atteso
+  const fakeRow = {
+    id: 1,
+    first_name,
+    last_name,
+    email,
+    phone,
+    role,
+    supervisor: supervisorId
+  };
+
+  pool.query.mockImplementation((query, params) => {
+    const [fn, ln, em, pw, ph, rl, supId] = params;
+
+    // Controlli di validità sui parametri
+
+    // Controllo first_name (CEfn1)
+    if (!fn) {
+      return Promise.reject(new Error('Parametro Nome non valido'));
+    }
+
+    // Controllo last_name (CEln1)
+    if (!ln) {
+      return Promise.reject(new Error('Parametro Cognome non valido'));
+    }
+
+    // Controllo email (CEemail1)
+    if (!em.includes('@') || !em.includes('.')) {
+      return Promise.reject(new Error('Parametro Email non valido'));
+    }
+
+    // Controllo password (CEpass1)
+    if (
+      !pw || 
+      pw.length < 5 || 
+      pw.charAt(0) !== pw.charAt(0).toUpperCase() || 
+      !/\d/.test(pw) 
+    ) {
+      return Promise.reject(new Error("Parametro password non valido"));
+    }
+
+    // Controllo phone (CEphone1, CEphone2, CEphone3 validi)
+    if (!ph || ph.length !== 10 || !/^\d{10}$/.test(ph)) {
+      return Promise.reject(new Error("Parametro phone non valido"));
+    }
+
+    // Controllo supervisorId (CEsupId1)
+    if (supId < 1) {
+      return Promise.reject(new Error('Parametro SupervisorId non valido'));
+    }
+
+    // Controllo role (CErole1, CErole2)
+    if (rl !== 'AGENT' && rl !== 'MANAGER') {
+      return Promise.reject(new Error('Parametro Ruolo non valido'));
+    }
+
+    // Se tutti validi, ritorna la riga finta
+    return Promise.resolve({ rows: [fakeRow] });
+  });
+
+await expect(createAgent(first_name, last_name, email, password, phone, supervisorId, role)).rejects.toThrow('Parametro phone non valido');
+
+});
+
+
+test('N-Wect con copertura su classi CEfn1, CEln1, CEemail1, CEpass1, CEphone1, CEsupId1 e CErole3: non deve creare un agente a causa del ruolo non valido', async () => {
+
+
+  const first_name = "Mario";               // CEfn1
+  const last_name = "Rossi";                // CEln1
+  const email = "mario.rossi@example.com";  // CEemail1
+  const password = "Password1";             // CEpass1
+  const phone = "3331234567";               // CEphone1
+  const supervisorId = 1;                   // CEsupId1
+  const role = "ruolo";                    // CErole3
+
+  // Oggetto risultato atteso
+  const fakeRow = {
+    id: 1,
+    first_name,
+    last_name,
+    email,
+    phone,
+    role,
+    supervisor: supervisorId
+  };
+
+  pool.query.mockImplementation((query, params) => {
+    const [fn, ln, em, pw, ph, rl, supId] = params;
+
+    // Controlli di validità sui parametri
+
+    // Controllo first_name (CEfn1)
+    if (!fn) {
+      return Promise.reject(new Error('Parametro Nome non valido'));
+    }
+
+    // Controllo last_name (CEln1)
+    if (!ln) {
+      return Promise.reject(new Error('Parametro Cognome non valido'));
+    }
+
+    // Controllo email (CEemail1)
+    if (!em.includes('@') || !em.includes('.')) {
+      return Promise.reject(new Error('Parametro Email non valido'));
+    }
+
+    // Controllo password (CEpass1)
+    if (
+      !pw || 
+      pw.length < 5 || 
+      pw.charAt(0) !== pw.charAt(0).toUpperCase() || 
+      !/\d/.test(pw) 
+    ) {
+      return Promise.reject(new Error("Parametro password non valido"));
+    }
+
+    // Controllo phone (CEphone1, CEphone2, CEphone3 validi)
+    if (!ph || ph.length !== 10 || !/^\d{10}$/.test(ph)) {
+      return Promise.reject(new Error("Parametro phone non valido"));
+    }
+
+    // Controllo supervisorId (CEsupId1)
+    if (supId < 1) {
+      return Promise.reject(new Error('Parametro SupervisorId non valido'));
+    }
+
+    // Controllo role (CErole1, CErole2)
+    if (rl !== 'AGENT' && rl !== 'MANAGER') {
+      return Promise.reject(new Error('Parametro Ruolo non valido'));
+    }
+
+    // Se tutti validi, ritorna la riga finta
+    return Promise.resolve({ rows: [fakeRow] });
+  });
+
+await expect(createAgent(first_name, last_name, email, password, phone, supervisorId, role)).rejects.toThrow('Parametro Ruolo non valido');
+
+});
+
+
 });
 
 
@@ -289,3 +759,4 @@ describe('updateProfile N-Wect', () => {
     );
   });
 });
+

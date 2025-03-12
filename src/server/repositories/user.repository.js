@@ -1,4 +1,4 @@
-const { pool } = require('../config/db');
+const pool = require('../config/db');
 const User = require('../models/User');
 
 class UserRepository {
@@ -142,7 +142,8 @@ class UserRepository {
             result.rows[0].email,
             result.rows[0].phone,
             null,
-            result.rows[0].role
+            result.rows[0].role,
+            result.rows[0].supervisor
         );
     }
 
