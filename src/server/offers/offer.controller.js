@@ -18,10 +18,10 @@ exports.getInsertionsWithOffer = async (req, res) => {
             return res.status(404).json({ success: false, message: 'Non ci sono inserzioni per cui hai fatto offerte' });
         }
 
-        res.status(200).json({ success: true, data: insertionsWithOffers });
+        return res.status(200).json({ success: true, data: insertionsWithOffers });
     } catch (error) {
         console.error('Error fetching insertions with offers:', error);
-        res.status(500).json({ success: false, message: 'Errore interno del server' });
+        return res.status(500).json({ success: false, message: 'Errore interno del server' });
     }
 };
 
@@ -53,10 +53,10 @@ exports.createManualOffer = async (req, res) => {
         }
 
         const createdOffer = await offerRepository.createOffer(manualOffer);
-        res.status(201).json({ success: true, message: 'Offerta manuale creata con successo.', data: createdOffer.toJSON() });
+        return res.status(201).json({ success: true, message: 'Offerta manuale creata con successo.', data: createdOffer.toJSON() });
     } catch (error) {
         console.error('Errore creazione offerta manuale:', error);
-        res.status(500).json({ success: false, message: 'Errore interno del server' });
+        return res.status(500).json({ success: false, message: 'Errore interno del server' });
     }
 };
 
@@ -94,10 +94,10 @@ exports.createOffer = async (req, res) => {
         );
 
         const createdOffer = await offerRepository.createOffer(newOffer);
-        res.status(201).json({ success: true, message: 'Offerta effettuata correttamente.', data: createdOffer.toJSON() });
+        return res.status(201).json({ success: true, message: 'Offerta effettuata correttamente.', data: createdOffer.toJSON() });
     } catch (error) {
         console.error('Errore creazione offerta:', error);
-        res.status(500).json({ success: false, message: 'Errore interno del server' });
+        return res.status(500).json({ success: false, message: 'Errore interno del server' });
     }
 };
 
@@ -129,11 +129,11 @@ exports.counteroffer = async (req, res) => {
             offerResult = await offerRepository.counterofferByAgent(offerId, userId, newPrice);
         }
 
-        res.status(201).json({ success: true, message: 'Controfferta effettuata con successo.', data: offerResult.toJSON() });
+        return res.status(201).json({ success: true, message: 'Controfferta effettuata con successo.', data: offerResult.toJSON() });
 
     } catch (error) {
         console.error('Errore durante la controfferta:', error);
-        res.status(500).json({ success: false, message: 'Errore interno del server' });
+        return res.status(500).json({ success: false, message: 'Errore interno del server' });
     }
 };
 
@@ -150,10 +150,10 @@ exports.rejectOffer = async (req, res) => {
         const { offerId } = req.params;
         const offerResult = await offerRepository.rejectOffer(offerId);
 
-        res.status(201).json({ success: true, message: 'Offerta rifiutata con successo.', data: offerResult.toJSON() });
+        return res.status(201).json({ success: true, message: 'Offerta rifiutata con successo.', data: offerResult.toJSON() });
     } catch (error) {
         console.error('Errore rifiuto offerta:', error);
-        res.status(500).json({ success: false, message: 'Errore interno del server' });
+        return res.status(500).json({ success: false, message: 'Errore interno del server' });
     }
 };
 
@@ -187,11 +187,11 @@ exports.getAllOffersByInsertionId = async (req, res) => {
             sentOffers = await offerRepository.sendedOffersOfAnInsertionForAnUser(user, insertionId);
         }
 
-        res.status(200).json({ success: true, receivedOffers, sentOffers });
+        return res.status(200).json({ success: true, receivedOffers, sentOffers });
 
     } catch (error) {
         console.error('Error fetching offers for insertionId:', error);
-        res.status(500).json({ success: false, message: 'Errore interno del server' });
+        return res.status(500).json({ success: false, message: 'Errore interno del server' });
     }
 };
 
@@ -216,10 +216,10 @@ exports.offersByInsertionId = async (req, res) => {
             return res.status(404).json({ success: false, message: 'Nessuna offerta trovata per questa inserzione.' });
         }
 
-        res.status(200).json({ success: true, data: offers.map(offer => offer.toJSON()) });
+        return res.status(200).json({ success: true, data: offers.map(offer => offer.toJSON()) });
     } catch (error) {
         console.error('Error fetching offers:', error);
-        res.status(500).json({ success: false, message: 'Errore interno del server' });
+        return res.status(500).json({ success: false, message: 'Errore interno del server' });
     }
 };
 
@@ -244,11 +244,11 @@ exports.acceptOffer = async (req, res) => {
             offerResult = await offerRepository.acceptOfferByAgent(offerId);
         }
 
-        res.status(201).json({ success: true, message: 'Offerta accettata con successo.', data: offerResult.toJSON() });
+        return res.status(201).json({ success: true, message: 'Offerta accettata con successo.', data: offerResult.toJSON() });
 
     } catch (error) {
         console.error('Errore accettazione offerta:', error);
-        res.status(500).json({ success: false, message: 'Errore interno del server' });
+        return res.status(500).json({ success: false, message: 'Errore interno del server' });
     }
 };
 
@@ -268,9 +268,9 @@ exports.getCounterOfferDetails = async (req, res) => {
         return res.status(404).json({ success: false, message: "Offerta originale non trovata" });
       }
       console.log("details backend", details);
-      res.status(200).json({ success: true, data: details });
+      return res.status(200).json({ success: true, data: details });
     } catch (error) {
       console.error("Errore nel recupero dei dettagli della controfferta:", error);
-      res.status(500).json({ success: false, message: "Errore interno del server" });
+      return res.status(500).json({ success: false, message: "Errore interno del server" });
     }
   };
