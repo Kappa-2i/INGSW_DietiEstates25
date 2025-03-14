@@ -2,7 +2,12 @@ const bcrypt = require('bcryptjs');
 const userRepository = require('../repositories/user.repository');
 const User = require('../models/User');
 
-// Recupera il profilo utente
+/**
+ * Recupera il profilo utente.
+ * @param {Object} req - Oggetto della richiesta HTTP.
+ * @param {Object} res - Oggetto della risposta HTTP.
+ * @returns {Object} - Risposta con i dati dell'utente o messaggio di errore.
+*/
 exports.getUserProfile = async (req, res) => {
     const { id } = req.user;
 
@@ -19,7 +24,12 @@ exports.getUserProfile = async (req, res) => {
     }
 };
 
-// Aggiorna il profilo utente
+/**
+ * Aggiorna il profilo utente.
+ * @param {Object} req - Oggetto della richiesta HTTP contenente i dati dell'utente.
+ * @param {Object} res - Oggetto della risposta HTTP.
+ * @returns {Object} - Risposta con i dati aggiornati dell'utente o messaggio di errore.
+ */
 exports.updateProfile = async (req, res) => {
     const { id } = req.user;
     const { phone, oldPassword, newPassword } = req.body;
@@ -62,7 +72,12 @@ exports.updateProfile = async (req, res) => {
     }
 };
 
-// Recupera tutti i profili utente
+/**
+ * Recupera tutti i profili utente.
+ * @param {Object} req - Oggetto della richiesta HTTP.
+ * @param {Object} res - Oggetto della risposta HTTP.
+ * @returns {Object} - Risposta con la lista di tutti gli utenti o messaggio di errore.
+ */
 exports.getAllUsersProfile = async (req, res) => {
     try {
         const allUsers = await userRepository.getAllUsersProfile();
@@ -77,7 +92,12 @@ exports.getAllUsersProfile = async (req, res) => {
     }
 };
 
-// Elimina un profilo utente
+/**
+ * Elimina un profilo utente tramite ID.
+ * @param {Object} req - Oggetto della richiesta HTTP con l'ID dell'utente da eliminare.
+ * @param {Object} res - Oggetto della risposta HTTP.
+ * @returns {Object} - Risposta con lo stato dell'eliminazione o messaggio di errore.
+ */
 exports.deleteProfileById = async (req, res) => {
     const { id } = req.params;
 
@@ -95,7 +115,12 @@ exports.deleteProfileById = async (req, res) => {
     }
 };
 
-// Aggiorna un agente (manager modifica un agente)
+/**
+ * Aggiorna un agente (manager modifica un agente).
+ * @param {Object} req - Oggetto della richiesta HTTP contenente i dati dell'agente e l'ID del manager.
+ * @param {Object} res - Oggetto della risposta HTTP.
+ * @returns {Object} - Risposta con i dati aggiornati dell'agente o messaggio di errore.
+ */
 exports.updateAgent = async (req, res) => {
     const { agentId } = req.params;
     const { id } = req.user;
@@ -127,7 +152,12 @@ exports.updateAgent = async (req, res) => {
     }
 };
 
-// Recupera gli agenti associati a un manager
+/**
+ * Recupera gli agenti associati a un manager.
+ * @param {Object} req - Oggetto della richiesta HTTP contenente l'ID del manager.
+ * @param {Object} res - Oggetto della risposta HTTP.
+ * @returns {Object} - Risposta con la lista degli agenti o messaggio di errore.
+*/
 exports.getMyAgents = async (req, res) => {
     try {
         const { id } = req.user;
@@ -143,7 +173,12 @@ exports.getMyAgents = async (req, res) => {
     }
 };
 
-// Crea un nuovo agente
+/**
+ * Crea un nuovo agente.
+ * @param {Object} req - Oggetto della richiesta HTTP contenente i dati dell'agente.
+ * @param {Object} res - Oggetto della risposta HTTP.
+ * @returns {Object} - Risposta con i dati del nuovo agente o messaggio di errore.
+*/
 exports.createAgent = async (req, res) => {
     const { first_name, last_name, email, password, phone, role } = req.body;
     const { id: supervisorId } = req.user;
@@ -163,7 +198,12 @@ exports.createAgent = async (req, res) => {
     }
 };
 
-// Reset password dimenticata
+/**
+ * Reset password dimenticata.
+ * @param {Object} req - Oggetto della richiesta HTTP contenente l'email e la nuova password.
+ * @param {Object} res - Oggetto della risposta HTTP.
+ * @returns {Object} - Risposta con il messaggio di successo o errore.
+*/
 exports.forgetPassword = async (req, res) => {
     const { email, newPassword } = req.body;
 
@@ -183,7 +223,12 @@ exports.forgetPassword = async (req, res) => {
     }
 };
 
-
+/**
+ * Recupera un agente tramite il suo ID.
+ * @param {Object} req - Oggetto della richiesta HTTP contenente l'ID dell'agente.
+ * @param {Object} res - Oggetto della risposta HTTP.
+ * @returns {Object} - Risposta con i dati dell'agente o messaggio di errore.
+*/
 exports.getAgentById = async (req, res) => {
     const { agentId } = req.params;
     try{
