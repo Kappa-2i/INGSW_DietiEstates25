@@ -1,10 +1,11 @@
 const { body, validationResult } = require('express-validator');
 
 exports.validateInputs = [
-  // Testo: non devono essere vuoti
+  // Testo: non deve essere vuoti
   body('title')
     .notEmpty().withMessage('Il titolo è richiesto'),
 
+//Descrizione: non deve essere vuota
   body('description')
     .notEmpty().withMessage('La descrizione è richiesta'),
 
