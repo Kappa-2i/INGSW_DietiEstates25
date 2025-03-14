@@ -4,6 +4,7 @@ import { X } from "lucide-react";
 
 const ImageUpload = ({ onImagesChange }) => {
   const [images, setImages] = useState([]);
+  const maxImages = 5;
 
   const handleImageChange = (event) => {
     const files = Array.from(event.target.files);
@@ -16,13 +17,20 @@ const ImageUpload = ({ onImagesChange }) => {
       return;
     }
 
+    // Controlla se il numero totale di immagini supererebbe il limite
+    if (images.length + validImages.length > maxImages) {
+      alert(`Puoi caricare al massimo ${maxImages} immagini.`);
+      return;
+    }
+
     const imagePreviews = validImages.map((file) => ({
       file,
       preview: URL.createObjectURL(file),
     }));
 
-    setImages([...images, ...imagePreviews]);
-    onImagesChange([...images.map((img) => img.file), ...validImages]);
+    const newImages = [...images, ...imagePreviews];
+    setImages(newImages);
+    onImagesChange(newImages.map((img) => img.file));
   };
 
   const removeImage = (index) => {

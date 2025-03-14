@@ -13,6 +13,7 @@ import ImageUpload from "../../components/ImageUpload/ImageUpload";
 import regionsData from "../../data/gi_regioni.json";
 import provincesData from "../../data/gi_province.json";
 import municipalitiesData from "../../data/gi_comuni.json";
+import capData from "../../data/comuni.json";
 
 
 
@@ -30,7 +31,7 @@ const CreateInsertionForm = () => {
     const [balcony, setBalcony] = useState(null);
     const [address, setAddress] = useState("");
     const [houseNumber, setHouseNumber] = useState("");
-    const [cap, setCap] = useState("");
+    const [cap, setCap] = useState();
     const [energyclass, setEnergyClass] = useState(null);
     const [category, setCategory] = useState({ value: "BUY", label: "Vendita" });
     const [garage, setGarage] = useState(false);
@@ -40,6 +41,7 @@ const CreateInsertionForm = () => {
     const [reception, setReception] = useState(false);
     const [terrace, setTerrace] = useState(false);
     const [selectedImages, setSelectedImages] = useState([]);
+    const [description, setDescription] = useState("");
 
     const navigate = useNavigate();
 
@@ -70,6 +72,18 @@ const CreateInsertionForm = () => {
               label: mun.denominazione_ita,
             }))
         : [];
+
+    const capOptions = selectedMunicipality 
+    ? capData
+      .filter((cap) => cap.nome.toLowerCase() === selectedMunicipality.label.toLowerCase())
+      .flatMap((cap) =>
+        cap.cap.map((c) => ({
+          value: c,
+          label: c,
+        }))
+      )
+  : [];
+
 
 
     const energyClassOptions = [
@@ -116,16 +130,16 @@ const CreateInsertionForm = () => {
       formData.append("title", title);
       formData.append("price", price.replace('.', ''));
       formData.append("surface", surface);
-      formData.append("room", room.value);
-      formData.append("bathroom", bathroom.value);
-      formData.append("floor", floor.value);
-      formData.append("balcony", balcony.value);
+      formData.append("room", room ? room.value : "");
+      formData.append("bathroom", bathroom ? bathroom.value : "");
+      formData.append("floor", floor ? floor.value : "");
+      formData.append("balcony", balcony ? balcony.value : "");
       formData.append("address", address);
       formData.append("energyclass", energyclass);
       formData.append("contract", category.value);
-      formData.append("region", selectedRegion.label);
-      formData.append("province", selectedProvince.label);
-      formData.append("municipality", selectedMunicipality.label);
+      formData.append("region", selectedRegion ? selectedRegion.label : "");
+      formData.append("province", selectedProvince ? selectedProvince.label : "");
+      formData.append("municipality", selectedMunicipality ? selectedMunicipality.label : "");
       formData.append("garage", garage);
       formData.append("garden", garden);
       formData.append("elevator", elevator);
@@ -134,6 +148,7 @@ const CreateInsertionForm = () => {
       formData.append("terrace", terrace);
       formData.append("cap", cap);
       formData.append("house_number", houseNumber);
+      formData.append("description", description);
 
       selectedImages.forEach((image) => {
         formData.append("images", image);
@@ -155,13 +170,22 @@ const CreateInsertionForm = () => {
           if (response.data.success) {
               console.log("Inserzione creata con successo:", response.data.data);
               alert("Inserzione creata con successo!");
+              navigate("/");
           } else {
               console.error("Errore durante la creazione dell'inserzione:", response.data.message);
               alert("Errore durante la creazione dell'inserzione.");
           }
       } catch (error) {
-          console.error("Error:", error.message);
+        console.error("Error:", error.message);
+        // Se la response contiene errori di validazione
+        if (error.response && error.response.data && error.response.data.errors) {
+          const errorMessages = error.response.data.errors
+            .map(err => err.msg)
+            .join("\n");
+          alert(errorMessages);
+        } else {
           alert("Errore interno del server. Per favore riprova più tardi.");
+        }
       }
     };
   
@@ -190,6 +214,7 @@ const CreateInsertionForm = () => {
                             setSelectedRegion(selected);
                             setSelectedProvince(null);
                             setSelectedMunicipality(null);
+                            setCap(null);
                         }} 
                         className="select" 
                         value={selectedRegion}
@@ -200,6 +225,7 @@ const CreateInsertionForm = () => {
                         onChange={(selected) => {
                             setSelectedProvince(selected);
                             setSelectedMunicipality(null);
+                            setCap(null);
                         }}
                         className="select" 
                         isDisabled={!selectedRegion}
@@ -244,12 +270,14 @@ const CreateInsertionForm = () => {
                 placeholder="Civico"
                 isHouseNumber={true}
               />
-              
-              <NumberInput
-                value={cap}
-                onChange={setCap} 
-                placeholder="Cap"
-                isCap={true}
+              {console.log(capOptions)}
+              <Select 
+                options={capOptions} 
+                placeholder="CAP" 
+                onChange={(selected) => setCap(selected.value)}
+                className="select" 
+                isDisabled={!selectedMunicipality}
+                value={cap ? cap.value : null}
               />
             </div>
 
@@ -259,6 +287,8 @@ const CreateInsertionForm = () => {
                   className="description"
                   placeholder="Descrizione"
                   maxLength={500} 
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
               />
             </div>
 
