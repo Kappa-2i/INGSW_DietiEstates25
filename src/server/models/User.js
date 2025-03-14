@@ -1,6 +1,20 @@
 const bcrypt = require('bcryptjs');
 
 class User {
+    /**
+     * Costruttore per l'oggetto User.
+     *
+     * @param id - ID univoco dell'utente.
+     * @param first_name - Nome dell'utente.
+     * @param last_name - Cognome dell'utente.
+     * @param email - Indirizzo email dell'utente.
+     * @param phone - Numero di telefono dell'utente.
+     * @param password - Password dell'utente.
+     * @param role - Ruolo dell'utente.
+     * @param supervisor - ID dell'utente supervisore.
+     * @param googleId - ID associato all'account Google, se presente.
+     * @returns {User} - Ritorna una nuova istanza di User.
+    */
     constructor(id, first_name, last_name, email, phone, password, role, supervisor = null, googleId = null) {
         this.id = id;
         this.first_name = first_name;

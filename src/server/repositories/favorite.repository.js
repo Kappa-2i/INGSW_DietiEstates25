@@ -4,8 +4,8 @@ const Favorite = require('../models/Favorite');
 class FavoriteRepository {
     /**
      * Aggiunge un'inserzione ai preferiti di un utente.
-     * @param {number} userid - ID dell'utente.
-     * @param {number} insertionid - ID dell'inserzione.
+     * @param userid - ID dell'utente.
+     * @param insertionid - ID dell'inserzione.
      * @returns {Promise<Favorite|null>} - Istanza `Favorite` o `null` se già esistente.
      */
     async addFavorite(userid, insertionid) {
@@ -21,7 +21,7 @@ class FavoriteRepository {
 
     /**
      * Recupera tutte le inserzioni preferite di un utente.
-     * @param {number} userid - ID dell'utente.
+     * @param userid - ID dell'utente.
      * @returns {Promise<Favorite[]>} - Lista delle inserzioni preferite.
      */
     async getFavoritesByUser(userid) {
@@ -37,11 +37,12 @@ class FavoriteRepository {
 
     /**
      * Rimuove un'inserzione dai preferiti di un utente.
-     * @param {number} userid - ID dell'utente.
-     * @param {number} insertionid - ID dell'inserzione.
+     * @param userid - ID dell'utente.
+     * @param insertionid - ID dell'inserzione.
      * @returns {Promise<Favorite|null>} - Istanza `Favorite` rimossa o `null` se non trovata.
      */
     async removeFavorite(userid, insertionid) {
+
         const query = `
             DELETE FROM favorites
             WHERE userid = $1 AND insertionid = $2

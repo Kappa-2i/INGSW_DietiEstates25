@@ -1,4 +1,10 @@
 class Favorite {
+    /**
+     * Costruttore per l'oggetto Favorite.
+     * @param userid - ID dell'utente che ha aggiunto il preferito.
+     * @param insertionid - ID dell'inserzione aggiunta ai preferiti.
+     * @returns {Favorite} - Ritorna una nuova istanza di `Favorite`.
+    */
     constructor(userid, insertionid) {
         this.userid = userid;
         this.insertionid = insertionid;

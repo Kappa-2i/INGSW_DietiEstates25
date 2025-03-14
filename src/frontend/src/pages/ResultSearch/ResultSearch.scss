@@ -4,6 +4,15 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
+
+    .notFound-container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center; 
+        height: 50vh; 
+        text-align: center;
+    }
 }
 
 .filter-wrapper{

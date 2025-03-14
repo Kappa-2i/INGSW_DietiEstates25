@@ -86,7 +86,7 @@ const InsertionCard = ({ insertion }) => {
         <p className="card-info">
           {insertion.room || 1} {insertion.room > 1 ? "Camere" : "Camera"} | {insertion.bathroom || 1} {insertion.bathroom > 1 ? "Bagni" : "Bagno"} | {insertion.contract === "BUY" ? "In Vendita" : "In Affitto"}
           <br />
-          <span>{insertion.province} - {insertion.municipality}</span>
+          <span>{insertion.province} - {insertion.municipality} - {insertion.surface} mq</span>
         </p>
       </div>
       <div className="card-footer">

@@ -5,7 +5,12 @@ const Insertion = require('../models/Insertion');
 
 const API_KEY = "pVxzMB9ttWPE1wh_QsRBu1NTm0B65_okD3IoDD4vQ6M";
 
-// Recupera tutte le inserzioni
+/**
+ * Recupera tutte le inserzioni.
+ * @param {Object} req - Oggetto della richiesta HTTP.
+ * @param {Object} res - Oggetto della risposta HTTP.
+ * @returns {Object} - Risposta con tutte le inserzioni o messaggio di errore.
+ */
 exports.getAllInsertions = async (req, res) => {
     try {
         const allInsertions = await insertionRepository.getAllInsertions();
@@ -19,7 +24,12 @@ exports.getAllInsertions = async (req, res) => {
     }
 };
 
-// Recupera le ultime inserzioni
+/**
+ * Recupera le ultime inserzioni.
+ * @param {Object} req - Oggetto della richiesta HTTP.
+ * @param {Object} res - Oggetto della risposta HTTP.
+ * @returns {Object} - Risposta con le ultime inserzioni o messaggio di errore.
+ */
 exports.getLastInsertions = async (req, res) => {
     try {
         const lastInsertions = await insertionRepository.getLastInsertions();
@@ -33,7 +43,12 @@ exports.getLastInsertions = async (req, res) => {
     }
 };
 
-// Recupera un'inserzione specifica per ID
+/**
+ * Recupera un'inserzione specifica per ID.
+ * @param {Object} req - Oggetto della richiesta HTTP.
+ * @param {Object} res - Oggetto della risposta HTTP.
+ * @returns {Object} - Risposta con l'inserzione richiesta o messaggio di errore.
+ */
 exports.getInsertionById = async (req, res) => {
     try {
         const { id } = req.params;
@@ -48,7 +63,12 @@ exports.getInsertionById = async (req, res) => {
     }
 };
 
-// Elimina un'inserzione specifica per ID
+/**
+ * Elimina un'inserzione specifica per ID.
+ * @param {Object} req - Oggetto della richiesta HTTP.
+ * @param {Object} res - Oggetto della risposta HTTP.
+ * @returns {Object} - Risposta con l'inserzione eliminata o messaggio di errore.
+ */
 exports.deleteInsertionById = async (req, res) => {
     try {
         const { id } = req.params;
@@ -63,7 +83,12 @@ exports.deleteInsertionById = async (req, res) => {
     }
 };
 
-// Recupera le inserzioni di un utente specifico
+/**
+ * Recupera le inserzioni di un utente specifico.
+ * @param {Object} req - Oggetto della richiesta HTTP.
+ * @param {Object} res - Oggetto della risposta HTTP.
+ * @returns {Object} - Risposta con le inserzioni dell'utente o messaggio di errore.
+ */
 exports.getMyInsertions = async (req, res) => {
     try {
         const { id } = req.user;
@@ -78,20 +103,26 @@ exports.getMyInsertions = async (req, res) => {
     }
 };
 
-// Crea una nuova inserzione
+/**
+ * Crea una nuova inserzione.
+ * @param {Object} req - Oggetto della richiesta HTTP.
+ * @param {Object} res - Oggetto della risposta HTTP.
+ * @returns {Object} - Risposta con la nuova inserzione creata o messaggio di errore.
+ */
 exports.createInsertion = async (req, res) => {
     try {
         const userId = req.user.id;
         let imageUrls;
 
         if (!req.files || req.files.length === 0) {
+            //immagine di default
             imageUrls = ["https://properties25-images.s3.us-east-1.amazonaws.com/insertions/defaulthouse.jpg"];
         } else {
             const uploadPromises = req.files.map(file => uploadToS3(file));
             imageUrls = await Promise.all(uploadPromises);
         }
 
-        const location = await getCoordinates(req.body.address, req.body.cap, req.body.province, req.body.municipality);
+        const location = await getCoordinates(req.body.address, req.body.cap, req.body.province, req.body.municipality, req.body.region);
 
         const newInsertion = await insertionRepository.createInsertion(req.body, imageUrls, userId, location);
         if (!newInsertion) {
@@ -105,19 +136,22 @@ exports.createInsertion = async (req, res) => {
     }
 };
 
-// Recupera i punti di interesse vicini a una inserzione
+/**
+ * Recupera i punti di interesse vicini a una inserzione.
+ * @param {Object} req - Oggetto della richiesta HTTP.
+ * @param {Object} res - Oggetto della risposta HTTP.
+ * @returns {Object} - Risposta con i POI vicini all'inserzione o messaggio di errore.
+ */
 exports.getPOIsForInsertion = async (req, res) => {
     try {
         const { insertionId } = req.params;
-        const category = req.query.category; // La categoria di POI da cercare
+        const category = req.query.category;
 
-        // Recupera l'inserzione dal database
         const insertion = await insertionRepository.getInsertionById(insertionId);
         if (!insertion) {
             return res.status(404).json({ success: false, message: "Inserzione non trovata" });
         }
 
-        // Recupera i POI vicini all'inserzione
         const pois = await getNearbyPOIs(insertion.latitude, insertion.longitude, category);
 
         res.status(200).json({ success: true, address: insertion.address, pois });
@@ -127,10 +161,17 @@ exports.getPOIsForInsertion = async (req, res) => {
     }
 };
 
-// Funzione per ottenere i POI vicini tramite API esterna
+/**
+ * Funzione per ottenere i POI vicini tramite API esterna.
+ * @param {number} lat - Latitudine dell'inserzione.
+ * @param {number} lng - Longitudine dell'inserzione.
+ * @param {string} category - Categoria dei POI da cercare.
+ * @returns {Array} - POI vicini all'inserzione.
+ */
 async function getNearbyPOIs(lat, lng, category) {
     const radius = 1000; // Raggio di ricerca in metri (1 km)
-    const url = `https://discover.search.hereapi.com/v1/discover?at=${lat},${lng}&q=${category}&limit=10&apiKey=${API_KEY}`;
+    const url = `https://discover.search.hereapi.com/v1/discover?at=${lat},${lng}&q=${category}&limit=10&radius=${radius}&apiKey=${API_KEY}`;
+    
 
     try {
         const response = await axios.get(url);
@@ -149,7 +190,12 @@ async function getNearbyPOIs(lat, lng, category) {
 }
 
 
-// Recupera le inserzioni filtrate
+/**
+ * Recupera le inserzioni filtrate in base ai criteri selezionati.
+ * @param {Object} req - Oggetto della richiesta HTTP.
+ * @param {Object} res - Oggetto della risposta HTTP.
+ * @returns {Object} - Risposta con le inserzioni filtrate o messaggio di errore.
+ */
 exports.getFilteredInsertions = async (req, res) => {
     try {
         const filters = req.body;
@@ -164,8 +210,16 @@ exports.getFilteredInsertions = async (req, res) => {
     }
 };
 
-// Funzione per ottenere coordinate geografiche
-async function getCoordinates(address, cap, municipality, province, region) {
+/**
+ * Funzione per ottenere coordinate geografiche di un indirizzo tramite un'API esterna.
+ * @param {string} address - Indirizzo della proprietà.
+ * @param {string} cap - CAP della proprietà.
+ * @param {string} province - Provincia della proprietà.
+ * @param {string} municipality - Comune della proprietà.
+ * @param {string} region - Regione della proprietà.
+ * @returns {Object} - Coordinate geografiche dell'indirizzo.
+ */
+async function getCoordinates(address, cap, province, municipality, region) {
     const fullAddress = `${address}, ${cap}, ${municipality}, ${province}, ${region}`;
     const url = `https://geocode.search.hereapi.com/v1/geocode?q=${encodeURIComponent(fullAddress)}&apiKey=${API_KEY}`;
 

@@ -2,7 +2,12 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const authRepository = require('../repositories/auth.repository');
 
-// Registrazione di un nuovo utente
+/**
+ * Registra un nuovo utente.
+ * @param {Object} req - La richiesta HTTP contenente i dati dell'utente.
+ * @param {Object} res - La risposta HTTP.
+ * @returns {void}
+ */
 exports.register = async (req, res) => {
   
     const { email, password, role, first_name, last_name, phone } = req.body;
@@ -28,11 +33,15 @@ exports.register = async (req, res) => {
   };
 
 
-//Login di un utente
+/**
+ * Effettua il login di un utente.
+ * @param {Object} req - La richiesta HTTP contenente email e password.
+ * @param {Object} res - La risposta HTTP.
+ * @returns {void}
+ */
 exports.login = async (req, res) => {
   const { email, password } = req.body;
   try{
-    //Cerca se esiste già l'utente
     const user = await authRepository.findByEmail(email);
     if(!user) {
       return res.status(400).json({ success: false, message: 'Credenziali non valide' });
@@ -53,6 +62,12 @@ exports.login = async (req, res) => {
   }
 };
 
+/**
+ * Callback per l'autenticazione con Google.
+ * @param {Object} req - La richiesta HTTP, contenente l'utente autenticato.
+ * @param {Object} res - La risposta HTTP per reindirizzare l'utente.
+ * @returns {void}
+ */
 exports.googleCallback = (req, res) => {
   // Assumendo che req.user sia già impostato da Passport
   const token = jwt.sign(
@@ -65,8 +80,12 @@ exports.googleCallback = (req, res) => {
   res.redirect('http://localhost:3000/auth/success?token=' + token);
 };
 
-// Logout di un utente
+/**
+ * Effettua il logout di un utente.
+ * @param {Object} req - La richiesta HTTP.
+ * @param {Object} res - La risposta HTTP con il messaggio di conferma logout.
+ * @returns {void}
+ */
 exports.logout = (req, res) => {
-  // Non c'è nulla da fare lato server per il logout
   res.status(200).json({ success: true, message: 'Logged out successfully' });
 };

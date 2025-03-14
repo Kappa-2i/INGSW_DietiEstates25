@@ -27,7 +27,7 @@ class InsertionRepository {
 
     /**
      * Recupera un'inserzione dal suo ID.
-     * @param {number} id - ID dell'inserzione.
+     * @param id - ID dell'inserzione.
      * @returns {Promise<Insertion|null>} - Istanza dell'inserzione o null se non trovata.
      */
     async getInsertionById(id) {
@@ -38,7 +38,7 @@ class InsertionRepository {
 
     /**
      * Elimina un'inserzione dal suo ID.
-     * @param {number} id - ID dell'inserzione da eliminare.
+     * @param id - ID dell'inserzione da eliminare.
      * @returns {Promise<Insertion|null>} - Inserzione eliminata o null se non trovata.
      */
     async deleteInsertionById(id) {
@@ -49,7 +49,7 @@ class InsertionRepository {
 
     /**
      * Recupera tutte le inserzioni di un utente specifico.
-     * @param {number} userid - ID dell'utente.
+     * @param userid - ID dell'utente.
      * @returns {Promise<Insertion[]>} - Lista delle inserzioni dell'utente.
      */
     async getMyInsertions(userid) {
@@ -60,10 +60,10 @@ class InsertionRepository {
 
     /**
      * Crea una nuova inserzione nel database.
-     * @param {Object} insertionData - Dati dell'inserzione.
-     * @param {string[]} imageUrls - URL delle immagini.
-     * @param {number} userid - ID dell'utente che crea l'inserzione.
-     * @param {Object} location - Latitudine e longitudine.
+     * @param insertionData - Dati dell'inserzione.
+     * @param imageUrls - URL delle immagini.
+     * @param userid - ID dell'utente che crea l'inserzione.
+     * @param location - Latitudine e longitudine.
      * @returns {Promise<Insertion>} - Inserzione creata.
      */
     async createInsertion(insertionData, imageUrls, userid, location) {
@@ -99,7 +99,7 @@ class InsertionRepository {
 
     /**
      * Recupera le inserzioni filtrate in base ai parametri passati.
-     * @param {Object} filters - Filtri di ricerca.
+     * @param filters - Filtri di ricerca.
      * @returns {Promise<Insertion[]>} - Lista delle inserzioni filtrate.
      */
     async getFilteredInsertions(filters) {
@@ -148,19 +148,23 @@ class InsertionRepository {
             index++;
         }
         if (filters.floor) {
-            query += ` AND floor = $${index}`;
+            query += ` AND floor >= $${index}`;
             values.push(filters.floor);
             index++;
         }
         if (filters.energyclass) {
-            query += ` AND energyclass = $${index}`;
+            query += ` AND energyclass <= $${index}`;
             values.push(filters.energyclass);
             index++;
         }
+        if (filters.balcony){
+            query += ` AND balcony >= $${index}`;
+            values.push(filters.balcony);
+            index++;
+        }
 
-        // Filtri booleani per caratteristiche opzionali
         ['garage', 'garden', 'elevator', 'climate', 'terrace', 'reception'].forEach(field => {
-            if (filters[field] !== undefined) {
+            if (filters[field] !== "qualsiasi" && filters[field] !== undefined) {
                 query += ` AND ${field} = $${index}`;
                 values.push(filters[field]);
                 index++;

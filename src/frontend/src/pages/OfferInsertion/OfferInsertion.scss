@@ -1,0 +1,42 @@
+.offer-insertion-page {
+  padding: 1rem;
+}
+
+.offers-tables {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1.5rem; // Spazio verticale tra le tabelle
+}
+
+.table-container {
+  width: 100%;
+  max-height: 400px; // Imposta l'altezza massima per avere uno scroll verticale
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: #fff;
+}
+
+.table-container h2 {
+  margin-top: 0;
+}
+
+.table-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-container th,
+.table-container td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.table-container tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+/* Eventuali stili per i pulsanti se non già definiti in Button.css o simili */

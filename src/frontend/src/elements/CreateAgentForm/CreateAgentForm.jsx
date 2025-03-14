@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Select from "react-select";
 
 import Input from "../../components/input/Input";
-import CustomSelect from "../../components/CustomSelect/CustomSelect";
 import Button from "../../components/button/Button";
 
 import "./CreateAgentForm.scss";
@@ -21,9 +21,14 @@ const CreateAgentForm = ({ userRole }) => {
   const [message, setMessage] = useState("");
   const [error, setError] = useState(null);
 
+  // Opzioni per la select (solo per ADMIN)
+  const roles = [
+    { value: "AGENT", label: "Agente" },
+    { value: "MANAGER", label: "Manager" },
+  ];
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const payload = {
       first_name: firstName,
       last_name: lastName,
@@ -32,33 +37,35 @@ const CreateAgentForm = ({ userRole }) => {
       phone: phone,
       role: role,
     };
-
     try {
       const token = localStorage.getItem("token");
       if (!token) {
         setError("Token mancante. Effettua il login.");
         return;
       }
-
       const response = await axios.post(
         "http://localhost:8000/api/user/myagent/creation",
         payload,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
-
       if (response.data.success) {
         setMessage(response.data.message);
         navigate("/your-agents");
       } else {
-        setMessage("Errore durante la creazione dell'agente.");
+        setMessage(response.data.message);
       }
     } catch (err) {
       console.error("Errore nella creazione dell'agente:", err);
-      setMessage("Errore nella creazione dell'agente.");
+      if (err.response && err.response.data && err.response.data.errors) {
+        // Mappa l'array di errori per creare un messaggio unificato
+        const errorMessages = err.response.data.errors.map((error) => error.msg).join("\n");
+        setMessage(errorMessages);
+      } else {
+        setMessage("Errore nella creazione dell'agente.");
+      }
     }
   };
+  
 
   return (
     <div className="create-agent-form">
@@ -116,25 +123,29 @@ const CreateAgentForm = ({ userRole }) => {
             required
           />
         </div>
-        <div className="select-group">
-          {userRole === "ADMIN" && (
-            <div className="form-group">
-              <CustomSelect
-                label="Ruolo"
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-                defaultStyle="dropdown"
-                className="select"
-              >
-                {["AGENT", "MANAGER"].map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </CustomSelect>
-            </div>
-          )}
-        </div>
+        {userRole === "ADMIN" && (
+          <div className="form-group">
+            <Select
+              options={roles}
+              value={roles.find(option => option.value === role) || null}
+              onChange={(selectedOption) => setRole(selectedOption.value)}
+              placeholder="Seleziona Ruolo"
+              className="select"
+              styles={{
+                control: (provided) => ({
+                  ...provided,
+                  borderColor: "#ccc",
+                  boxShadow: "none",
+                  "&:hover": { borderColor: "#aaa" },
+                }),
+                menu: (provided) => ({
+                  ...provided,
+                  zIndex: 9999,
+                }),
+              }}
+            />
+          </div>
+        )}
         <Button label="Crea Agente" defaultStyle="login" type="submit" />
       </form>
     </div>

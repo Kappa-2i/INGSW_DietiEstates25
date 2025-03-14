@@ -2,7 +2,10 @@ const favoriteRepository = require('../repositories/favorite.repository');
 const Favorites = require('../models/Favorite');
 
 /**
- * Aggiunge un'inserzione ai preferiti.
+ * Aggiunge un'inserzione ai preferiti di un utente.
+ * @param {Object} req - Oggetto della richiesta HTTP.
+ * @param {Object} res - Oggetto della risposta HTTP.
+ * @returns {Object} - Risposta con lo stato dell'operazione e i dati aggiornati.
  */
 exports.addFavorite = async (req, res) => {
     try {
@@ -23,6 +26,9 @@ exports.addFavorite = async (req, res) => {
 
 /**
  * Recupera tutte le inserzioni preferite di un utente.
+ * @param {Object} req - Oggetto della richiesta HTTP.
+ * @param {Object} res - Oggetto della risposta HTTP.
+ * @returns {Object} - Risposta contenente l'elenco delle inserzioni preferite dell'utente.
  */
 exports.getFavoritesByUser = async (req, res) => {
     try {
@@ -41,13 +47,16 @@ exports.getFavoritesByUser = async (req, res) => {
 };
 
 /**
- * Rimuove un'inserzione dai preferiti.
+ * Rimuove un'inserzione dai preferiti di un utente.
+ * @param {Object} req - Oggetto della richiesta HTTP.
+ * @param {Object} res - Oggetto della risposta HTTP.
+ * @returns {Object} - Risposta con lo stato dell'operazione.
  */
 exports.removeFavorite = async (req, res) => {
     try {
         const { id: userid } = req.user;
         const { insertionId } = req.params;
-
+        
         const removedFavorite = await favoriteRepository.removeFavorite(userid, insertionId);
         if (!removedFavorite) {
             return res.status(404).json({ success: false, message: 'L\'inserzione non era nei preferiti' });
