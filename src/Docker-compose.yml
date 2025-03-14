@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   backend:
-    build: ./backend
+    build: ./server
     container_name: backend-app
     ports:
       - "8000:8000"  # Esposto solo per debugging, poi puoi togliere
