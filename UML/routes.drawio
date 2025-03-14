@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram name="Pagina-1" id="c6jRkGX1jEDNlW_yqz5B">
-        <mxGraphModel dx="3381" dy="1230" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="3835" dy="2218" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -25,7 +25,7 @@
                 <mxCell id="U9ZhbM71JHAl7KsBuCrY-10" value="&lt;font style=&quot;font-size: 29px;&quot;&gt;/user&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=16;" parent="1" vertex="1">
                     <mxGeometry x="-841" y="-423" width="82" height="47" as="geometry"/>
                 </mxCell>
-                <mxCell id="8ELUwXnnia37SiXyfouz-86" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;entryX=0.865;entryY=0.004;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="8ELUwXnnia37SiXyfouz-2" target="8ELUwXnnia37SiXyfouz-2" edge="1">
+                <mxCell id="8ELUwXnnia37SiXyfouz-86" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;entryX=0.865;entryY=0.004;entryDx=0;entryDy=0;entryPerimeter=0;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" source="8ELUwXnnia37SiXyfouz-2" target="8ELUwXnnia37SiXyfouz-2" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="137" y="205" as="targetPoint"/>
                         <Array as="points">
@@ -49,7 +49,7 @@
                         <mxPoint as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="39" style="edgeStyle=none;html=1;entryX=0.831;entryY=0.014;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;endFill=0;" parent="1" source="8ELUwXnnia37SiXyfouz-2" target="11" edge="1">
+                <mxCell id="39" style="edgeStyle=none;html=1;entryX=0.831;entryY=0.014;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;endFill=0;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" source="8ELUwXnnia37SiXyfouz-2" target="11" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="248" value="0..*" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=22;" parent="39" vertex="1" connectable="0">
@@ -212,7 +212,7 @@
                 <mxCell id="8ELUwXnnia37SiXyfouz-44" value="G" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=16;" parent="8ELUwXnnia37SiXyfouz-35" vertex="1">
                     <mxGeometry y="300" width="140" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="8ELUwXnnia37SiXyfouz-52" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.05;entryDx=0;entryDy=0;entryPerimeter=0;fontSize=12;startSize=8;endSize=8;endArrow=none;endFill=0;" parent="1" edge="1">
+                <mxCell id="8ELUwXnnia37SiXyfouz-52" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.05;entryDx=0;entryDy=0;entryPerimeter=0;fontSize=12;startSize=8;endSize=8;endArrow=none;endFill=0;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="185" y="471.5004011887072" as="sourcePoint"/>
                         <mxPoint x="407" y="472.49" as="targetPoint"/>
@@ -233,7 +233,7 @@
                         <mxPoint x="7" y="-7" as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="8ELUwXnnia37SiXyfouz-56" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;endArrow=none;endFill=0;" parent="1" edge="1">
+                <mxCell id="8ELUwXnnia37SiXyfouz-56" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;endArrow=none;endFill=0;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="185" y="326" as="sourcePoint"/>
                         <mxPoint x="407" y="326" as="targetPoint"/>
@@ -310,7 +310,7 @@
                 <mxCell id="4" value="" style="edgeStyle=none;html=1;" parent="1" source="2" target="3" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="2" value="&lt;font style=&quot;font-size: 32px;&quot;&gt;&lt;br&gt;UTENTE&lt;br&gt;/history/:insertionId (get) (per la page dell insertion)&lt;br&gt;/my/all (get) (prendere tutte le inserzioni che raggruppano le offerte)&lt;br&gt;/my/:insertionId (get) (prendere tutte le offerte su quella spec insertion)&lt;br&gt;/my/:offerId/rejected (post with patch) (lo user contropropone la proposta dell'agent)&lt;br&gt;/my/:offerId/accepted (post with delete) (lo user accetta la proposta dell'agent)&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;/font&gt;" style="whiteSpace=wrap;html=1;fontSize=16;align=left;" parent="1" vertex="1">
+                <mxCell id="2" value="&lt;font style=&quot;font-size: 32px;&quot;&gt;&lt;br&gt;UTENTE&lt;br&gt;/history/:insertionId (get) (per la page dell insertion)&lt;br&gt;/my/all (get) (prendere tutte le inserzioni che raggruppano le offerte)&lt;br&gt;/my/:insertionId (get) (prendere tutte le offerte su quella spec insertion)&lt;br&gt;/my/:offerId/rejected (post with patch) (lo user contropropone la proposta dell&#39;agent)&lt;br&gt;/my/:offerId/accepted (post with delete) (lo user accetta la proposta dell&#39;agent)&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;/font&gt;" style="whiteSpace=wrap;html=1;fontSize=16;align=left;" parent="1" vertex="1">
                     <mxGeometry x="-2363" y="-363" width="1230" height="359" as="geometry"/>
                 </mxCell>
                 <mxCell id="3" value="&lt;font style=&quot;font-size: 29px;&quot;&gt;/offer&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=16;" parent="1" vertex="1">
@@ -333,7 +333,7 @@
                         <mxPoint as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="254" style="edgeStyle=none;html=1;entryX=0.428;entryY=0.007;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="11" target="11">
+                <mxCell id="254" style="edgeStyle=none;html=1;entryX=0.428;entryY=0.007;entryDx=0;entryDy=0;entryPerimeter=0;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" source="11" target="11" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="-465" y="548" as="targetPoint"/>
                         <Array as="points">
@@ -342,17 +342,17 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="255" value="contropopone" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="254">
+                <mxCell id="255" value="contropopone" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="254" vertex="1" connectable="0">
                     <mxGeometry x="-0.1555" relative="1" as="geometry">
                         <mxPoint as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="256" value="0..1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="254">
+                <mxCell id="256" value="0..1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="254" vertex="1" connectable="0">
                     <mxGeometry x="-0.8601" y="-2" relative="1" as="geometry">
                         <mxPoint as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="257" value="0..1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="254">
+                <mxCell id="257" value="0..1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="254" vertex="1" connectable="0">
                     <mxGeometry x="0.7972" y="1" relative="1" as="geometry">
                         <mxPoint as="offset"/>
                     </mxGeometry>
@@ -384,7 +384,7 @@
                 <mxCell id="253" value="cognome" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=16;" parent="11" vertex="1">
                     <mxGeometry y="240" width="229" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="258" value="FK parentOfferId" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=16;" vertex="1" parent="11">
+                <mxCell id="258" value="FK parentOfferId" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontSize=16;" parent="11" vertex="1">
                     <mxGeometry y="270" width="229" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="44" value="" style="shape=table;startSize=0;container=1;collapsible=0;childLayout=tableLayout;" parent="1" vertex="1">
@@ -1317,10 +1317,10 @@
                 <mxCell id="242" value="&lt;font style=&quot;font-size: 22px;&quot;&gt;INSERTION&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="-480" y="943" width="137" height="38" as="geometry"/>
                 </mxCell>
-                <mxCell id="243" value="&lt;font style=&quot;font-size: 22px;&quot;&gt;STORICO (solo per l'agente)&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+                <mxCell id="243" value="&lt;font style=&quot;font-size: 22px;&quot;&gt;STORICO (solo per l&#39;agente)&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="-78.5" y="953" width="299" height="38" as="geometry"/>
                 </mxCell>
-                <mxCell id="245" value="&lt;font style=&quot;font-size: 22px;&quot;&gt;PROPOSTA (solo per l'utente)&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+                <mxCell id="245" value="&lt;font style=&quot;font-size: 22px;&quot;&gt;PROPOSTA (solo per l&#39;utente)&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="350" y="956" width="313" height="38" as="geometry"/>
                 </mxCell>
             </root>

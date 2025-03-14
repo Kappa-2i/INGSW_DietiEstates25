@@ -1,4 +1,4 @@
-const pool = require('../config/db');
+const { pool } = require('../config/db');
 const User = require('../models/User');
 
 class UserRepository {
@@ -173,7 +173,9 @@ class UserRepository {
             RETURNING id, first_name, last_name, email, phone, role, supervisor;
         `;
         const values = [first_name, last_name, email, password, phone, role, supervisorId];
+        
         const result = await pool.query(query, values);
+        
 
         return new User(
             result.rows[0].id,
@@ -243,6 +245,7 @@ class UserRepository {
     */
     async createGoogleUser(data) {
         const { first_name, last_name, email, googleId, password, phone, role } = data;
+        console.log("Data:", data);
         const query = `
             INSERT INTO users (first_name, last_name, email, googleId, password, phone, role)
             VALUES ($1, $2, $3, $4, $5, $6, $7)
@@ -288,18 +291,13 @@ class UserRepository {
      * @returns {User|null} - L'utente trovato o null se non esiste.
     */
     async emailAlreadyExists(email) {
-        const query = 'SELECT * FROM users where email = $1;'
+        const query = 'SELECT * FROM users WHERE email = $1;'
         const result = await pool.query(query, [email]);
+        console.log("res email:", result);
 
-        return new User(
-            result.rows[0].id,
-            result.rows[0].first_name,
-            result.rows[0].last_name,
-            result.rows[0].email,
-            result.rows[0].phone,
-            null,
-            result.rows[0].role
-        );
+
+        return result.rows.length ? User.fromDatabase(result.rows[0]) : null;
+
     }
 }
 

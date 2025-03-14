@@ -17,10 +17,10 @@ exports.getUserProfile = async (req, res) => {
             return res.status(404).json({ success: false, message: 'Utente non trovato' });
         }
 
-        res.status(200).json({ success: true, data: user.toJSON() });
+        return res.status(200).json({ success: true, data: user.toJSON() });
     } catch (err) {
         console.error('Error fetching user profile:', err.message);
-        res.status(500).json({ success: false, message: 'Internal server error' });
+        return res.status(500).json({ success: false, message: 'Internal server error' });
     }
 };
 
@@ -65,10 +65,10 @@ exports.updateProfile = async (req, res) => {
         }
 
         const updatedUser = await userRepository.updateProfile(id, updateData.hashedPassword, updateData.phone);
-        res.status(200).json({ success: true, data: updatedUser.toJSON() });
+        return res.status(200).json({ success: true, data: updatedUser.toJSON() });
     } catch (err) {
         console.error('Error updating user profile:', err.message);
-        res.status(500).json({ success: false, message: 'Errore interno del server' });
+        return res.status(500).json({ success: false, message: 'Errore interno del server' });
     }
 };
 
@@ -85,10 +85,10 @@ exports.getAllUsersProfile = async (req, res) => {
             return res.status(404).json({ success: false, message: 'Utenti non trovati' });
         }
 
-        res.status(200).json({ success: true, data: allUsers.map(user => user.toJSON()) });
+        return res.status(200).json({ success: true, data: allUsers.map(user => user.toJSON()) });
     } catch (err) {
         console.error('Error fetching user profiles:', err.message);
-        res.status(500).json({ success: false, message: 'Internal server error' });
+        return res.status(500).json({ success: false, message: 'Internal server error' });
     }
 };
 
@@ -108,10 +108,10 @@ exports.deleteProfileById = async (req, res) => {
             return res.status(404).json({ success: false, message: 'Utente non trovato.' });
         }
 
-        res.status(200).json({ success: true, data: deletedProfile.toJSON() });
+        return res.status(200).json({ success: true, data: deletedProfile.toJSON() });
     } catch (err) {
         console.error('Error deleting user profile:', err.message);
-        res.status(500).json({ success: false, message: 'Internal server error' });
+        return res.status(500).json({ success: false, message: 'Internal server error' });
     }
 };
 
@@ -145,10 +145,10 @@ exports.updateAgent = async (req, res) => {
             return res.status(404).json({ success: false, message: 'Utente non trovato' });
         }
 
-        res.status(200).json({ success: true, data: updatedAgent.toJSON() });
+        return res.status(200).json({ success: true, data: updatedAgent.toJSON() });
     } catch (err) {
         console.error('Error updating agent:', err.message);
-        res.status(500).json({ success: false, message: 'Internal server error' });
+        return res.status(500).json({ success: false, message: 'Internal server error' });
     }
 };
 
@@ -166,10 +166,10 @@ exports.getMyAgents = async (req, res) => {
             return res.status(404).json({ success: false, message: 'Nessun agente trovato' });
         }
 
-        res.status(200).json({ success: true, data: agents.map(agent => agent.toJSON()) });
+        return res.status(200).json({ success: true, data: agents.map(agent => agent.toJSON()) });
     } catch (err) {
         console.error('Errore durante il recupero degli agenti:', err.message);
-        res.status(500).json({ success: false, message: 'Internal server error' });
+        return res.status(500).json({ success: false, message: 'Internal server error' });
     }
 };
 
@@ -181,20 +181,21 @@ exports.getMyAgents = async (req, res) => {
 */
 exports.createAgent = async (req, res) => {
     const { first_name, last_name, email, password, phone, role } = req.body;
-    const { id: supervisorId } = req.user;
+    const { id } = req.user;
+    console.log(id, req.body);
     
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
         const emailAlreadyExists = await userRepository.emailAlreadyExists(email);
         if (!emailAlreadyExists){
-            const newAgent = await userRepository.createAgent(first_name, last_name, email, hashedPassword, phone, supervisorId, role);
-            res.status(201).json({ success: true, message: 'Agente creato con successo', data: newAgent.toJSON() });
+            const newAgent = await userRepository.createAgent(first_name, last_name, email, hashedPassword, phone, id, role);
+            return res.status(201).json({ success: true, message: 'Agente creato con successo', data: newAgent.toJSON() });
         }
-        res.status(208).json({ success: false, message: 'Email non valida'});
+        return res.status(208).json({ success: false, message: 'Email non valida'});
         
     } catch (err) {
         console.error('Errore nella creazione dell\'agente:', err.message);
-        res.status(500).json({ success: false, message: 'Internal server error' });
+        return res.status(500).json({ success: false, message: 'Internal server error' });
     }
 };
 
@@ -216,10 +217,10 @@ exports.forgetPassword = async (req, res) => {
         }
 
         await userRepository.updateProfile(user.id, hashedPassword, null);
-        res.status(201).json({ success: true, message: 'Nuova password impostata con successo' });
+        return res.status(201).json({ success: true, message: 'Nuova password impostata con successo' });
     } catch (err) {
         console.error('Errore nel reset della password:', err.message);
-        res.status(500).json({ success: false, message: 'Internal server error' });
+        return res.status(500).json({ success: false, message: 'Internal server error' });
     }
 };
 
@@ -237,9 +238,9 @@ exports.getAgentById = async (req, res) => {
             return res.status(404).json({ success: false, message: "Agente non trovato" });
         }
 
-        res.status(201).json({ success: true, message: 'Agente trovato con successo', data: agentById.toJSON() });
+        return res.status(201).json({ success: true, message: 'Agente trovato con successo', data: agentById.toJSON() });
     } catch (err) {
         console.error('Errore nel trovare agente tramite id:', err.message);
-        res.status(500).json({ success: false, message: 'Internal server error' });
+        return res.status(500).json({ success: false, message: 'Internal server error' });
     }
 }
