@@ -43,7 +43,7 @@ router.get('/my', authMiddleware.authenticate, authorizeMiddleware.authorize(['A
  * @route POST /creation
  * @controller createInsertion - Controller per creare una nuova inserzione.
  */
-router.post('/creation', authMiddleware.authenticate, authorizeMiddleware.authorize(['AGENT', 'MANAGER', 'ADMIN']), uploadMiddleware.upload, /*insertionMiddleware.validateInputs,*/ insertionController.createInsertion);
+router.post('/creation', authMiddleware.authenticate, authorizeMiddleware.authorize(['AGENT', 'MANAGER', 'ADMIN']), uploadMiddleware.upload, insertionMiddleware.validateInputs, insertionController.createInsertion);
 
 /**
  * Rotta per ottenere i punti di interesse (POI) vicini all'inserzione.
