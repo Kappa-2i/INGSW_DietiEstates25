@@ -6,12 +6,8 @@ services:
     container_name: backend-app
     ports:
       - "8000:8000"  # Esposto solo per debugging, poi puoi togliere
-    environment:
-      - DB_HOST=database-provedieti.cb4c6s46olha.us-east-1.rds.amazonaws.com
-      - DB_USER=postgres
-      - DB_PASSWORD=Eyeswideshut1!
-      - DB_NAME=dietiestates25
-      - JWT_SECRET=your_jwt_secret
+    env_file:
+      - ./.env  # se hai un file .env per il backen
     networks:
       - app-network
 

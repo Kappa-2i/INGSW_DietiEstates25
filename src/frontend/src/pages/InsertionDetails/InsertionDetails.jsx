@@ -20,7 +20,7 @@ const InsertionDetails = () => {
   useEffect(() => {
     const fetchInsertionDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/insertion/${insertionId}`);
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/insertion/${insertionId}`);
         setInsertion(response.data.data);
       } catch (error) {
         console.error("Errore nel recupero dell'inserzione:", error);

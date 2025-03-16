@@ -30,7 +30,7 @@ const OfferInsertion = () => {
   const handleAcceptOffer = async (offerId) => {
     try {
       const response = await axios.post(
-        `http://localhost:8000/api/offer/my/${offerId}/accepted`,
+        `${process.env.REACT_APP_API_URL}/offer/my/${offerId}/accepted`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -45,7 +45,7 @@ const OfferInsertion = () => {
   const handleRejectOffer = async (offerId) => {
     try {
       const response = await axios.post(
-        `http://localhost:8000/api/offer/my/${offerId}/rejected`,
+        `${process.env.REACT_APP_API_URL}/offer/my/${offerId}/rejected`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -62,7 +62,7 @@ const OfferInsertion = () => {
     if (!newPrice) return;
     try {
       const response = await axios.post(
-        `http://localhost:8000/api/offer/my/${offerId}/counteroffer`,
+        `${process.env.REACT_APP_API_URL}/offer/my/${offerId}/counteroffer`,
         { price: newPrice },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -78,7 +78,7 @@ const OfferInsertion = () => {
   const fetchCounterOfferDetails = async (offerId) => {
     try {
       const res = await axios.get(
-        `http://localhost:8000/api/offer/my/${offerId}/counteroffer/details`,
+        `${process.env.REACT_APP_API_URL}/offer/my/${offerId}/counteroffer/details`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       console.log("Res parent:", res.data.data);
@@ -94,7 +94,7 @@ const OfferInsertion = () => {
     const fetchOffers = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/api/offer/my/${insertionId}`,
+          `${process.env.REACT_APP_API_URL}/offer/my/${insertionId}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         if (response.data.success) {

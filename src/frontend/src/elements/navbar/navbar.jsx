@@ -35,7 +35,7 @@ const Navbar = () => {
     const fetchProfile = async () => {
       if (!token) return;
       try {
-        const response = await axios.get("http://localhost:8000/api/user/profile", {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/user/profile`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUserProfile(response.data.data);
@@ -99,6 +99,7 @@ const Navbar = () => {
       alert("Inserisci una provincia corretta");
       return;
     }
+    console.log("Prov e Contract:", searchTerm, activeSection);
     navigate(`/search/${activeSection}/${encodeURIComponent(searchTerm)}`);
   };
 

@@ -50,7 +50,7 @@ const MapElement = ({ insertion }) => {
     const fetchPOIs = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/api/insertion/${insertion.id}/pois?category=${selectedCategory}`,
+          `${process.env.REACT_APP_API_URL}/insertion/${insertion.id}/pois?category=${selectedCategory}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }

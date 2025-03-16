@@ -11,16 +11,15 @@ class OfferRepository {
      */
     async getOffersByInsertionId(insertionId) {
         const query = `WITH agent AS (
-            SELECT first_name AS agent_first_name, last_name AS agent_last_name
+            SELECT id AS id_agent
             FROM users
             WHERE id = (SELECT userid FROM insertions WHERE id = $1)
           )
-          SELECT o.*, agent.agent_first_name, agent.agent_last_name
+          SELECT o.*, agent.id_agent
           FROM offers o, agent
           WHERE o.insertionid = $1
             AND o.status IN ('ACCEPTED', 'WAIT', 'REJECTED')
-            AND o.first_name <> agent.agent_first_name
-            AND o.last_name <> agent.agent_last_name
+            AND o.userid <> agent.id_agent
           ORDER BY o.created_at DESC;
         `;
         const result = await pool.query(query, [insertionId]);

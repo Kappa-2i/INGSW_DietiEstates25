@@ -77,7 +77,7 @@ exports.googleCallback = (req, res) => {
   );
   
   // Reindirizza alla pagina di successo passando il token nella query string
-  res.redirect('http://localhost:3000/auth/success?token=' + token);
+  res.redirect(`${process.env.CLIENT_URL}/auth/success?token=${token}`);
 };
 
 /**

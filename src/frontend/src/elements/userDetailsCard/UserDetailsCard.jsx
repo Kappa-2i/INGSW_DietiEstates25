@@ -20,12 +20,13 @@ const UserDetailsCard = () => {
     const getProfile = async () => {
       try {
         const token = localStorage.getItem("token");
+	console.log("Token userProfile:", token);
         if (!token) {
           setError("Token mancante. Effettua il login.");
           return;
         }
 
-        const response = await axios.get("http://localhost:8000/api/user/profile", {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/user/profile`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         // Imposta il profilo e, se necessario, potresti anche preimpostare il nuovo numero
@@ -56,7 +57,7 @@ const UserDetailsCard = () => {
         oldPassword: oldPassword,
         newPassword: newPassword,
       };
-      await axios.patch("http://localhost:8000/api/user/profile", payload, {
+      await axios.patch(`${process.env.REACT_APP_API_URL}/user/profile`, payload, {
         headers: { Authorization: `Bearer ${token}` },
       });
       alert("Profilo aggiornato con successo!");

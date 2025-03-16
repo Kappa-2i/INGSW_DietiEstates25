@@ -14,7 +14,7 @@ const Favorites = () => {
     const fetchInsertions = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get("http://localhost:8000/api/favorite", {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/favorite`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -32,7 +32,7 @@ const Favorites = () => {
           insertionIds.map(async (id) => {
             try {
 
-              const res = await axios.get(`http://localhost:8000/api/insertion/${id}`);
+              const res = await axios.get(`${process.env.REACT_APP_API_URL}/insertion/${id}`);
               return res.data; // res.data ha forma { success: true, data: { ... } }
             } catch (error) {
               console.error(`Errore nel recupero dell'inserzione ${id}:`, error);

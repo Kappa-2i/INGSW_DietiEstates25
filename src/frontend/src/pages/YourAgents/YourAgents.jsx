@@ -12,7 +12,7 @@ const YourAgents = () => {
   useEffect(() => {
     const fetchAgents = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/user/myagent", {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/user/myagent`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setAgents(response.data.data);

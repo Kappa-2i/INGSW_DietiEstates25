@@ -36,7 +36,7 @@ const InsertionCard = ({ insertion }) => {
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/favorite", {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/favorite`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const favorites = response.data.data || [];
@@ -59,12 +59,12 @@ const InsertionCard = ({ insertion }) => {
     }
     try {
       if (isFavorite) {
-        await axios.delete(`http://localhost:8000/api/favorite/${insertion.id}`, {
+        await axios.delete(`${process.env.REACT_APP_API_URL}/favorite/${insertion.id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         alert("Rimosso dai preferiti!");
       } else {
-        await axios.post(`http://localhost:8000/api/favorite/${insertion.id}`, {}, {
+        await axios.post(`${process.env.REACT_APP_API_URL}/favorite/${insertion.id}`, {}, {
           headers: { Authorization: `Bearer ${token}` },
         });
         alert("Aggiunto ai preferiti!");

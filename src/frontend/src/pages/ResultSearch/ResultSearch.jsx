@@ -16,7 +16,7 @@ const ResultSearch = () => {
     const location = useLocation();
     const initialFilters = location.state || {
       contract: activeSection,
-      municipality: searchTerm,
+      province: searchTerm,
     };
 
     const [ insertions, setInsertions ] = useState([]);
@@ -35,7 +35,8 @@ const ResultSearch = () => {
                 municipality: searchTerm,
             };
             
-            const response = await axios.post("http://localhost:8000/api/insertion/filtered", filters);
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/insertion/filtered`, filters);
+	    console.log("Result Search:", response.data.data);
             setInsertions(response.data.data);
           } catch (err) {
               setErrorMessage("Errore durante il recupero delle inserzioni");

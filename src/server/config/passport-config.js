@@ -9,7 +9,7 @@ const userRepository = require('../repositories/user.repository');
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,         
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: '/api/auth/google/callback'
+    callbackURL: process.env.GOOGLE_CALLBACK_URL
   },
   async (accessToken, refreshToken, profile, done) => {
     try {
@@ -23,7 +23,7 @@ passport.use(new GoogleStrategy({
 
       // Se l'utente esiste, viene aggiunto il googleId
       if (user && !user.googleId) {
-        user = await userRepository.updateGoogleUser(user.id, { googleId: profile.id });
+        user = await userRepository.updateGoogleUser(user.id, profile.id);
       }
 
       // Se l'utente non esiste viene creato

@@ -43,7 +43,7 @@ const CreateManualOffer = ({ insertionId }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/offer/manualCreation",
+        `${process.env.REACT_APP_API_URL}/offer/manualCreation`,
         payload,
         { headers: { Authorization: `Bearer ${token}` } }
       );
