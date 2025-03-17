@@ -21,7 +21,7 @@ const InsertionSummary = ({ title, price, agentId, province, municipality, inser
   useEffect(() => {
     const fetchAgentData = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/user/${agentId}`, {
+        const response = await axios.get(`http://localhost:8000/api/user/${agentId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const { first_name, last_name } = response.data.data;
@@ -45,12 +45,12 @@ const InsertionSummary = ({ title, price, agentId, province, municipality, inser
     }
     try {
       if (isFavorite) {
-        await axios.delete(`${process.env.REACT_APP_API_URL}/favorite/${insertionId}`, {
+        await axios.delete(`http://localhost:8000/api/favorite/${insertionId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         alert("Rimosso dai preferiti!");
       } else {
-        await axios.post(`${process.env.REACT_APP_API_URL}/favorite/${insertionId}`, {}, {
+        await axios.post(`http://localhost:8000/api/favorite/${insertionId}`, {}, {
           headers: { Authorization: `Bearer ${token}` },
         });
         alert("Aggiunto ai preferiti!");

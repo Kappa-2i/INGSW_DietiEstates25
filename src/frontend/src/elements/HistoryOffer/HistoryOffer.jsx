@@ -38,7 +38,7 @@ const HistoryOffer = ({ insertionId }) => {
     const fetchOffersHistory = async () => {
       try {
         const response = await axios.get(
-          `${process.env.REACT_APP_API_URL}/offer/history/${insertionId}`
+          `http://localhost:8000/api/offer/history/${insertionId}`
         );
         // Supponiamo che la risposta sia direttamente un array di offerte
         setOffers(response.data.data);
@@ -62,7 +62,7 @@ const HistoryOffer = ({ insertionId }) => {
     try {
       const payload = { price: newOffer.replace('.', '') };
       const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/offer/creation/${insertionId}`,
+        `http://localhost:8000/api/offer/creation/${insertionId}`,
         payload,
         { headers: { Authorization: `Bearer ${token}` } }
       );

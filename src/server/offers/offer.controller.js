@@ -181,7 +181,9 @@ exports.getAllOffersByInsertionId = async (req, res) => {
         let receivedOffers, sentOffers;
         if (userRole === "AGENT" || userRole === "MANAGER" || userRole === "ADMIN") {
             receivedOffers = await offerRepository.receivedOffersOfAnInsertionForAnAgent(user, insertionId);
+            console.log("received:", receivedOffers);
             sentOffers = await offerRepository.sendedOffersOfAnInsertionForAnAgent(user, insertionId);
+            console.log("sended:", sentOffers);
         } else {
             receivedOffers = await offerRepository.receveidOffersOfAnInsertionForAnUser(user, insertionId);
             sentOffers = await offerRepository.sendedOffersOfAnInsertionForAnUser(user, insertionId);

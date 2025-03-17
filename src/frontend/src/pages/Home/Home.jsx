@@ -12,9 +12,8 @@ const Home = () => {
     const [error, setError] = useState(null);
     useEffect(() => {
         const fetchInsertions = async () => {
-		console.log("URL API APP:", process.env.REACT_APP_API_URL);
             try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/insertion/last`);
+                const response = await axios.get(`http://localhost:8000/api/insertion/last`);
                 setInsertions(response.data.data);
             } catch (err) {
                 console.error("Errore nel recupero delle inserzioni:", err);

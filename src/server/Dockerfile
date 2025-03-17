@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 8000
 
 # Comando di avvio
-CMD ["node", "server.js"]  # perché dentro /app c'è server.js, non "server/server.js"
+CMD ["node", "server.js"]

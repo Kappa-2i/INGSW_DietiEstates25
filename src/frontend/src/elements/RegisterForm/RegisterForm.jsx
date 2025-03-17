@@ -29,7 +29,7 @@ const RegisterForm = () => {
         setSuccess("");
     
         try {
-          const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/register`, formData);
+          const response = await axios.post(`http://localhost:8000/api/auth/register`, formData);
           setSuccess(response.data.message);
           setTimeout(() => navigate("/login"), 2000);
         } catch (error) {

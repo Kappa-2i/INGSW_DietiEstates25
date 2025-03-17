@@ -11,7 +11,7 @@ class OfferRepository {
      */
     async getOffersByInsertionId(insertionId) {
         const query = `WITH agent AS (
-            SELECT id AS id_agent
+            SELECT id AS id_agent, first_name AS agent_first_name, last_name AS agent_last_name
             FROM users
             WHERE id = (SELECT userid FROM insertions WHERE id = $1)
           )
@@ -19,7 +19,7 @@ class OfferRepository {
           FROM offers o, agent
           WHERE o.insertionid = $1
             AND o.status IN ('ACCEPTED', 'WAIT', 'REJECTED')
-            AND o.userid <> agent.id_agent
+            OR (o.userid = agent.id_agent AND (o.first_name <> agent.agent_first_name AND o.last_name <> agent.agent_last_name))
           ORDER BY o.created_at DESC;
         `;
         const result = await pool.query(query, [insertionId]);
@@ -104,18 +104,23 @@ class OfferRepository {
      * @returns {Promise<Offer[]>} - Lista delle offerte ricevute dall'agente.
      */
     async receivedOffersOfAnInsertionForAnAgent(user, insertionId) {
-        const query = `
+        const query = `WITH agent AS (
+            SELECT id AS id_agent, first_name AS agent_first_name, last_name AS agent_last_name
+            FROM users
+            WHERE id = (SELECT userid FROM insertions WHERE id = $2)
+        )
         SELECT o.*
         FROM offers o
         JOIN insertions i ON o.insertionid = i.id
         WHERE i.userid = $1
-        AND o.insertionid = $2
-        AND o.first_name <> $3
-        AND o.last_name <> $4
-        AND (o.status = 'WAIT' OR o.status = 'ACCEPTED' OR o.status = 'REJECTED');
+          AND o.insertionid = $2
+          AND (o.status = 'WAIT' OR o.status = 'ACCEPTED' OR o.status = 'REJECTED')
+          OR (o.userid = (SELECT id_agent FROM agent) 
+              AND (o.first_name <> (SELECT agent_first_name FROM agent) 
+                   AND o.last_name <> (SELECT agent_last_name FROM agent)));        
         `;
 
-        const values = [user.id, insertionId, user.first_name, user.last_name];
+        const values = [user.id, insertionId];
         const result = await pool.query(query, values);
         return result.rows.map(row => Offer.fromDatabase(row));
     }
@@ -150,14 +155,22 @@ class OfferRepository {
     */
     async sendedOffersOfAnInsertionForAnAgent(user, insertionId) {
         const query = `
-            SELECT * FROM offers
-            WHERE insertionid = $1
-            AND first_name = $2
-            AND last_name = $3
-            AND (status = 'COUNTEROFFER' OR status = 'ACCEPTED' OR status = 'REJECTED');
+        WITH agent AS (
+            SELECT id AS id_agent, first_name AS agent_first_name, last_name AS agent_last_name
+            FROM users
+            WHERE id = (SELECT userid FROM insertions WHERE id = $1)
+        )
+        SELECT o.*
+        FROM offers o
+        JOIN insertions i ON i.id = o.insertionid
+        JOIN agent ON o.userid = agent.id_agent
+        WHERE i.id = $1
+          AND (o.status = 'COUNTEROFFER' OR o.status = 'ACCEPTED')
+          OR (o.userid = agent.id_agent AND o.first_name <> agent.agent_first_name AND o.last_name <> agent.agent_last_name AND o.status <> 'REJECTED')
+          OR (o.userid <> agent.id_agent AND o.status = 'REJECTED');        
         `;
 
-        const values = [insertionId, user.first_name, user.last_name];
+        const values = [insertionId];
         const result = await pool.query(query, values);
         return result.rows.map(row => Offer.fromDatabase(row));
     }

@@ -26,7 +26,7 @@ const UserDetailsCard = () => {
           return;
         }
 
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/user/profile`, {
+        const response = await axios.get(`http://localhost:8000/api/user/profile`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         // Imposta il profilo e, se necessario, potresti anche preimpostare il nuovo numero
@@ -57,7 +57,7 @@ const UserDetailsCard = () => {
         oldPassword: oldPassword,
         newPassword: newPassword,
       };
-      await axios.patch(`${process.env.REACT_APP_API_URL}/user/profile`, payload, {
+      await axios.patch(`http://localhost:8000/api/user/profile`, payload, {
         headers: { Authorization: `Bearer ${token}` },
       });
       alert("Profilo aggiornato con successo!");

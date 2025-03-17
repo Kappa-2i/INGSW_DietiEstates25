@@ -27,7 +27,7 @@ exports.register = async (req, res) => {
   
       res.status(201).json({ success: true, data: newUser });
     } catch (err) {
-      console.error('Error during registration:', err.message);
+      console.error('Errore durante la registrazione:', err.message);
       res.status(500).json({ success: false, message: 'Internal server error' });
     }
   };
@@ -77,7 +77,7 @@ exports.googleCallback = (req, res) => {
   );
   
   // Reindirizza alla pagina di successo passando il token nella query string
-  res.redirect(`${process.env.CLIENT_URL}/auth/success?token=${token}`);
+  res.redirect(`http://localhost:3000/auth/success?token=${token}`);
 };
 
 /**

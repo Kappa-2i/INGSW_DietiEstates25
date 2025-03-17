@@ -160,7 +160,7 @@ const CreateInsertionForm = () => {
       }
   
       try {
-          const response = await axios.post(`${process.env.REACT_APP_API_URL}/insertion/creation`, formData, {
+          const response = await axios.post(`http://localhost:8000/api/insertion/creation`, formData, {
               headers: {
                   "Content-Type": "multipart/form-data", // FormData expects this header
                   Authorization: `Bearer ${localStorage.getItem("token")}`,

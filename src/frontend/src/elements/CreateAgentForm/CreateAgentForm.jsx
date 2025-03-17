@@ -44,7 +44,7 @@ const CreateAgentForm = ({ userRole }) => {
         return;
       }
       const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/user/myagent/creation`,
+        `http://localhost:8000/api/user/myagent/creation`,
         payload,
         { headers: { Authorization: `Bearer ${token}` } }
       );

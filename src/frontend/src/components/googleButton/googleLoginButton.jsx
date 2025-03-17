@@ -7,7 +7,7 @@ import './googleLoginButton.scss';
 const GoogleLoginButton = () => {
 
   const handleGoogleLogin = () => {
-    window.location.href = `${process.env.REACT_APP_API_URL}/auth/google`;
+    window.location.href = `http://localhost:8000/api/auth/google`;
   };
 
   return (

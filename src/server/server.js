@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const logger = require('./utils/logger');
-const passport = require('./config/passport-config'); // Assicurati che il percorso sia corretto
+const passport = require('./config/passport-config');
 const session = require('express-session');
 
 
@@ -23,7 +23,7 @@ app.use(session({
 }));
 
 app.use(express.json());
-app.use(cors()); //Abilitare CORS per accedere alle richieste backend
+app.use(cors());
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -40,14 +40,13 @@ app.use((err, req, res, next) => {
   res.status(500).json({ success: false, message: err.message });
 });
 
-
-// Esporta l'app per i test
-module.exports = app;
-
-// Avvio del server solo se il file viene eseguito direttamente
 if (require.main === module) {
   app.listen(port, '0.0.0.0',  () => {
     console.log(`Server is running on http://0.0.0.0:${port}`);
   });
 }
+
+module.exports = app;
+
+
 
