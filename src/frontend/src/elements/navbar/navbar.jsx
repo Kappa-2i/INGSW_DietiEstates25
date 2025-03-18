@@ -220,7 +220,6 @@ const Navbar = () => {
                     onAddInsertion={handleAddInsertion}
                   />
                 ) : (
-                  // Fallback per utente normale (USER)
                   <MenuListUser
                     onProfile={handleProfile}
                     onFavorites={handleFavorites}

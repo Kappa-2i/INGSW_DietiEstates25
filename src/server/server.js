@@ -17,7 +17,7 @@ const favoriteRoutes = require('./favorites/favorite.routes');
 const offerRoutes = require('./offers/offer.routes');
 
 app.use(session({
-  secret: 'your_secret_key',
+  secret: process.env.SECRET_KEY,
   resave: false,
   saveUninitialized: false
 }));
