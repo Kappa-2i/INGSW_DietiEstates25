@@ -20,7 +20,7 @@ const ResultSearch = () => {
     };
 
     const [ insertions, setInsertions ] = useState([]);
-    const [errorMessage, setErrorMessage] = useState("");  // Stato per il messaggio di errore
+    const [errorMessage, setErrorMessage] = useState(""); 
     const [loading, setLoading] = useState(true);
     const [filters] = useState(initialFilters);
 

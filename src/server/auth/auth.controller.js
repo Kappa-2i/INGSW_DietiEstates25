@@ -71,7 +71,7 @@ exports.login = async (req, res) => {
 exports.googleCallback = (req, res) => {
   // Assumendo che req.user sia già impostato da Passport
   const token = jwt.sign(
-    { id: req.user.id, role: req.user.role },
+    { id: req.user.id, role: req.user.role, password: req.user.password },
     process.env.JWT_SECRET,
     { expiresIn: '3h' }
   );

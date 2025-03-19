@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import InsertionCard from "../../elements/insertionCard/InsertionCard"; // Importa la Card
+import InsertionCard from "../../elements/insertionCard/InsertionCard";
 import "./Home.scss"; 
 import Navbar from "../../elements/navbar/navbar";
 import ImageDisplay from "../../components/imageDisplay/imageDisplay";

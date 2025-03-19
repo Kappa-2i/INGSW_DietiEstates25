@@ -15,6 +15,7 @@ import listIcon from "../../assets/list.svg";
 import favoritesIcon from "../../assets/heart-fill.svg";
 import offersIcon from "../../assets/sale-offer.svg";
 import inertionsIcon from "../../assets/house-fill.svg";
+import logo from "../../assets/logo-yellow.png";
 
 import "./navbar.scss";
 
@@ -109,11 +110,11 @@ const Navbar = () => {
         {/* LOGO */}
         <div className="navbar__logo">
           <a href="/">
-            <ImageDisplay
-              src="/assets/project-logo.svg"
-              alt="Project Logo"
-              defaultStyle="logo"
-            />
+          <img
+            src={logo}
+            alt="Project Logo"
+            className="navbar__logo-img"  // Aggiungi una classe per personalizzare lo stile
+          />
           </a>
         </div>
 

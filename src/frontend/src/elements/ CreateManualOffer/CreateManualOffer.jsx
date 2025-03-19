@@ -35,7 +35,7 @@ const CreateManualOffer = ({ insertionId }) => {
       return;
     }
     const payload = {
-      insertionId,  // Assicurati che il backend si aspetti 'insertionId'
+      insertionId, 
       price: offer.replace('.', ''),
       first_name: firstName,
       last_name: lastName,

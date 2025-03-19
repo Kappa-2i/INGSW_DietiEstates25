@@ -36,6 +36,7 @@ const OfferInsertion = () => {
       );
       alert(response.data.message);
       setReceivedOffers(receivedOffers.filter((offer) => offer.id !== offerId));
+      window.location.reload();
     } catch (err) {
       console.error("Errore accettazione offerta:", err);
       alert("Errore nell'accettare l'offerta.");
@@ -51,6 +52,7 @@ const OfferInsertion = () => {
       );
       alert(response.data.message);
       setReceivedOffers(receivedOffers.filter((offer) => offer.id !== offerId));
+      window.location.reload();
     } catch (err) {
       console.error("Errore rifiuto offerta:", err);
       alert("Errore nel rifiutare l'offerta.");
@@ -68,6 +70,7 @@ const OfferInsertion = () => {
       );
       alert(response.data.message);
       setReceivedOffers(receivedOffers.filter((offer) => offer.id !== offerId));
+      window.location.reload();
     } catch (err) {
       console.error("Errore durante la controfferta:", err);
       alert("Errore nel fare la controfferta.");
@@ -148,8 +151,8 @@ const OfferInsertion = () => {
           <table>
             <thead>
               <tr>
-                <th>Nome</th>
-                <th>Cognome</th>
+                <th>Nome Offerente</th>
+                <th>Cognome Offerente</th>
                 <th>Offerta Proposta</th>
                 <th>Data</th>
                 <th>Stato</th>
@@ -194,9 +197,9 @@ const OfferInsertion = () => {
                 <th>Offerta proposta</th>
                 <th>Data</th>
                 <th>Stato</th>
-                <th>Nome Offerta Originale</th>
-                <th>Cognome Offerta Originale</th>
-                <th>Prezzo Offerta Originale</th>
+                <th>Nome Offerente</th>
+                <th>Cognome Offerente</th>
+                <th>Offerta Originale</th>
               </tr>
             </thead>
             <tbody>

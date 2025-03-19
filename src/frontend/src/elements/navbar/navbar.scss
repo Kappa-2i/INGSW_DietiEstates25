@@ -35,7 +35,17 @@ body {
 .navbar__logo {
   display: flex;
   align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 100px; 
 }
+
+.navbar__logo-img {
+  width: 100px;    
+  height: 100px;   
+  object-fit: contain; 
+}
+
 
 /* Spazio invisibile per separare elementi */
 .div__invisible {
